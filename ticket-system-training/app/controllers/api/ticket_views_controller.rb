@@ -100,7 +100,17 @@ class Api::TicketViewsController < ApplicationController
           end
         end
 
-        render json: { message: "チケットビューとチケットが作成されました" }, status: :created
+        render json: { message: "チケットが正常に発行されました" }, status: :created
+
+        rescue ActiveRecord::RecordInvalid => e
+          render json: { error: e.message }, status: :unprocessable_entity
+        rescue ActiveRecord::RecordNotFound => e
+          render json: { error: "Record not found: #{e.message}" }, status: :not_found
+        rescue ActionController::ParameterMissing => e
+          render json: { error: "Missing parameter: #{e.message}" }, status: :bad_request
+        rescue StandardError => e
+          render json: { error: "Unexpected error occurred: #{e.message}" }, status: :internal_server_error
+        end
       end
     end
 end
