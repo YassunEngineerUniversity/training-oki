@@ -40,6 +40,8 @@ class Api::TicketViewsController < ApplicationController
     end
 
     def create
+      play_guide = PlayGuide.find_by(name: "プレイガイドC")
+
       # トランザクションを作成
       ActiveRecord::Base.transaction do
         # ユーザ情報の処理
@@ -74,43 +76,52 @@ class Api::TicketViewsController < ApplicationController
         end
 
         # チケットビューの作成
-        ticket_views = TicketView.create!(user: user, event: event)
+        ticket_view = TicketView.create!(user: user, event: event)
 
         # チケットと特典の作成
-        params[:tickets].each do |ticket_params|
+        tickets = params[:tickets]
+        tickets.each do |ticket_params|
+          # 券種の作成または取得
           ticket_type = TicketType.find_or_create_by!(name: ticket_params[:type_name], price: ticket_params[:price], event: event)
+          # 入場口の作成または取得
           entrance = Entrance.find_or_create_by!(name: ticket_params[:entrance_name])
+
+          # チケットの作成
           ticket = Ticket.create!(
             ticket_view: ticket_view,
             ticket_type: ticket_type,
-            seat: Seat.create!(
-              seat_area: ticket_params[:seat_area],
-              seat_number: ticket_params[:seat_number]
-            ),
-            entrance: entrance
+            entrance: entrance,
+            play_guide: play_guide
+          )
+
+          # 座席の作成
+          seat = Seat.create!(
+            seat_area: ticket_params[:seat_area],
+            seat_number: ticket_params[:seat_number],
+            ticket: ticket
           )
 
           # 特典の作成
-          ticket_params[:benefits].each do |benefit_params|
+          benefits = ticket_params[:benefits]
+          benefits.each do |benefit_params|
             benefit = Benefit.create!(
+              ticket: ticket,
               name: benefit_params[:name],
-              details: benefit_params[:details],
-              ticket: ticket
+              details: benefit_params[:details]
             )
           end
         end
-
-        render json: { message: "チケットが正常に発行されました" }, status: :created
-
-        rescue ActiveRecord::RecordInvalid => e
-          render json: { error: e.message }, status: :unprocessable_entity
-        rescue ActiveRecord::RecordNotFound => e
-          render json: { error: "Record not found: #{e.message}" }, status: :not_found
-        rescue ActionController::ParameterMissing => e
-          render json: { error: "Missing parameter: #{e.message}" }, status: :bad_request
-        rescue StandardError => e
-          render json: { error: "Unexpected error occurred: #{e.message}" }, status: :internal_server_error
-        end
       end
+
+      render json: { message: "チケットが正常に発行されました" }, status: :created
+
+      rescue ActiveRecord::RecordInvalid => e
+        render json: { error: e.message }, status: :unprocessable_entity
+      rescue ActiveRecord::RecordNotFound => e
+        render json: { error: "Record not found: #{e.message}" }, status: :not_found
+      rescue ActionController::ParameterMissing => e
+        render json: { error: "Missing parameter: #{e.message}" }, status: :bad_request
+      rescue StandardError => e
+        render json: { error: "Unexpected error occurred: #{e.message}" }, status: :internal_server_error
     end
 end
