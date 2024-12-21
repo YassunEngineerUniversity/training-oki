@@ -37,5 +37,70 @@ class Api::TicketViewsController < ApplicationController
       else
         render json: { message: "チケットビューが存在しないです。" }, status: :not_found
       end
+    end
+
+    def create
+      # トランザクションを作成
+      ActiveRecord::Base.transaction do
+        # ユーザ情報の処理
+        user_params = params[:user]
+        user = User.find_or_create_by!(email: user_params[:email]) do | u |
+          u.name = user_params[:name]
+          u.password = SecureRandom.hex(8) # 仮パスワード
+        end
+
+        # 興行主の作成または取得
+        organizer_params = params[:organizer]
+        organizer = Organizer.find_or_create_by!(name: organizer_params[:name])
+
+        # 興行の作成または取得
+        show_params = params[:show]
+        show = Show.find_or_create_by!(name: show_params[:name], organizer: organizer) do | s |
+          s.start_datetime = show_params[:start_datetime]
+          s.end_datetime = show_params[:end_datetime]
+          s.details = show_params[:details]
+        end
+
+        # 公演の作成または取得
+        event_params = params[:event]
+        event = Event.find_or_create_by!(name: event_params[:name], show: show) do |e|
+          e.details = event_params[:details]
+          e.date = event_params[:date]
+          e.venue = event_params[:venue]
+          e.open_time = event_params[:open_time]
+          e.start_time = event_params[:start_time]
+          e.end_time = event_params[:end_time]
+          e.notes = event_params[:notes]
+        end
+
+        # チケットビューの作成
+        ticket_views = TicketView.create!(user: user, event: event)
+
+        # チケットと特典の作成
+        params[:tickets].each do |ticket_params|
+          ticket_type = TicketType.find_or_create_by!(name: ticket_params[:type_name], price: ticket_params[:price], event: event)
+          entrance = Entrance.find_or_create_by!(name: ticket_params[:entrance_name])
+          ticket = Ticket.create!(
+            ticket_view: ticket_view,
+            ticket_type: ticket_type,
+            seat: Seat.create!(
+              seat_area: ticket_params[:seat_area],
+              seat_number: ticket_params[:seat_number]
+            ),
+            entrance: entrance
+          )
+
+          # 特典の作成
+          ticket_params[:benefits].each do |benefit_params|
+            benefit = Benefit.create!(
+              name: benefit_params[:name],
+              details: benefit_params[:details],
+              ticket: ticket
+            )
+          end
+        end
+
+        render json: { message: "チケットビューとチケットが作成されました" }, status: :created
       end
+    end
 end
