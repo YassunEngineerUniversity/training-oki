@@ -1,5 +1,4 @@
 class Api::PlayGuidesController < ApplicationController
-
   def token
     # nameとpasswordで該当するプレイガイドが存在するかチェック
     @play_guide = PlayGuide.find_by(name: play_guide_params[:name])
