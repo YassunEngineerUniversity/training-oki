@@ -8,5 +8,7 @@
 #  updated_at :datetime         not null
 #
 class PlayGuide < ApplicationRecord
+  has_secure_password
+
   has_many :tickets
 end
