@@ -76,7 +76,7 @@ class Api::TicketViewsController < ApplicationController
         end
 
         # チケットビューの作成
-        ticket_view = TicketView.create!(user: user, event: event)
+        ticket_view = TicketView.find_or_create_by!(user: user, event: event)
 
         # チケットと特典の作成
         tickets = params[:tickets]
