@@ -1,7 +1,6 @@
 json.array! @ticket_views do |ticket_view|
   json.id ticket_view.id
   json.user_id ticket_view.user_id
-  json.event_id ticket_view.event_id
 
   json.event do
     json.id ticket_view.event.id

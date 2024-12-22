@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: :json } do
     post "play_guides/token", to: "play_guides#token"
+    get 'ticket_views/me', to: 'ticket_views#me'
     resources :ticket_views, only: [ :index, :create ]
   end
 end
