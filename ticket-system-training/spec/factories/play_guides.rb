@@ -12,4 +12,3 @@ FactoryBot.define do
     sequence(:name) { |n| "プレイガイド#{('A'.ord + n - 1).chr}" }
   end
 end
-

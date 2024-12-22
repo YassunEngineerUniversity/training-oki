@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_12_17_093308) do
+ActiveRecord::Schema[7.2].define(version: 2024_12_22_093215) do
   create_table "benefits", force: :cascade do |t|
     t.string "name"
     t.text "details"
@@ -52,6 +52,11 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_17_093308) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "password_digest"
+    t.string "api_token"
+    t.datetime "api_token_expires_at"
+    t.index ["api_token"], name: "index_play_guides_on_api_token", unique: true
+    t.index ["name"], name: "index_play_guides_on_name", unique: true
   end
 
   create_table "seats", force: :cascade do |t|

@@ -24,19 +24,19 @@ Organizer.create!([
 
 # プレイガイド
 PlayGuide.create!([
-  { name: 'プレイガイドA' },
-  { name: 'プレイガイドB' },
-  { name: 'プレイガイドC' }
+  { name: 'プレイガイドA', password: 'playguideA' },
+  { name: 'プレイガイドB', password: 'playguideB' },
+  { name: 'プレイガイドC', password: 'playguideC' }
 ])
 
 # 興行データ
 Show.create!([
-  { name: '興行A', start_datetime: '2024-08-01 10:00:00', end_datetime: '2024-08-01 18:00:00', details: '興行A詳細', organizer_id: 1},
-  { name: '興行B', start_datetime: '2024-01-01 18:00:00', end_datetime: '2024-01-02 21:00:00', details: '興行B詳細', organizer_id: 1},
-  { name: '興行C', start_datetime: '2024-09-01 09:00:00', end_datetime: '2024-09-01 17:00:00', details: '興行C詳細', organizer_id: 2},
-  { name: '興行D', start_datetime: '2024-08-05 11:00:00', end_datetime: '2024-08-05 20:00:00', details: '興行D詳細', organizer_id: 2},
-  { name: '興行E', start_datetime: '2024-08-10 12:00:00', end_datetime: '2024-08-10 19:00:00', details: '興行E詳細', organizer_id: 3},
-  { name: '興行F', start_datetime: '2024-09-15 10:30:00', end_datetime: '2024-09-15 16:30:00', details: '興行F詳細', organizer_id: 3}
+  { name: '興行A', start_datetime: '2024-08-01 10:00:00', end_datetime: '2024-08-01 18:00:00', details: '興行A詳細', organizer_id: 1 },
+  { name: '興行B', start_datetime: '2024-01-01 18:00:00', end_datetime: '2024-01-02 21:00:00', details: '興行B詳細', organizer_id: 1 },
+  { name: '興行C', start_datetime: '2024-09-01 09:00:00', end_datetime: '2024-09-01 17:00:00', details: '興行C詳細', organizer_id: 2 },
+  { name: '興行D', start_datetime: '2024-08-05 11:00:00', end_datetime: '2024-08-05 20:00:00', details: '興行D詳細', organizer_id: 2 },
+  { name: '興行E', start_datetime: '2024-08-10 12:00:00', end_datetime: '2024-08-10 19:00:00', details: '興行E詳細', organizer_id: 3 },
+  { name: '興行F', start_datetime: '2024-09-15 10:30:00', end_datetime: '2024-09-15 16:30:00', details: '興行F詳細', organizer_id: 3 }
 ])
 
 # 公演データ挿入
@@ -164,4 +164,3 @@ Transfer.create!([
   { from_user_id: 2, to_user_id: 3, ticket_view_id: 4 },
   { from_user_id: 3, to_user_id: 1, ticket_view_id: 7 }
 ])
-

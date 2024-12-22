@@ -27,4 +27,3 @@ FactoryBot.define do
     association :show
   end
 end
-

@@ -53,25 +53,25 @@ RSpec.describe "Api::TicketViews", type: :request do
 
   # 成功ケース: プレイガイドIDでフィルタリング（IDが1つの場合）
   context "正常系: プレイガイドIDでフィルタリング（IDが1つの場合）" do
-    let(:request_params) { { play_guide_ids: [play_guides[0].id] } }
+    let(:request_params) { { play_guide_ids: [ play_guides[0].id ] } }
     include_examples "Successful case"
   end
 
   # 成功ケース: プレイガイドIDでフィルタリング（IDが複数の場合）
   context "正常系: プレイガイドIDでフィルタリング（IDが複数の場合）" do
-    let(:request_params) { { play_guide_ids: [play_guides[0].id,play_guides[1].id,play_guides[2].id] } }
+    let(:request_params) { { play_guide_ids: [ play_guides[0].id, play_guides[1].id, play_guides[2].id ] } }
     include_examples "Successful case"
   end
 
   # 成功ケース: 公演IDでフィルタリング（IDが1つの場合）
   context "正常系: 公演IDでフィルタリング" do
-    let(:request_params) { { event_ids: [events[0].id] } }
+    let(:request_params) { { event_ids: [ events[0].id ] } }
     include_examples "Successful case"
   end
 
   # 成功ケース: 公演IDでフィルタリング（IDが複数の場合）
   context "正常系: 公演IDでフィルタリング" do
-    let(:request_params) { { event_ids: [events[0].id, events[1].id, events[2].id] } }
+    let(:request_params) { { event_ids: [ events[0].id, events[1].id, events[2].id ] } }
     include_examples "Successful case"
   end
 
@@ -86,7 +86,7 @@ RSpec.describe "Api::TicketViews", type: :request do
     let(:request_params) { { used: "true" } }
     include_examples "Successful case"
   end
-  
+
   # 成功ケース: 消し込み済みフラグがfalseの場合
   context "正常系: 消し込み済みフラグがfalseの場合" do
     let(:request_params) { { used: "false" } }
@@ -95,7 +95,7 @@ RSpec.describe "Api::TicketViews", type: :request do
 
   # エラーケース: データが存在しない場合
   context "異常系: データが存在しない場合" do
-    let(:request_params) { { show_id: 9999, play_guide_ids:[9999],  event_ids:[9999, from_date: "2025-12-01", to_date: "2025-01-31"] } }
+    let(:request_params) { { show_id: 9999, play_guide_ids: [ 9999 ],  event_ids: [ 9999, from_date: "2025-12-01", to_date: "2025-01-31" ] } }
     include_examples "Error case", :not_found, "チケットビューが存在しないです。"
   end
 end

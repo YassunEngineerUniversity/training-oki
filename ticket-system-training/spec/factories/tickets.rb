@@ -21,4 +21,3 @@ FactoryBot.define do
     association :ticket_view
   end
 end
-
