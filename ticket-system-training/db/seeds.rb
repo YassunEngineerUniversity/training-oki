@@ -24,9 +24,9 @@ Organizer.create!([
 
 # プレイガイド
 PlayGuide.create!([
-  { name: 'プレイガイドA', password: 'playguideA', api_token: 'nr2THSpF' },
-  { name: 'プレイガイドB', password: 'playguideB', api_token: 'qxiXc3aU' },
-  { name: 'プレイガイドC', password: 'playguideC', api_token: 'RHdMFW8h' }
+  { name: 'プレイガイドA', password: 'playguideA' },
+  { name: 'プレイガイドB', password: 'playguideB' },
+  { name: 'プレイガイドC', password: 'playguideC' }
 ])
 
 # 興行データ

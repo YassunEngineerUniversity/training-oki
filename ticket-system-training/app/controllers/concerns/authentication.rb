@@ -10,10 +10,12 @@ module Authentication
     def authenticate_play_guide
       # "Bearer token"のような形式になるため、空白で区切り、tokenだけを取得する
       token = request.headers['Authorization']&.split(' ')&.last
-      @current_play_guide = PlayGuide.find_by(api_token: token)
+      play_guide = PlayGuide.find_by(api_token: token)
 
-      unless @current_play_guide
-        render json: { error: "認証に失敗しました。" }, status: :unauthorized
+      if play_guide && play_guide.api_token_valid?
+        @current_play_guide = play_guide
+      else 
+        render json: { error: "認証に失敗しました。もしくは、APIトークンの期限が切れています。" }, status: :unauthorized
       end
     end
 end

@@ -5,6 +5,7 @@ class Api::PlayGuidesController < ApplicationController
     @play_guide = PlayGuide.find_by(name: play_guide_params[:name])
 
     if @play_guide && @play_guide.authenticate(play_guide_params[:password])
+      @play_guide.regenerate_api_token
       render :token
     else
       render json: { error: "トークンが取得できません" }, status: :unprocessable_entity
