@@ -17,5 +17,5 @@ class Ticket < ApplicationRecord
   belongs_to :ticket_view
   belongs_to :play_guide
 
-  has_many :benefits
+  has_many :benefits, dependent: :destroy
 end
