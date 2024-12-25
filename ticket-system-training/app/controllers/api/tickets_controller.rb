@@ -1,4 +1,6 @@
 class Api::TicketsController < ApplicationController
+  before_action :authenticate_user! # セッションを保持しているかアクションの前に確認
+
   def used
     used_params = params[:used]
     ticket_params = params[:id]

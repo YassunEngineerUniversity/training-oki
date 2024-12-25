@@ -10,6 +10,7 @@
 #  updated_at :datetime         not null
 #
 class User < ApplicationRecord
+  has_secure_password
   has_many :ticket_views
   has_many :transfers
 end
