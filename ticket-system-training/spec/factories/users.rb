@@ -11,8 +11,20 @@
 #
 FactoryBot.define do
   factory :user do
-    sequence(:name) { |n| "ユーザ#{('A'.ord + n - 1).chr}" }
-    sequence(:email) { |n| "user#{n}@example.com" }
-    password { "password#{('A'.ord + rand(0..25)).chr}" }
+    name { "ユーザA" }
+    email { "userA@example.com" }
+    password { "passwordA" }
+
+    trait :user02 do
+      name { "ユーザB" }
+      email { "userB@example.com" }
+      password { "passwordB" }
+    end
+
+    trait :user03 do
+      name { "ユーザC" }
+      email { "userC@example.com" }
+      password { "passwordC" }
+    end
   end
 end

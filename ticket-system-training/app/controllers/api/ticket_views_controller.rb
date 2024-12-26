@@ -43,7 +43,7 @@ class Api::TicketViewsController < ApplicationController
     end
   end
 
-  def me 
+  def me
     # パラメータの取得
     user_id = params[:user_id]
 
@@ -55,7 +55,11 @@ class Api::TicketViewsController < ApplicationController
 
     @ticket_views = @ticket_views.where(user_id: user_id)
 
-    render :me
+    if @ticket_views.present?
+      render :me
+    else
+      render json: { error: "チケットビューが存在しないです。" }, status: :not_found
+    end
   end
 
   def create
