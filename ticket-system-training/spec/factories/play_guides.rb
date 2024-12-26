@@ -10,5 +10,6 @@
 FactoryBot.define do
   factory :play_guide do
     sequence(:name) { |n| "プレイガイド#{('A'.ord + n - 1).chr}" }
+    password { "password" }
   end
 end

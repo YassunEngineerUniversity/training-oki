@@ -1,16 +1,16 @@
 class Api::TicketViewsController < ApplicationController
   include Authentication
   # create アクションだけで認証を実行
-  before_action :authenticate_play_guide, only: [ :create ]
+  before_action :authenticate_play_guide, only: [:create]
 
   def index
     # パラメータの取得
-    play_guide_ids = params[:play_guide_ids] || [] # プレイガイドID（複数可）
-    show_id = params[:show_id] # 興行ID
-    event_ids = params[:event_ids] || [] # 公演ID（複数可）
-    from_date = params[:from_date] # 公演の日時
-    to_date = params[:to_date] # 公演の日時
-    used_flag = params[:used] # 消し込み
+    play_guide_ids = params[:play_guide_ids] || [] #プレイガイドID（複数可）
+    show_id = params[:show_id] #興行ID
+    event_ids = params[:event_ids] || [] #公演ID（複数可）
+    from_date = params[:from_date] #公演の日時
+    to_date = params[:to_date] #公演の日時
+    used_flag = params[:used] #消し込み
 
     # eventテーブルとshowテーブルをINNER JOINさせ、N+1を対策ため、includesで最小限のクエリにする
     @ticket_views = TicketView.joins(tickets: :play_guide, event: :show).includes(tickets: { play_guide: {} }, event: { show: {} })
@@ -31,15 +31,34 @@ class Api::TicketViewsController < ApplicationController
 
     # 消し込み済みフラグでフィルタリング
     if used_flag.present?
-      @ticket_views = @ticket_views.where.not(tickets: { used_time: nil }) if used_flag == "true"
-      @ticket_views = @ticket_views.where(tickets: { used_time: nil }) if used_flag == "false"
+      @ticket_views = @ticket_views.where.not(tickets: {used_time: nil}) if used_flag == "true"
+      @ticket_views = @ticket_views.where(tickets: {used_time: nil}) if used_flag == "false"
     end
 
-    # データ存在確認
+      # データ存在確認
     if @ticket_views.exists?
       render :index
     else
       render json: { message: "チケットビューが存在しないです。" }, status: :not_found
+    end
+  end
+
+  def me
+    # パラメータの取得
+    user_id = params[:user_id]
+
+    if user_id.empty?
+      render json: { error: "パラメータが不足しています。" }, status: :bad_request
+    end
+
+    @ticket_views = TicketView.joins(tickets: :play_guide, event: :show).includes(tickets: { play_guide: {} }, event: { show: {} })
+
+    @ticket_views = @ticket_views.where(user_id: user_id)
+
+    if @ticket_views.present?
+      render :me
+    else
+      render json: { error: "チケットビューが存在しないです。" }, status: :not_found
     end
   end
 
