@@ -8,7 +8,6 @@
 #  end_datetime   :datetime
 #  details        :text
 #  organizer_id   :integer          not null
-#  play_guide_id  :integer          not null
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #

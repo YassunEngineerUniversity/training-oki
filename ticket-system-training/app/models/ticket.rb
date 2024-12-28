@@ -10,6 +10,7 @@
 #  ticket_view_id :integer          not null
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
+#  play_guide_id  :integer
 #
 class Ticket < ApplicationRecord
   belongs_to :ticket_type
