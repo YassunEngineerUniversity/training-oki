@@ -12,5 +12,8 @@
 class User < ApplicationRecord
   has_secure_password
   has_many :ticket_views
-  has_many :transfers
+  has_many :sent_transfers, class_name: 'Transfer', foreign_key: 'from_user_id', dependent: :destroy
+  has_many :received_transfers, class_name: 'Transfer', foreign_key: 'to_user_id', dependent: :destroy
+
+  has_many :tickets, through: :ticket_views
 end

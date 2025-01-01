@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_12_25_011802) do
+ActiveRecord::Schema[7.2].define(version: 2025_01_01_154437) do
   create_table "benefits", force: :cascade do |t|
     t.string "name"
     t.text "details"
@@ -118,6 +118,9 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_25_011802) do
     t.integer "ticket_view_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "status", default: "pending", null: false
+    t.integer "ticket_id"
+    t.index ["ticket_id"], name: "index_transfers_on_ticket_id"
     t.index ["ticket_view_id"], name: "index_transfers_on_ticket_view_id"
   end
 
