@@ -16,4 +16,5 @@ class User < ApplicationRecord
   has_many :received_transfers, class_name: 'Transfer', foreign_key: 'to_user_id', dependent: :destroy
 
   has_many :tickets, through: :ticket_views
+  has_many :benefits, through: :tickets
 end

@@ -4,11 +4,12 @@ class Api::TicketsController < ApplicationController
   def used
     ticket_params = params[:id]
 
-    ticket = current.tickets.find_by(id: ticket_params)
+    ticket = current_user.tickets.find_by(id: ticket_params)
 
     # チケットが見つからない場合
     unless ticket
       render json: { error: "チケットが存在しないです。" }, status: :not_found
+      return
     end
 
     # すでに消し込み済みであるかのチェック（nilではないか or 空ではないか）

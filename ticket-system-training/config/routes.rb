@@ -20,5 +20,10 @@ Rails.application.routes.draw do
         post "receive", to: "tickets#transfer_receive"
       end
     end
+    resources :benefits, only: [] do
+      member do
+        post "used", to: "benefits#used"
+      end
+    end
   end
 end
