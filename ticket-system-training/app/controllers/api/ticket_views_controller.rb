@@ -1,7 +1,10 @@
 class Api::TicketViewsController < ApplicationController
   include Authentication
-  # create アクションだけで認証を実行
+  # create アクションだけで外部APIの認証を実行
   before_action :authenticate_play_guide, only: [:create]
+
+  # その他は内部APIでログインしていないとエンドポイントにアクセスできない
+  before_action :authenticate_user!, only: [:me]
 
   def index
     # パラメータの取得
@@ -44,18 +47,11 @@ class Api::TicketViewsController < ApplicationController
   end
 
   def me
-    # パラメータの取得
-    user_id = params[:user_id]
+    ticket_view_params = params[:id]
+    @ticket_views = current_user.ticket_views.joins(tickets: :play_guide, event: :show).includes(tickets: { play_guide: {} }, event: { show: {} })
+    @ticket_view = @ticket_views.find_by(id: ticket_view_params)
 
-    if user_id.empty?
-      render json: { error: "パラメータが不足しています。" }, status: :bad_request
-    end
-
-    @ticket_views = TicketView.joins(tickets: :play_guide, event: :show).includes(tickets: { play_guide: {} }, event: { show: {} })
-
-    @ticket_views = @ticket_views.where(user_id: user_id)
-
-    if @ticket_views.present?
+    if @ticket_view
       render :me
     else
       render json: { error: "チケットビューが存在しないです。" }, status: :not_found
@@ -63,69 +59,58 @@ class Api::TicketViewsController < ApplicationController
   end
 
   def create
+    # パラメータの取得
+    user_params = params.require(:user).permit(:name, :email)
+    event_params = params.require(:event).permit(:id)
+    tickets_params = params.require(:tickets).map do |ticket|
+      ticket.permit(:type_name, :price, :entrance_name, :seat_area, :seat_number, benefits: [:name, :details])
+    end
+
     # トランザクションを作成
     ActiveRecord::Base.transaction do
-      # ユーザ情報の処理
-      user_params = params[:user]
+
+      # ユーザの作成または取得
       user = User.find_or_create_by!(email: user_params[:email]) do | u |
         u.name = user_params[:name]
         u.password = SecureRandom.hex(8) # 仮パスワード
       end
 
-      # 興行主の作成または取得
-      organizer_params = params[:organizer]
-      organizer = Organizer.find_or_create_by!(name: organizer_params[:name])
+      # 公演の取得
+      event = Event.find_by!(id:event_params[:id])
 
-      # 興行の作成または取得
-      show_params = params[:show]
-      show = Show.find_or_create_by!(name: show_params[:name], organizer: organizer) do | s |
-        s.start_datetime = show_params[:start_datetime]
-        s.end_datetime = show_params[:end_datetime]
-        s.details = show_params[:details]
-      end
-
-      # 公演の作成または取得
-      event_params = params[:event]
-      event = Event.find_or_create_by!(name: event_params[:name], show: show) do |e|
-        e.details = event_params[:details]
-        e.date = event_params[:date]
-        e.venue = event_params[:venue]
-        e.open_time = event_params[:open_time]
-        e.start_time = event_params[:start_time]
-        e.end_time = event_params[:end_time]
-        e.notes = event_params[:notes]
-      end
-
-      # チケットビューの作成
-      ticket_view = TicketView.find_or_create_by!(user: user, event: event)
+      # チケットビューの作成または取得
+      @ticket_view = TicketView.find_or_create_by!(user: user, event: event)
 
       # チケットと特典の作成
-      tickets = params[:tickets]
-      tickets.each do |ticket_params|
+      tickets_params.each do |ticket_params|
         # 券種の作成または取得
-        ticket_type = TicketType.find_or_create_by!(name: ticket_params[:type_name], price: ticket_params[:price], event: event)
+        @ticket_type = TicketType.find_or_create_by!(
+          name: ticket_params[:type_name], 
+          price: ticket_params[:price], 
+          event: event,
+        )
         # 入場口の作成または取得
-        entrance = Entrance.find_or_create_by!(name: ticket_params[:entrance_name])
+        @entrance = Entrance.find_or_create_by!(name: ticket_params[:entrance_name])
 
         # チケットの作成
         ticket = Ticket.create!(
-          ticket_view: ticket_view,
-          ticket_type: ticket_type,
-          entrance: entrance,
+          ticket_view: @ticket_view,
+          ticket_type: @ticket_type,
+          entrance: @entrance,
           play_guide: @current_play_guide
         )
 
         # 座席の作成
-        seat = Seat.create!(
+        @seat = Seat.create!(
           seat_area: ticket_params[:seat_area],
           seat_number: ticket_params[:seat_number],
           ticket: ticket
         )
 
+        benefits_params = ticket_params[:benefits] || []
         # 特典の作成
-        benefits = ticket_params[:benefits]
-        benefits.each do |benefit_params|
-          benefit = Benefit.create!(
+        benefits_params.each do |benefit_params|
+          @benefit = Benefit.create!(
             ticket: ticket,
             name: benefit_params[:name],
             details: benefit_params[:details]
@@ -134,7 +119,7 @@ class Api::TicketViewsController < ApplicationController
       end
     end
 
-    render json: { message: "チケットが正常に発行されました" }, status: :created
+    render :create
 
     rescue ActiveRecord::RecordInvalid => e
       render json: { error: e.message }, status: :unprocessable_entity

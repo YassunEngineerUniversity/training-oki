@@ -8,6 +8,8 @@
 #  ticket_view_id :integer          not null
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
+#  status         :string           default("pending"), not null
+#  ticket_id      :integer
 #
 FactoryBot.define do
   factory :transfer do
