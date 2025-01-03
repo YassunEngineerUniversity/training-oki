@@ -1,4 +1,5 @@
 import { getCurrentUser } from "@/actions/user/getCurrentUser";
+import UserInformation from "@/components/utils/UserInformation";
 import { redirect } from "next/navigation";
 
 
@@ -11,7 +12,9 @@ const HomePage = async () => {
   }
 
   return (
-    <h1>Home</h1>
+    <div>
+      <UserInformation/>
+    </div>
   )
 }
 
