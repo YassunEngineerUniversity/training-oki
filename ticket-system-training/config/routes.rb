@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     post "login", to: "sessions#create"
     delete "logout", to: "sessions#destroy"
     post "play_guides/token", to: "play_guides#token"
+    get "users/me", to: "users#me"
     resources :ticket_views, only: [ :index, :create ] do
       member do
         get "me", to: "ticket_views#me"
