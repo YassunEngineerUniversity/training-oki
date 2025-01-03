@@ -119,6 +119,46 @@
 /api-training-nextjs/*.tsbuildinfo
 /api-training-nextjs/next-env.d.ts
 
+# Next.js
+# dependencies
+/ticket-system-training-nextjs/node_modules
+/ticket-system-training-nextjs/.pnp
+/ticket-system-training-nextjs/.pnp.*
+/ticket-system-training-nextjs/.yarn/*
+/ticket-system-training-nextjs/!.yarn/patches
+/ticket-system-training-nextjs/!.yarn/plugins
+/ticket-system-training-nextjs/!.yarn/releases
+/ticket-system-training-nextjs/!.yarn/versions
+
+# testing
+/ticket-system-training-nextjs/coverage
+
+# next.js
+/ticket-system-training-nextjs/.next/
+/ticket-system-training-nextjs/out/
+
+# production
+/ticket-system-training-nextjs/build
+
+# misc
+/ticket-system-training-nextjs/.DS_Store
+/ticket-system-training-nextjs/*.pem
+
+# debug
+/ticket-system-training-nextjs/npm-debug.log*
+/ticket-system-training-nextjs/yarn-debug.log*
+/ticket-system-training-nextjs/yarn-error.log*
+
+# env files (can opt-in for committing if needed)
+/ticket-system-training-nextjs/.env*
+
+# vercel
+/ticket-system-training-nextjs/.vercel
+
+# typescript
+/ticket-system-training-nextjs/*.tsbuildinfo
+/ticket-system-training-nextjs/next-env.d.ts
+
 # vscode
 /.vscode
 
