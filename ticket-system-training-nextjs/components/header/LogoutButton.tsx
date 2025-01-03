@@ -19,7 +19,7 @@ const LogoutButton = () => {
     <Button
       variant="secondary"
       onClick={handleLogout}
-      className="justify-self-end text-[12px]"
+      className="justify-self-end text-[12px] font-semibold"
     >
       ログアウト
     </Button>

@@ -28,7 +28,7 @@ const PageHeader = async () => {
             </>
           ) : (
             <div>
-              <Link href={'/login'} className="justify-self-end">
+              <Link href={'/login'} className="justify-self-end font-semibold">
                 ログイン
               </Link>
             </div>
