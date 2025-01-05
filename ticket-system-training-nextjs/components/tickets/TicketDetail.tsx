@@ -1,12 +1,18 @@
 import TicketDetailCard from '@/components/tickets/TicketDetailCard'
-import TicketDetailModal from '@/components/tickets/TicketDetailModal'
-import React from 'react'
+import { Ticket } from '@/types/Ticket/types'
 
-const TicketDetail = () => {
+interface TicketDetailCardProps {
+  username: string
+  tickets: Ticket[] | []
+}
+
+const TicketDetail = ({username, tickets}: TicketDetailCardProps) => {
   return (
     <>
       <div className="mt-4">
-        <TicketDetailCard/>
+        {tickets?.map(ticket => (
+          <TicketDetailCard username={username} ticket={ticket} key={ticket.id}/>
+        ))}
       </div>
     </>
   )

@@ -1,8 +1,17 @@
 import TicketDetailModal from "@/components/tickets/TicketDetailModal"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
+import { Ticket } from "@/types/Ticket/types"
 
-const TicketDetailCard = () => {
+interface TicketDetailCardProps {
+  username: string
+  ticket: Ticket
+}
+
+const TicketDetailCard = ({username, ticket}: TicketDetailCardProps) => {
+
+  console.log(ticket);
+  
   return (
     <Card>
       <CardHeader>
@@ -10,7 +19,7 @@ const TicketDetailCard = () => {
           <div className="mb-6">
             <span className="bg-[#1eb98c] py-1 px-2 text-sm text-white rounded-sm font-semibold">利用可能</span>
           </div>
-          <h3 className="text-base font-bold">ユーザ名</h3>
+          <h3 className="text-base font-bold">{username}</h3>
         </div>
       </CardHeader>
       <CardContent>
@@ -19,9 +28,9 @@ const TicketDetailCard = () => {
             <Button className="text-[#1eb98c] rounded-full bg-white border border-[#1eb98c] hover:bg-[#1eb98c] hover:text-white">チケットを渡す</Button>
           </div>
           <div className="mt-8">
-            <span className="font-bold block text-base mb-2">エントランス名</span>
-            <span className="font-bold block text-sm text-[#6b7280] mb-1">席名</span>
-            <span className="font-bold block text-base">席番号</span>
+            <span className="font-bold block text-base mb-2">{ticket.entrance.name}</span>
+            <span className="font-bold block text-sm text-[#6b7280] mb-1">{ticket.seat.seat_area}</span>
+            <span className="font-bold block text-base">{ticket.seat.seat_number}</span>
           </div>
         </div>
       </CardContent>
