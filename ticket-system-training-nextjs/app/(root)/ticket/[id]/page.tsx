@@ -1,5 +1,6 @@
 import { getCurrentUser } from "@/actions/user/getCurrentUser";
-import TicketDetail from "@/components/tickets/TicketDetail";
+import TicketDetailCard from "@/components/tickets/TicketDetailCard";
+
 import TicketEventCard from "@/components/tickets/TicketEventCard";
 import { redirect } from "next/navigation";
 
@@ -20,7 +21,7 @@ const TicketDetailPage = async ({
         <h2 className="text-center text-base font-bold mb-4">チケット詳細</h2>
         <TicketEventCard/>
         <div className="mt-4">
-          <TicketDetail/>
+          <TicketDetailCard/>
         </div>
       </div>
     </div>
