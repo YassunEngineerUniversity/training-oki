@@ -33,9 +33,9 @@ const TicketDetailModal = () => {
               </div>
             </div>
             <div className="mt-6">
-              <span className="block mb-2 text-center font-bold">ユーザネーム</span>
-              <span className="block mb-1 text-center font-bold text-[#6b7280]">席名</span>
-              <span className="block text-center font-bold">席番号</span>
+              <span className="block mb-2 text-center font-bold text-lg">ユーザネーム</span>
+              <span className="block mb-1 text-center font-bold text-lg text-[#6b7280]">席名</span>
+              <span className="block text-center font-bold text-lg">席番号</span>
             </div>
             <div className="mt-10">
               <p className="text-lg text-center font-bold text-red-500 mb-4">入場するときにスタッフを見せてください。<br/>スタッフが消し込みを行います。</p>

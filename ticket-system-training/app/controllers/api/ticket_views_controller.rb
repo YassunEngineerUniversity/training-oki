@@ -58,6 +58,17 @@ class Api::TicketViewsController < ApplicationController
     end
   end
 
+  # ログインしているユーザのチケットビュー一覧
+  def mine
+    @ticket_views = current_user.ticket_views
+
+    if @ticket_views
+      render :mine
+    else
+      render json: { error: "チケットビューが存在しないです。" }, status: :not_found
+    end
+  end
+
   def create
     # パラメータの取得
     user_params = params.require(:user).permit(:name, :email)
