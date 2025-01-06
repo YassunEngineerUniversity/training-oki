@@ -1,6 +1,5 @@
 import TicketDetailCard from '@/components/tickets/TicketDetailCard'
 import { TicketViewsMine } from '@/types/ticektView/types'
-import { Ticket } from '@/types/Ticket/types'
 
 interface TicketDetailCardProps {
   username: string

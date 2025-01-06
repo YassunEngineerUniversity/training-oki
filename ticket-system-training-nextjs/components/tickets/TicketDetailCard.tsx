@@ -1,4 +1,5 @@
 import TicketDetailModal from "@/components/tickets/TicketDetailModal"
+import TicketTransferModal from "@/components/tickets/TicketTransferModal"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Event } from "@/types/event/types"
@@ -28,9 +29,7 @@ const TicketDetailCard = ({username, ticket, event}: TicketDetailCardProps) => {
       </CardHeader>
       <CardContent>
         <div>
-          <div className="flex justify-end">
-            <Button className="text-[#1eb98c] rounded-full bg-white border border-[#1eb98c] hover:bg-[#1eb98c] hover:text-white">チケットを渡す</Button>
-          </div>
+          <TicketTransferModal event={event} ticket={ticket} username={username}/>
           <div className="mt-8">
             <span className="font-bold block text-base mb-2">{ticket.entrance.name}</span>
             <span className="font-bold block text-sm text-[#6b7280] mb-1">{ticket.seat.seat_area}</span>
