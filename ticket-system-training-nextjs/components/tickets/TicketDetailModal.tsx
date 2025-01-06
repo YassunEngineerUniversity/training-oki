@@ -1,9 +1,18 @@
 import { SlidingButton } from "@/components/tickets/SlidingButton"
 import { Button } from "@/components/ui/button"
-import { DialogDescription, DialogHeader, Dialog, DialogContent, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog"
+import { DialogHeader, Dialog, DialogContent, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog"
+import { Event } from "@/types/event/types"
+import { Ticket } from "@/types/Ticket/types"
+import { formatDate } from "@/utils/formatDate"
 import { DialogClose } from "@radix-ui/react-dialog"
 
-const TicketDetailModal = () => {
+interface TicketDetailModalProps {
+  username: string
+  ticket: Ticket
+  event: Event
+}
+
+const TicketDetailModal = ({username, ticket, event}: TicketDetailModalProps) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -22,20 +31,20 @@ const TicketDetailModal = () => {
         <div className="max-w-[560px] w-full bg-[#66efc8] bg-opacity-20 m-auto py-10 px-10 rounded-sm">
           <div className="max-w-[375px] w-full m-auto">
             <div className="">
-              <h4 className="text-xl font-bold">公演名</h4>
+              <h4 className="text-xl font-bold">{event.name}</h4>
               <div>
                 <span className="text-[#6b7280]">日程｜</span>
-                <span className="text-xl font-bold">2025.01.01</span>
+                <span className="text-xl font-bold">{formatDate(event.date)}</span>
               </div>
               <div>
                 <span className="text-[#6b7280]">会場｜</span>
-                <span className="font-bold">東京ドーム</span>
+                <span className="font-bold">{event.venue}</span>
               </div>
             </div>
             <div className="mt-6">
-              <span className="block mb-2 text-center font-bold text-lg">ユーザネーム</span>
-              <span className="block mb-1 text-center font-bold text-lg text-[#6b7280]">席名</span>
-              <span className="block text-center font-bold text-lg">席番号</span>
+              <span className="block mb-2 text-center font-bold text-lg">{username}</span>
+              <span className="block mb-1 text-center font-bold text-lg text-[#6b7280]">{ticket.seat.seat_area}</span>
+              <span className="block text-center font-bold text-lg">{ticket.seat.seat_number}</span>
             </div>
             <div className="mt-10">
               <p className="text-lg text-center font-bold text-red-500 mb-4">入場するときにスタッフを見せてください。<br/>スタッフが消し込みを行います。</p>

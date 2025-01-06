@@ -1,17 +1,17 @@
 import TicketDetailModal from "@/components/tickets/TicketDetailModal"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
+import { Event } from "@/types/event/types"
 import { Ticket } from "@/types/Ticket/types"
 
 interface TicketDetailCardProps {
   username: string
   ticket: Ticket
+  event: Event
 }
 
-const TicketDetailCard = ({username, ticket}: TicketDetailCardProps) => {
+const TicketDetailCard = ({username, ticket, event}: TicketDetailCardProps) => {
 
-  console.log(ticket);
-  
   return (
     <Card>
       <CardHeader>
@@ -35,7 +35,7 @@ const TicketDetailCard = ({username, ticket}: TicketDetailCardProps) => {
         </div>
       </CardContent>
       <CardFooter>
-        <TicketDetailModal/>
+        <TicketDetailModal event={event} ticket={ticket} username={username}/>
       </CardFooter>
     </Card>
   )

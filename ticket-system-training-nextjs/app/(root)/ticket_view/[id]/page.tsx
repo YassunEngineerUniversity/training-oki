@@ -24,7 +24,7 @@ const TicketDetailPage = async ({
         <h2 className="text-center text-base font-bold mb-4">チケット詳細</h2>
         <TicketEventCard event={ticektView.event}/>
         <div className="mt-4">
-          <TicketDetail username={currentUser.name} tickets={ticektView.tickets}/>
+          <TicketDetail username={currentUser.name} ticketView={ticektView}/>
         </div>
       </div>
     </div>
