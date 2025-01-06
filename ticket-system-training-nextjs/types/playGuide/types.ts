@@ -1,4 +1,4 @@
 export interface PlayGuide {
-  id: number;
+  id: string;
   name: string;
 }

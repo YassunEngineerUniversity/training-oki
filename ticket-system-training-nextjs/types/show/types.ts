@@ -1,4 +1,4 @@
 export interface Show {
-  id: number;
+  id: string;
   name: string;
 }

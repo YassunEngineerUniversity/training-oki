@@ -4,7 +4,7 @@ import { Seat } from "@/types/seat/types";
 import { TicketType } from "@/types/ticketType/types";
 
 export interface Ticket {
-  id: number;
+  id: string;
   used_time: string | null;
   transfer_time: string | null;
   play_guide: PlayGuide;

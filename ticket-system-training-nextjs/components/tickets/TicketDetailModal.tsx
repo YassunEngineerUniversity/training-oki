@@ -46,12 +46,18 @@ const TicketDetailModal = ({username, ticket, event}: TicketDetailModalProps) =>
               <span className="block mb-1 text-center font-bold text-lg text-[#6b7280]">{ticket.seat.seat_area}</span>
               <span className="block text-center font-bold text-lg">{ticket.seat.seat_number}</span>
             </div>
-            <div className="mt-10">
-              <p className="text-lg text-center font-bold text-red-500 mb-4">入場するときにスタッフを見せてください。<br/>スタッフが消し込みを行います。</p>
-              <div className="flex justify-center">
-                <SlidingButton/>
+            {ticket.used_time?(
+              <div className="mt-10">
+                <p className="text-[42px] font-bold text-center text-red-500">入場済み</p>
               </div>
-            </div>
+            ):(
+              <div className="mt-10">
+                <p className="text-lg text-center font-bold text-red-500 mb-4">入場するときにスタッフを見せてください。<br/>スタッフが消し込みを行います。</p>
+                <div className="flex justify-center">
+                  <SlidingButton ticketId={ticket.id}/>
+                </div>
+              </div>
+            )}
           </div>
         </div>
         <DialogFooter className="sm:justify-start">

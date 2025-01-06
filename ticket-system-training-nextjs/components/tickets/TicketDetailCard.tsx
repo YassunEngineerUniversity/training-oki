@@ -11,13 +11,17 @@ interface TicketDetailCardProps {
 }
 
 const TicketDetailCard = ({username, ticket, event}: TicketDetailCardProps) => {
-
+  console.log(ticket.used_time);
   return (
     <Card>
       <CardHeader>
         <div className="border border-[#1eb98c] p-4 bg-[#66efc8] bg-opacity-20 rounded-sm">
           <div className="mb-6">
-            <span className="bg-[#1eb98c] py-1 px-2 text-sm text-white rounded-sm font-semibold">利用可能</span>
+            {ticket.used_time? (
+              <span className="bg-red-500 py-1 px-2 text-sm text-white rounded-sm font-semibold">入場済み</span>
+            ):(
+              <span className="bg-[#1eb98c] py-1 px-2 text-sm text-white rounded-sm font-semibold">利用可能</span>
+            )}
           </div>
           <h3 className="text-base font-bold">{username}</h3>
         </div>

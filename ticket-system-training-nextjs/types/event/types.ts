@@ -1,7 +1,7 @@
 import { Show } from "@/types/show/types";
 
 export interface Event {
-  id: number;
+  id: string;
   name: string;
   details: string;
   date: string;

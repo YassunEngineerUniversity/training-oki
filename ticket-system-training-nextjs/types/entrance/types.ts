@@ -1,4 +1,4 @@
 export interface Entrance {
-  id: number;
+  id: string;
   name: string;
 }
