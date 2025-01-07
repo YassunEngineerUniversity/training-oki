@@ -22,8 +22,8 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body className={noto.className}>
-      <PageHeader />
-        <main className="">
+        <PageHeader />
+        <main className="pt-[92px]">
           <div className="">{children}</div>
         </main>
       </body>

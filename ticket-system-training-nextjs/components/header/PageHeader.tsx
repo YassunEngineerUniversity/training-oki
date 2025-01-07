@@ -6,11 +6,11 @@ const PageHeader = async () => {
   const currentUser = await getCurrentUser();
 
   return (
-    <header className="border-b fixed top-0 left-0 w-full bg-white z-50">
-      <div className="flex items-center justify-between px-8 py-7">
-        <div className="">
-          <h1 className="text-xl">Ticket-System-Traning-Nextjs</h1>
-        </div>
+    <header className="fixed top-0 left-0 w-full bg-white z-50">
+      <div className="flex items-center justify-between py-7 max-w-[560px] mx-auto">
+        <Link href={"/"} className="">
+          <h1 className="text-[18px] font-bold">Ticket-System-Traning-Nextjs</h1>
+        </Link>
         <div className="flex items-center gap-6">
           {currentUser ? (
             <>
@@ -28,7 +28,7 @@ const PageHeader = async () => {
             </>
           ) : (
             <div>
-              <Link href={'/login'} className="justify-self-end">
+              <Link href={'/login'} className="justify-self-end font-semibold">
                 ログイン
               </Link>
             </div>

@@ -42,23 +42,35 @@ Show.create!([
 # 公演データ挿入
 Event.create!([
   # 興行A
-  { name: '公演A', details: '公演A1の詳細', date: '2024-08-05', venue: '会場A', open_time: '17:00', start_time: '18:00', end_time: '21:00', show_id: 1 },
-  { name: '公演A2', details: '公演A2の詳細', date: '2024-08-10', venue: '会場B', open_time: '16:30', start_time: '17:30', end_time: '20:30', show_id: 1 },
+  { name: '公演A', details: '公演A1の詳細', date: '2024-08-05', venue: '会場A', 
+    open_time: Time.zone.parse('17:00'), start_time: Time.zone.parse('18:00'), end_time: Time.zone.parse('21:00'), show_id: 1 },
+  { name: '公演A2', details: '公演A2の詳細', date: '2024-08-10', venue: '会場B', 
+    open_time: Time.zone.parse('16:30'), start_time: Time.zone.parse('17:30'), end_time: Time.zone.parse('20:30'), show_id: 1 },
   # 興行B
-  { name: '公演B', details: '公演B1の詳細', date: '2024-01-01', venue: '会場D', open_time: '16:00', start_time: '17:00', end_time: '20:00', show_id: 2 },
-  { name: '公演B2', details: '公演B2の詳細', date: '2024-01-02', venue: '会場E', open_time: '15:30', start_time: '16:30', end_time: '19:30', show_id: 2 },
+  { name: '公演B', details: '公演B1の詳細', date: '2024-01-01', venue: '会場D', 
+    open_time: Time.zone.parse('16:00'), start_time: Time.zone.parse('17:00'), end_time: Time.zone.parse('20:00'), show_id: 2 },
+  { name: '公演B2', details: '公演B2の詳細', date: '2024-01-02', venue: '会場E', 
+    open_time: Time.zone.parse('15:30'), start_time: Time.zone.parse('16:30'), end_time: Time.zone.parse('19:30'), show_id: 2 },
   # 興行C
-  { name: '公演C', details: '公演C1の詳細', date: '2024-08-15', venue: '会場G', open_time: '16:00', start_time: '17:00', end_time: '19:00', show_id: 3 },
-  { name: '公演C2', details: '公演C2の詳細', date: '2024-08-25', venue: '会場H', open_time: '15:30', start_time: '16:30', end_time: '18:30', show_id: 3 },
+  { name: '公演C', details: '公演C1の詳細', date: '2024-08-15', venue: '会場G', 
+    open_time: Time.zone.parse('16:00'), start_time: Time.zone.parse('17:00'), end_time: Time.zone.parse('19:00'), show_id: 3 },
+  { name: '公演C2', details: '公演C2の詳細', date: '2024-08-25', venue: '会場H', 
+    open_time: Time.zone.parse('15:30'), start_time: Time.zone.parse('16:30'), end_time: Time.zone.parse('18:30'), show_id: 3 },
   # 興行D
-  { name: '公演D', details: '公演D1の詳細', date: '2024-09-05', venue: '会場I', open_time: '16:30', start_time: '17:30', end_time: '20:30', show_id: 4 },
-  { name: '公演D2', details: '公演D2の詳細', date: '2024-09-10', venue: '会場J', open_time: '17:00', start_time: '18:00', end_time: '21:00', show_id: 4 },
+  { name: '公演D', details: '公演D1の詳細', date: '2024-09-05', venue: '会場I', 
+    open_time: Time.zone.parse('16:30'), start_time: Time.zone.parse('17:30'), end_time: Time.zone.parse('20:30'), show_id: 4 },
+  { name: '公演D2', details: '公演D2の詳細', date: '2024-09-10', venue: '会場J', 
+    open_time: Time.zone.parse('17:00'), start_time: Time.zone.parse('18:00'), end_time: Time.zone.parse('21:00'), show_id: 4 },
   # 興行E
-  { name: '公演E', details: '公演E1の詳細', date: '2024-09-15', venue: '会場K', open_time: '17:00', start_time: '18:00', end_time: '21:00', show_id: 5 },
-  { name: '公演E2', details: '公演E2の詳細', date: '2024-09-20', venue: '会場L', open_time: '16:00', start_time: '17:00', end_time: '20:00', show_id: 5 },
+  { name: '公演E', details: '公演E1の詳細', date: '2024-09-15', venue: '会場K', 
+    open_time: Time.zone.parse('17:00'), start_time: Time.zone.parse('18:00'), end_time: Time.zone.parse('21:00'), show_id: 5 },
+  { name: '公演E2', details: '公演E2の詳細', date: '2024-09-20', venue: '会場L', 
+    open_time: Time.zone.parse('16:00'), start_time: Time.zone.parse('17:00'), end_time: Time.zone.parse('20:00'), show_id: 5 },
   # 興行F
-  { name: '公演F', details: '公演F1の詳細', date: '2024-01-05', venue: '会場M', open_time: '17:00', start_time: '18:00', end_time: '21:00', show_id: 6 },
-  { name: '公演F2', details: '公演F2の詳細', date: '2024-01-06', venue: '会場N', open_time: '16:00', start_time: '17:00', end_time: '20:00', show_id: 6 }
+  { name: '公演F', details: '公演F1の詳細', date: '2024-01-05', venue: '会場M', 
+    open_time: Time.zone.parse('17:00'), start_time: Time.zone.parse('18:00'), end_time: Time.zone.parse('21:00'), show_id: 6 },
+  { name: '公演F2', details: '公演F2の詳細', date: '2024-01-06', venue: '会場N', 
+    open_time: Time.zone.parse('16:00'), start_time: Time.zone.parse('17:00'), end_time: Time.zone.parse('20:00'), show_id: 6 }
 ])
 
 # 券種データ挿入

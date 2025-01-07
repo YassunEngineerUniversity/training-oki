@@ -19,4 +19,5 @@ class Ticket < ApplicationRecord
   belongs_to :play_guide
 
   has_many :benefits, dependent: :destroy
+  has_one :seat, dependent: :destroy # 一対一の関連
 end
