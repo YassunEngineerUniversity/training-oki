@@ -9,10 +9,10 @@ interface TicketDetailCardProps {
   username: string
   ticket: Ticket
   event: Event
+  params: string | undefined
 }
 
-const TicketDetailCard = ({username, ticket, event}: TicketDetailCardProps) => {
-  console.log(ticket.used_time);
+const TicketDetailCard = ({username, ticket, event, params}: TicketDetailCardProps) => {
   return (
     <Card>
       <CardHeader>
@@ -29,7 +29,7 @@ const TicketDetailCard = ({username, ticket, event}: TicketDetailCardProps) => {
       </CardHeader>
       <CardContent>
         <div>
-          <TicketTransferModal event={event} ticket={ticket} username={username}/>
+          <TicketTransferModal event={event} ticket={ticket} username={username} params={params}/>
           <div className="mt-8">
             <span className="font-bold block text-base mb-2">{ticket.entrance.name}</span>
             <span className="font-bold block text-sm text-[#6b7280] mb-1">{ticket.seat.seat_area}</span>

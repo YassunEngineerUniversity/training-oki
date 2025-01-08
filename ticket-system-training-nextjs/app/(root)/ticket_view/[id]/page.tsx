@@ -6,14 +6,17 @@ import TicketEventCard from "@/components/tickets/TicketEventCard";
 import { redirect } from "next/navigation";
 
 const TicketDetailPage = async ({
-  params
+  params,
+  searchParams
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: string }>,
+  searchParams: { [key: string]: string | undefined }
 }) => {
   const currentUser = await getCurrentUser();
   const ticektViewId = (await params).id;
   const ticektView = await getTicketViewMe(ticektViewId);
-
+  const emailParams = searchParams.email
+  
   if (!currentUser) {
     redirect('/login');
   }
@@ -24,7 +27,7 @@ const TicketDetailPage = async ({
         <h2 className="text-center text-base font-bold mb-4">チケット詳細</h2>
         <TicketEventCard event={ticektView.event}/>
         <div className="mt-4">
-          <TicketDetail username={currentUser.name} ticketView={ticektView}/>
+          <TicketDetail username={currentUser.name} ticketView={ticektView} params={emailParams}/>
         </div>
       </div>
     </div>
