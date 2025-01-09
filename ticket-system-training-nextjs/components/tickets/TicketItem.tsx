@@ -6,12 +6,24 @@ import Link from 'next/link';
 
 interface TicketItemProps {
   ticketView: TicketViewsMine
+  tabValue: string
 }
 
-const TicketItem = ({ticketView}:TicketItemProps) => {
+const TicketItem = ({ticketView, tabValue}:TicketItemProps) => {
+  let ticketItemLink = ""
+
+  switch (tabValue) {
+    case "sending":
+      ticketItemLink = `/ticket_view/transfer/${ticketView.id}/`
+      break;
+    default:
+      ticketItemLink = `/ticket_view/${ticketView.id}`
+      break;
+  }
+
   return (
     <div className="bg-white px-4 py-4 rounded-2xl shadow-lg">
-      <Link href={`/ticket_view/${ticketView.id}`}>
+      <Link href={ticketItemLink}>
         <div className="mb-2">
           <h3 className="text-2xl font-bold">{ticketView.event.name}</h3>
         </div>

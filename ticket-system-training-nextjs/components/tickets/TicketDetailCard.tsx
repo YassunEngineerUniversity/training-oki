@@ -1,6 +1,5 @@
 import TicketDetailModal from "@/components/tickets/TicketDetailModal"
 import TicketTransferModal from "@/components/tickets/TicketTransferModal"
-import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Event } from "@/types/event/types"
 import { Ticket } from "@/types/Ticket/types"
@@ -30,11 +29,13 @@ const TicketDetailCard = ({username, ticket, event, params, cookie}: TicketDetai
       </CardHeader>
       <CardContent>
         <div>
-          <TicketTransferModal 
-            event={event} ticket={ticket} 
-            username={username} 
-            cookie={cookie}
-          />
+          {!ticket.used_time && (
+            <TicketTransferModal 
+              event={event} ticket={ticket} 
+              username={username} 
+              cookie={cookie}
+            />
+          )}
           <div className="mt-8">
             <span className="font-bold block text-base mb-2">{ticket.entrance.name}</span>
             <span className="font-bold block text-sm text-[#6b7280] mb-1">{ticket.seat.seat_area}</span>

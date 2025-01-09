@@ -172,7 +172,8 @@ Benefit.create!([
 
 # 移行データ挿入
 Transfer.create!([
-  { from_user_id: 1, to_user_id: 2, ticket_view_id: 1, ticket_id: 7},
-  { from_user_id: 2, to_user_id: 3, ticket_view_id: 4, ticket_id: 1 },
-  { from_user_id: 3, to_user_id: 1, ticket_view_id: 7, ticket_id: 4 }
+  { from_user_id: 1, to_user_id: 2, ticket_view_id: 1, ticket_id: 7, status: "completed"},
+  { from_user_id: 1, to_user_id: 2, ticket_view_id: 2, ticket_id: 2, status: "sending"},
+  { from_user_id: 2, to_user_id: 3, ticket_view_id: 4, ticket_id: 1, status: "completed"},
+  { from_user_id: 3, to_user_id: 1, ticket_view_id: 7, ticket_id: 4, status: "completed"}
 ])

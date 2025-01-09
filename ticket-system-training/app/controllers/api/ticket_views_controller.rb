@@ -62,11 +62,24 @@ class Api::TicketViewsController < ApplicationController
   def mine
     @ticket_views = current_user.ticket_views
 
-    if @ticket_views
-      render :mine
-    else
+    unless @ticket_views
       render json: { error: "チケットビューが存在しないです。" }, status: :not_found
     end
+
+    @filter_params = params[:filter]
+
+    if @filter_params && @filter_params == "sending"
+      # sending 状態の譲渡データを取得
+      current_user_sending_transfers = current_user.sent_transfers.where(status: "sending")
+      # 譲渡データのticket_view_idを配列で取得（重複させない）
+      unique_ticket_view_ids = current_user_sending_transfers.pluck(:ticket_view_id).uniq
+      # 譲渡データのticket_idを配列で取得
+      @unique_ticket_ids = current_user_sending_transfers.pluck(:ticket_id)
+
+      @sending_ticket_views = current_user.ticket_views.where(id: unique_ticket_view_ids)
+    end
+
+    render :mine
   end
 
   def create

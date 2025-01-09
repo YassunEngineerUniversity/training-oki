@@ -6,7 +6,7 @@ import { useState } from 'react';
 
 const tabs = [
   { value: 'mine', label: 'チケットをお持ちの公演' },
-  { value: 'transfer', label: '譲渡' },
+  { value: 'sending', label: '譲渡' },
 ]
 
 const TabTickets = () => {
@@ -19,8 +19,8 @@ const TabTickets = () => {
       case 'mine':
         router.push('/');
         break;
-      case 'transfer':
-        router.push('/?tab=transfer');
+      case 'sending':
+        router.push('/?tab=sending');
         break;
       default:
         break;
