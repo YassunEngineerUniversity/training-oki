@@ -1,4 +1,3 @@
-import Form from 'next/form'
 import { Button } from "@/components/ui/button"
 import { DialogHeader, Dialog, DialogContent, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
@@ -6,23 +5,20 @@ import { Event } from "@/types/event/types"
 import { Ticket } from "@/types/Ticket/types"
 import { formatDate } from "@/utils/formatDate"
 import { DialogClose } from "@radix-ui/react-dialog"
-import { getUserByEmail } from '@/actions/user/getUserByEmail'
+import ToUserSearch from '@/components/tickets/ToUserSearch'
+import { getServerCookie } from '@/actions/cookies/getServerCookie'
+import { redirect } from 'next/navigation'
+import { cookies } from 'next/headers';
+import { getClientCookie } from "@/lib/getClientCookie"
 
 interface TicketTransferModalProps {
   username: string
   ticket: Ticket
   event: Event
-  params: string | undefined
+  cookie: string 
 }
 
-const TicketTransferModal = async ({username, ticket, event, params}: TicketTransferModalProps) => {
-  let toUser = null
-  if(params !== undefined) {
-    toUser = await getUserByEmail(params)
-  }
-
-  console.log(toUser);
-  
+const TicketTransferModal = ({username, ticket, event, cookie}: TicketTransferModalProps) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -56,32 +52,9 @@ const TicketTransferModal = async ({username, ticket, event, params}: TicketTran
             </div>
           </div>
           <div className="mt-6">
-            <h4 className="font-bold">同行者を選択してください</h4>
-            <Form action="" className="mt-3 flex space-x-2 mb-4 w-full items-center">
-              <Input
-                type="text"
-                placeholder="メールアドレスで検索"
-                className="h-11"
-                name="email"
-              />
-              <Button type="submit" className="h-11 px-5 bg-red-300 hover:bg-bg-red-300 hover:opacity-80">検索</Button>
-            </Form>
-            {toUser && toUser.email && (
-            <div className="grid gap-6 mb-8 px-2">
-              <div className="flex justify-between items-center">
-                <div>
-                  <span className="font-bold block">{toUser.name}</span>
-                  <span className="block text-sm">{toUser.email}</span>
-                </div>
-                <div>
-                  <Button className="" variant="secondary">選択する</Button>
-                </div>
-              </div>
-            </div>
-            )}
-            {toUser && toUser.message && (
-              <p className="text-base font-bold pl-4">ユーザが見つかりませんでした</p>
-            )}
+            <ToUserSearch 
+              cookie={cookie}
+            />
           </div>
         </div>
         <DialogFooter className="sm:justify-start">

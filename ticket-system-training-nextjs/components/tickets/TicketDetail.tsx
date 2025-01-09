@@ -5,9 +5,10 @@ interface TicketDetailCardProps {
   username: string
   ticketView: TicketViewsMine
   params: string | undefined
+  cookie: string
 }
 
-const TicketDetail = ({username, ticketView, params}: TicketDetailCardProps) => {
+const TicketDetail = ({username, ticketView, params, cookie}: TicketDetailCardProps) => {
   return (
     <>
       <div className="mt-4">
@@ -18,6 +19,7 @@ const TicketDetail = ({username, ticketView, params}: TicketDetailCardProps) => 
             ticket={ticket} 
             key={ticket.id}
             params={params}
+            cookie={cookie}
           />
         ))}
       </div>

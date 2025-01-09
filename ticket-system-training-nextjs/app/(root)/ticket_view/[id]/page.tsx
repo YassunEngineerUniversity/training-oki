@@ -1,3 +1,4 @@
+import { getServerCookie } from "@/actions/cookies/getServerCookie";
 import { getTicketViewMe } from "@/actions/ticketview/getTicketViewMe";
 import { getCurrentUser } from "@/actions/user/getCurrentUser";
 import TicketDetail from "@/components/tickets/TicketDetail";
@@ -10,13 +11,15 @@ const TicketDetailPage = async ({
   searchParams
 }: {
   params: Promise<{ id: string }>,
-  searchParams: { [key: string]: string | undefined }
+  searchParams: Promise<{ [key: string]: string | undefined }>;
 }) => {
   const currentUser = await getCurrentUser();
   const ticektViewId = (await params).id;
   const ticektView = await getTicketViewMe(ticektViewId);
-  const emailParams = searchParams.email
-  
+  const emailParams = (await searchParams).email
+
+  const cookie = await getServerCookie();
+
   if (!currentUser) {
     redirect('/login');
   }
@@ -27,7 +30,12 @@ const TicketDetailPage = async ({
         <h2 className="text-center text-base font-bold mb-4">チケット詳細</h2>
         <TicketEventCard event={ticektView.event}/>
         <div className="mt-4">
-          <TicketDetail username={currentUser.name} ticketView={ticektView} params={emailParams}/>
+          <TicketDetail 
+            cookie={cookie} 
+            username={currentUser.name} 
+            ticketView={ticektView} 
+            params={emailParams}
+          />
         </div>
       </div>
     </div>

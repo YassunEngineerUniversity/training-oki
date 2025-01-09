@@ -10,9 +10,10 @@ interface TicketDetailCardProps {
   ticket: Ticket
   event: Event
   params: string | undefined
+  cookie: string
 }
 
-const TicketDetailCard = ({username, ticket, event, params}: TicketDetailCardProps) => {
+const TicketDetailCard = ({username, ticket, event, params, cookie}: TicketDetailCardProps) => {
   return (
     <Card>
       <CardHeader>
@@ -29,7 +30,11 @@ const TicketDetailCard = ({username, ticket, event, params}: TicketDetailCardPro
       </CardHeader>
       <CardContent>
         <div>
-          <TicketTransferModal event={event} ticket={ticket} username={username} params={params}/>
+          <TicketTransferModal 
+            event={event} ticket={ticket} 
+            username={username} 
+            cookie={cookie}
+          />
           <div className="mt-8">
             <span className="font-bold block text-base mb-2">{ticket.entrance.name}</span>
             <span className="font-bold block text-sm text-[#6b7280] mb-1">{ticket.seat.seat_area}</span>
@@ -38,7 +43,11 @@ const TicketDetailCard = ({username, ticket, event, params}: TicketDetailCardPro
         </div>
       </CardContent>
       <CardFooter>
-        <TicketDetailModal event={event} ticket={ticket} username={username}/>
+        <TicketDetailModal
+          event={event}
+          ticket={ticket}
+          username={username}
+        />
       </CardFooter>
     </Card>
   )

@@ -1,14 +1,14 @@
-import { getCookie } from "@/actions/cookies/getCookie";
+import { getServerCookie } from "@/actions/cookies/getServerCookie";
 
 export const getUserByEmail = async(
-  email:string
+  email:string,
+  cookie: string
 ) => {
   const endpoint = process.env.NEXT_PUBLIC_API_ENDPOINT + `/api/users/search?email=${email}`;
-  const cookies = await getCookie()
   const response = await fetch(endpoint, {
     headers: {
       'Content-Type': 'application/json',
-      Cookie: cookies
+      Cookie: cookie
     },
     credentials: 'include',
   })

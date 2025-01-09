@@ -33,8 +33,6 @@ const HomePage = async ({
       break;
   }
 
-  console.log(ticketVeiws);
-
   return (
     <div>
       <UserInformation user={currentUser}/>
