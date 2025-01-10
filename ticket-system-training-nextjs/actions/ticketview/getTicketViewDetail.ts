@@ -1,7 +1,20 @@
 import { getServerCookie } from "@/actions/cookies/getServerCookie";
 
-export const getTicketViewMe = async (id: string) => {
-  const endpoint = process.env.NEXT_PUBLIC_API_ENDPOINT + `/api/ticket_views/${id}/me`;
+export const getTicketViewDetail = async (
+  id: string,
+  filter?: string
+) => {
+  let endpoint = ""
+  
+  switch (filter) {
+    case "sending":
+      endpoint = process.env.NEXT_PUBLIC_API_ENDPOINT + `/api/ticket_views/${id}?filter=${filter}`;
+      break;
+    default:
+      endpoint = process.env.NEXT_PUBLIC_API_ENDPOINT + `/api/ticket_views/${id}`;
+      break;
+  }
+
   const cookies = await getServerCookie();
 
   const response = await fetch(endpoint, {

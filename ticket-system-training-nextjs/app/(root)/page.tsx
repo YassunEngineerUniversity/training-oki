@@ -8,7 +8,6 @@ import UserInformation from "@/components/utils/UserInformation";
 import { redirect } from "next/navigation";
 
 
-
 const HomePage = async ({
   searchParams,
 }: {
@@ -36,6 +35,7 @@ const HomePage = async ({
   }
 
   console.log(ticketVeiws);
+  
 
   return (
     <div>

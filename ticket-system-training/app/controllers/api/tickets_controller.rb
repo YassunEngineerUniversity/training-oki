@@ -101,6 +101,7 @@ class Api::TicketsController < ApplicationController
       
       # 移行するチケットの取得
       transfer_ticket = from_user.tickets.find_by(id: receive_user_transfer.ticket_id)
+      before_transfer_ticket_id = transfer_ticket.ticket_view_id
 
       # 移行するチケットが存在しない場合
       if transfer_ticket.nil?
@@ -129,13 +130,13 @@ class Api::TicketsController < ApplicationController
       transfer_ticket.reload
   
       # 移行元ユーザーのチケットビューが存在しており、紐づいているチケットが存在しない場合
-      from_user_ticket_view = from_user.ticket_views.find_by(id: transfer_ticket.ticket_view_id)
+      from_user_ticket_view = from_user.ticket_views.find_by(id: before_transfer_ticket_id)
 
       if from_user_ticket_view && from_user_ticket_view.tickets.empty?
         from_user_ticket_view.destroy
       end
   
-      # 移行ステータスをsendingからcompletedに変更
+      # 移行ステータスをsendingからcompleted、チケットビューを変更
       receive_user_transfer.update!(ticket_view_id:transfer_ticket.ticket_view_id, status: "completed")
      end
 

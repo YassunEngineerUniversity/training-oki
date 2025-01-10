@@ -11,11 +11,7 @@ Rails.application.routes.draw do
     get "users/me", to: "users#me"
     get "users/search", to: "users#search"
     get "ticket_views/mine", to: "ticket_views#mine"
-    resources :ticket_views, only: [ :index, :create ] do
-      member do
-        get "me", to: "ticket_views#me"
-      end
-    end
+    resources :ticket_views, only: [ :index, :create, :show ]
     resources :tickets, only: [] do
       member do
         post "used", to: "tickets#used"

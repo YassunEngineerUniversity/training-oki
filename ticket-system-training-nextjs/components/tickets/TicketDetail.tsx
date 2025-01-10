@@ -11,7 +11,7 @@ interface TicketDetailCardProps {
 const TicketDetail = ({username, ticketView, params, cookie}: TicketDetailCardProps) => {
   return (
     <>
-      <div className="mt-4">
+      <div className="mt-4 space-y-5">
         {ticketView.tickets?.map(ticket => (
           <TicketDetailCard 
             username={username} 

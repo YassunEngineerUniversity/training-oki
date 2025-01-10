@@ -14,7 +14,7 @@ const TicketItem = ({ticketView, tabValue}:TicketItemProps) => {
 
   switch (tabValue) {
     case "sending":
-      ticketItemLink = `/ticket_view/transfer/${ticketView.id}/`
+      ticketItemLink = `/ticket_view/${ticketView.id}/transfer`
       break;
     default:
       ticketItemLink = `/ticket_view/${ticketView.id}`

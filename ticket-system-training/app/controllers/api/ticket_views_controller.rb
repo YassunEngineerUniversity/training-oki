@@ -4,7 +4,7 @@ class Api::TicketViewsController < ApplicationController
   before_action :authenticate_play_guide, only: [:create]
 
   # その他は内部APIでログインしていないとエンドポイントにアクセスできない
-  before_action :authenticate_user!, only: [:me]
+  before_action :authenticate_user!, only: [:show, :mine, :index]
 
   def index
     # パラメータの取得
@@ -46,24 +46,41 @@ class Api::TicketViewsController < ApplicationController
     end
   end
 
-  def me
+  def show
     ticket_view_params = params[:id]
-    @ticket_views = current_user.ticket_views.joins(tickets: :play_guide, event: :show).includes(tickets: { play_guide: {} }, event: { show: {} })
-    @ticket_view = @ticket_views.find_by(id: ticket_view_params)
+    @ticket_view = current_user.ticket_views.find_by(id: ticket_view_params)
 
-    if @ticket_view
-      render :me
-    else
+    if @ticket_view.nil?
       render json: { error: "チケットビューが存在しないです。" }, status: :not_found
+      return
     end
+
+    @filter_params = params[:filter]
+
+    if @filter_params && @filter_params == "sending"
+      # sending 状態の譲渡データを取得
+      current_user_sending_transfers = @ticket_view.transfers.where(status: "sending")
+      # 譲渡データのticket_idを配列で取得
+      @unique_ticket_ids = current_user_sending_transfers.pluck(:ticket_id)
+
+      @ticket_with_users = @ticket_view.tickets.where(id: @unique_ticket_ids).map do |ticket|
+        # チケットビューに紐づく移行情報をチケット別に取得
+        transfer = @ticket_view.transfers.find_by(ticket_id: ticket.id)
+        to_user = transfer ? User.find_by(id: transfer.to_user_id) : nil
+        { ticket: ticket, to_user: to_user }
+      end
+    end
+
+    render :show
   end
 
   # ログインしているユーザのチケットビュー一覧
   def mine
     @ticket_views = current_user.ticket_views
 
-    unless @ticket_views
+    if @ticket_views.empty?
       render json: { error: "チケットビューが存在しないです。" }, status: :not_found
+      return
     end
 
     @filter_params = params[:filter]
@@ -76,7 +93,7 @@ class Api::TicketViewsController < ApplicationController
       # 譲渡データのticket_idを配列で取得
       @unique_ticket_ids = current_user_sending_transfers.pluck(:ticket_id)
 
-      @sending_ticket_views = current_user.ticket_views.where(id: unique_ticket_view_ids)
+      @sending_ticket_views = @ticket_views.where(id: unique_ticket_view_ids)
     end
 
     render :mine
