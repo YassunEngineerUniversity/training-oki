@@ -37,24 +37,32 @@ export const SlidingButton = ({ticketId}: SlidingButtonProps) => {
   }
 
   return (
-    <form ref={formRef} action={handleSlidingButton} className="relative max-w-[320px] w-full h-16 bg-gray-200 rounded-full overflow-hidden">
-      <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400">
-        スライドして消し込み
+    <>
+    {isCompleted? (
+      <div>
+        <p className="text-[42px] font-bold text-center text-red-500">入場済み</p>
       </div>
-      <motion.div
-        drag="x"
-        dragConstraints={{ left: 0, right: 220 }}
-        dragElastic={0.1}
-        onDragEnd={handleDragEnd}
-        animate={isCompleted ? { x: 220 } : { x: 0 }}
-        className="absolute left-0 top-0 w-[100px] h-16 bg-[#1eb98c] rounded-full flex items-center justify-center cursor-grab"
-      >
-        <span className="text-white font-bold border-none">
-          {isCompleted ? '完了' : 'スライド'}
-        </span>
-      </motion.div>
-      <button type="submit" className="hidden"></button>
-    </form>
+    ):(
+      <form ref={formRef} action={handleSlidingButton} className="relative max-w-[320px] w-full h-16 bg-gray-200 rounded-full overflow-hidden">
+        <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400">
+          スライドして消し込み
+        </div>
+        <motion.div
+          drag="x"
+          dragConstraints={{ left: 0, right: 220 }}
+          dragElastic={0.1}
+          onDragEnd={handleDragEnd}
+          animate={isCompleted ? { x: 220 } : { x: 0 }}
+          className="absolute left-0 top-0 w-[100px] h-16 bg-[#1eb98c] rounded-full flex items-center justify-center cursor-grab"
+        >
+          <span className="text-white font-bold border-none">
+            {isCompleted ? '完了' : 'スライド'}
+          </span>
+        </motion.div>
+        <button type="submit" className="hidden"></button>
+      </form>
+    )}
+    </>
   )
 }
 
