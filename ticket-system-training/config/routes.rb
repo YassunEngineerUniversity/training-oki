@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     get "users/me", to: "users#me"
     get "users/search", to: "users#search"
     get "ticket_views/mine", to: "ticket_views#mine"
+    get "tickets/mine", to: "tickets#mine"
     resources :ticket_views, only: [ :index, :create, :show ]
     resources :tickets, only: [] do
       member do

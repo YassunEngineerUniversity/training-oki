@@ -7,8 +7,6 @@ interface SendingTicketDetailProps {
 }
 
 const SendingTicketDetail = ({ticket}:SendingTicketDetailProps) => {
-  console.log(ticket);
-  
   return (
     <div>
       <Card>

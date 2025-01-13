@@ -1,15 +1,10 @@
 import { Button } from "@/components/ui/button"
 import { DialogHeader, Dialog, DialogContent, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
 import { Event } from "@/types/event/types"
 import { Ticket } from "@/types/Ticket/types"
 import { formatDate } from "@/utils/formatDate"
 import { DialogClose } from "@radix-ui/react-dialog"
 import ToUserSearch from '@/components/tickets/ToUserSearch'
-import { getServerCookie } from '@/actions/cookies/getServerCookie'
-import { redirect } from 'next/navigation'
-import { cookies } from 'next/headers';
-import { getClientCookie } from "@/lib/getClientCookie"
 
 interface TicketTransferModalProps {
   username: string
@@ -54,6 +49,7 @@ const TicketTransferModal = ({username, ticket, event, cookie}: TicketTransferMo
           <div className="mt-6">
             <ToUserSearch 
               cookie={cookie}
+              ticketId={ticket.id}
             />
           </div>
         </div>

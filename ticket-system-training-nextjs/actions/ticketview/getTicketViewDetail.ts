@@ -10,6 +10,9 @@ export const getTicketViewDetail = async (
     case "sending":
       endpoint = process.env.NEXT_PUBLIC_API_ENDPOINT + `/api/ticket_views/${id}?filter=${filter}`;
       break;
+    case "receive":
+      endpoint = process.env.NEXT_PUBLIC_API_ENDPOINT + `/api/ticket_views/${id}?filter=${filter}`;
+      break;
     default:
       endpoint = process.env.NEXT_PUBLIC_API_ENDPOINT + `/api/ticket_views/${id}`;
       break;
@@ -26,6 +29,8 @@ export const getTicketViewDetail = async (
   });
 
   if (!response.ok) {
+    const error = await response.json()
+    console.log(error);
     return null;
   }
 

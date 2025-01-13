@@ -1,8 +1,9 @@
+import { getTicketsMine } from "@/actions/ticket/getTicketsMine";
 import { getTicketViewsMine } from "@/actions/ticketview/getTicketViewsMine";
 import { getCurrentUser } from "@/actions/user/getCurrentUser";
 import TabTickets from "@/components/tickets/TabTickets";
 import TabTicketsContainer from "@/components/tickets/TabTicketsContainer";
-import TicketsList from "@/components/tickets/TicketsList";
+import TicketVeiwList from "@/components/tickets/TicketVeiwList";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import UserInformation from "@/components/utils/UserInformation";
 import { redirect } from "next/navigation";
@@ -28,27 +29,31 @@ const HomePage = async ({
       tabValue = "sending";
       ticketVeiws = await getTicketViewsMine(tabValue);
       break;
+    case "receive":
+      tabValue = "receive";
+      ticketVeiws = await getTicketViewsMine(tabValue);
+      break;
     default:
       tabValue = "mine";
-      ticketVeiws = await getTicketViewsMine();
+      ticketVeiws = await getTicketViewsMine("not_sending");
       break;
   }
-
-  console.log(ticketVeiws);
-  
 
   return (
     <div>
       <UserInformation user={currentUser}/>
       <Tabs defaultValue={tabValue}>
         <TabTicketsContainer>
-          <TabTickets />
+          <TabTickets tab={tabValue}/>
         </TabTicketsContainer>
         <TabsContent value={"mine"} className="bg-[#f1f3f5] mt-0 min-h-[60vh]">
-          <TicketsList tabValue={tabValue} ticketViews={ticketVeiws}/>
+          <TicketVeiwList tabValue={tabValue} ticketViews={ticketVeiws}/>
         </TabsContent>
         <TabsContent value={"sending"} className="bg-[#f1f3f5] mt-0 min-h-[60vh]">
-          <TicketsList tabValue={tabValue} ticketViews={ticketVeiws}/>
+          <TicketVeiwList tabValue={tabValue} ticketViews={ticketVeiws}/>
+        </TabsContent>
+        <TabsContent value={"receive"} className="bg-[#f1f3f5] mt-0 min-h-[60vh]">
+          <TicketVeiwList tabValue={tabValue} ticketViews={ticketVeiws}/>
         </TabsContent>
       </Tabs>
     </div>

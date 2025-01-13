@@ -6,6 +6,10 @@ export interface User {
   updated_at?: Date
 }
 
+export interface toUser {
+  id: string
+}
+
 export interface NotFoundUser {
   message: string
 }

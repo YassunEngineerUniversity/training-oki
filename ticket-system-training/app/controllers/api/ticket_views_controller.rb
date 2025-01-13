@@ -48,16 +48,15 @@ class Api::TicketViewsController < ApplicationController
 
   def show
     ticket_view_params = params[:id]
-    @ticket_view = current_user.ticket_views.find_by(id: ticket_view_params)
-
-    if @ticket_view.nil?
-      render json: { error: "チケットビューが存在しないです。" }, status: :not_found
-      return
-    end
-
     @filter_params = params[:filter]
 
     if @filter_params && @filter_params == "sending"
+      @ticket_view = current_user.ticket_views.find_by(id: ticket_view_params)
+
+      if @ticket_view.nil?
+        render json: { error: "チケットビューが存在しないです。" }, status: :not_found
+        return
+      end
       # sending 状態の譲渡データを取得
       current_user_sending_transfers = @ticket_view.transfers.where(status: "sending")
       # 譲渡データのticket_idを配列で取得
@@ -69,6 +68,40 @@ class Api::TicketViewsController < ApplicationController
         to_user = transfer ? User.find_by(id: transfer.to_user_id) : nil
         { ticket: ticket, to_user: to_user }
       end
+      render :show
+      return
+    end
+
+    if @filter_params && @filter_params == "receive"
+      current_user_receive_transfers = current_user.received_transfers.where(status: "sending")
+      @unique_ticket_view_ids = current_user_receive_transfers.pluck(:ticket_view_id)
+      @unique_ticket_ids = current_user_receive_transfers.pluck(:ticket_id)
+
+      if current_user_receive_transfers.empty?
+        render json: { error: "チケットビューが存在しないです。" }, status: :not_found
+        return
+      end
+
+      if @unique_ticket_view_ids.include?(ticket_view_params.to_i)
+        @receive_ticket_view = TicketView.find_by(id:ticket_view_params)
+
+        @ticket_with_from_users = @receive_ticket_view.tickets.where(id: @unique_ticket_ids).map do |ticket|
+          # チケットビューに紐づく移行情報をチケット別に取得
+          transfer = @receive_ticket_view.transfers.find_by(ticket_id: ticket.id)
+          from_user = transfer ? User.find_by(id: transfer.from_user_id) : nil
+          { ticket: ticket, from_user: from_user }
+        end
+      end
+     
+      render :show
+      return
+    end
+
+    @ticket_view = current_user.ticket_views.find_by(id: ticket_view_params)
+
+    if @ticket_view.nil?
+      render json: { error: "チケットビューが存在しないです。" }, status: :not_found
+      return
     end
 
     render :show
@@ -85,6 +118,7 @@ class Api::TicketViewsController < ApplicationController
 
     @filter_params = params[:filter]
 
+    # 譲渡中のチケットを持つチケットビュー
     if @filter_params && @filter_params == "sending"
       # sending 状態の譲渡データを取得
       current_user_sending_transfers = current_user.sent_transfers.where(status: "sending")
@@ -92,8 +126,37 @@ class Api::TicketViewsController < ApplicationController
       unique_ticket_view_ids = current_user_sending_transfers.pluck(:ticket_view_id).uniq
       # 譲渡データのticket_idを配列で取得
       @unique_ticket_ids = current_user_sending_transfers.pluck(:ticket_id)
-
+      # 譲渡しているチケットだけ取得
       @sending_ticket_views = @ticket_views.where(id: unique_ticket_view_ids)
+    end
+
+    # 譲渡中のチケットを持つチケットビューを返す
+    if @filter_params && @filter_params == "not_sending"
+      # sending 状態の譲渡データを取得
+      current_user_sending_transfers = current_user.sent_transfers.where(status: "sending")
+       # 譲渡データのticket_idを配列で取得
+       @unique_ticket_ids = current_user_sending_transfers.pluck(:ticket_id)
+
+       @not_sending_ticket_views = @ticket_views.map do |ticket_view|
+        # 譲渡されていないチケットだけを選択
+        filtered_tickets = ticket_view.tickets.reject { |ticket| @unique_ticket_ids.include?(ticket.id) }
+      
+        # チケットがない場合はnilを返し、後で削除
+        next if filtered_tickets.empty?
+      
+        # 譲渡されていないチケットだけを持つ新しい ticket_view を構築
+        ticket_view.tap { |tv| tv.tickets = filtered_tickets }
+      end.compact # nil を削除
+    end
+
+    if @filter_params && @filter_params == "receive"
+      # sendingステータスで受け取りが可能な移行情報を取得
+      current_user_received_transfers = current_user.received_transfers.where(status: "sending")
+
+      # 受け取りが可能なチケットビューを取得
+      @receive_ticket_views = current_user_received_transfers.map do |transfer|
+        transfer.ticket_view
+      end
     end
 
     render :mine

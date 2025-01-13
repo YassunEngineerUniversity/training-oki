@@ -1,6 +1,25 @@
 class Api::TicketsController < ApplicationController
   before_action :authenticate_user! # セッションを保持しているかアクションの前に確認
 
+  def mine
+    @tickets = current_user.tickets
+
+    if @tickets.empty?
+      render json: { error: "チケットが存在しないです。" }, status: :not_found
+      return
+    end
+
+    @filter_params = params[:filter]
+
+    if @filter_params && @filter_params == "receive"
+      current_user_receive_transfers = current_user.received_transfers.where(status: "sending")
+      receive_ticket_ids = current_user_receive_transfers.pluck(:ticket_id)
+      @receive_tickets = Ticket.where(id: receive_ticket_ids)
+    end
+
+    render :mine
+  end
+
   def used
     ticket_params = params[:id]
 
