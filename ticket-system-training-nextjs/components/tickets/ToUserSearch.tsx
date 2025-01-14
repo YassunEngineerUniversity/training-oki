@@ -17,6 +17,7 @@ import { useEffect, useState } from "react";
 import { User as UserIcon } from 'lucide-react';
 import { NotFoundUser, User } from '@/types/user/types'
 import { sendTicket } from '@/actions/ticket/sendTicket'
+import { useRouter } from 'next/navigation'
 
 interface ToUserSearchProps {
   cookie: string
@@ -28,6 +29,7 @@ const ToUserSearch = ({cookie, ticketId}: ToUserSearchProps) => {
   const [isConfirm, setIsConfirm] = useState(false)
   const [isComplete, setIsComplete] = useState(false)
   const [toUserSelected, setToUserSelected] = useState<User | null>(null)
+  const router = useRouter()
 
   const form = useForm<SearchSchema>({
     resolver: zodResolver(searchSchema),
@@ -68,9 +70,16 @@ const ToUserSearch = ({cookie, ticketId}: ToUserSearchProps) => {
   const handleSendButton = async () => {
     try {
       const response = await handleSendTicket();
+
+      console.log(response);
+      
       if(!response) return
 
       setIsComplete(true)
+
+      setTimeout(() => {
+        router.push("/?tab=sending")
+      }, 1000)
     } catch(error) {
       console.log(error);
     }

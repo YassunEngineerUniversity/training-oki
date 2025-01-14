@@ -1,9 +1,9 @@
 import TicketDetailCard from '@/components/tickets/TicketDetailCard'
-import { TicketViewsMine } from '@/types/ticektView/types'
+import { TicketViewsDetail, TicketViewsMine } from '@/types/ticektView/types'
 
 interface TicketDetailCardProps {
   username: string
-  ticketView: TicketViewsMine
+  ticketView: TicketViewsDetail
   params: string | undefined
   cookie: string
 }

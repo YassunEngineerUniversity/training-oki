@@ -117,6 +117,11 @@ class Api::TicketsController < ApplicationController
         render json: { error: "移行元と移行先が同じです。" }, status: :bad_request
         return
       end
+
+      if receive_user_transfer.nil?
+        render json: { error: "移行情報がありません" }, status: :not_found
+        return
+      end
       
       # 移行するチケットの取得
       transfer_ticket = from_user.tickets.find_by(id: receive_user_transfer.ticket_id)
@@ -147,6 +152,9 @@ class Api::TicketsController < ApplicationController
 
       # DBから最新の状態を取得
       transfer_ticket.reload
+
+      # 移行ステータスをsendingからcompleted、チケットビューを変更
+      receive_user_transfer.update!(ticket_view_id:transfer_ticket.ticket_view_id, status: "completed")
   
       # 移行元ユーザーのチケットビューが存在しており、紐づいているチケットが存在しない場合
       from_user_ticket_view = from_user.ticket_views.find_by(id: before_transfer_ticket_id)
@@ -154,9 +162,6 @@ class Api::TicketsController < ApplicationController
       if from_user_ticket_view && from_user_ticket_view.tickets.empty?
         from_user_ticket_view.destroy
       end
-  
-      # 移行ステータスをsendingからcompleted、チケットビューを変更
-      receive_user_transfer.update!(ticket_view_id:transfer_ticket.ticket_view_id, status: "completed")
      end
 
     render :receive

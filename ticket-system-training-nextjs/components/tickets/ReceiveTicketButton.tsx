@@ -3,12 +3,14 @@
 import { receiveTicket } from "@/actions/ticket/receiveTicket"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
+import { boolean } from "zod"
 
 interface ReceiveTicketButtonProps {
   ticketId: string
+  setIsReceived: React.Dispatch<React.SetStateAction<boolean>>
 } 
 
-export const ReceiveTicketButton = ({ticketId}:ReceiveTicketButtonProps) => {
+export const ReceiveTicketButton = ({ticketId, setIsReceived}:ReceiveTicketButtonProps) => {
   const router = useRouter()
   const handleRecieveTicket = receiveTicket.bind(null, ticketId)
 
@@ -17,7 +19,11 @@ export const ReceiveTicketButton = ({ticketId}:ReceiveTicketButtonProps) => {
       const response = await handleRecieveTicket();
       if(!response) return
 
-      router.push("/")
+      setIsReceived(true)
+
+      setTimeout(() => {
+        router.push("/?tab=receive")
+      }, 1000)
     } catch(error) {
       console.log(error);
     }

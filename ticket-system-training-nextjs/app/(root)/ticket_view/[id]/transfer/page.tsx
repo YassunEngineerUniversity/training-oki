@@ -19,7 +19,6 @@ const TicketViewTransferDetailPage = async ({
   if (!currentUser) {
     redirect('/login');
   }
-  
 
   return (
     <div className="bg-[#f1f3f5] min-h-[80vh] py-8">

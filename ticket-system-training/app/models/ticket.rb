@@ -20,4 +20,5 @@ class Ticket < ApplicationRecord
 
   has_many :benefits, dependent: :destroy
   has_one :seat, dependent: :destroy # 一対一の関連
+  has_one :transfer, dependent: :destroy # 一対一の関連
 end

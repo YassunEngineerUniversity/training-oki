@@ -3,7 +3,7 @@ import { getCurrentUser } from "@/actions/user/getCurrentUser";
 import RecieveTicketDetail from "@/components/tickets/ReceiveTicketDetail";
 
 import TicketEventCard from "@/components/tickets/TicketEventCard";
-import { ReceiveTicket } from "@/types/Ticket/types";
+import { TicketDetail } from "@/types/Ticket/types";
 import { redirect } from "next/navigation";
 
 const TicketViewReceiveDetailPage = async ({
@@ -14,9 +14,6 @@ const TicketViewReceiveDetailPage = async ({
   const currentUser = await getCurrentUser();
   const ticektViewId = (await params).id;
   const ticektView = await getTicketViewDetail(ticektViewId, "receive");
-
-  console.log(ticektView);
-  
 
   if (!currentUser) {
     redirect('/login');
@@ -29,7 +26,7 @@ const TicketViewReceiveDetailPage = async ({
         <h2 className="text-center text-base font-bold mb-4">受け取りチケット詳細</h2>
         <TicketEventCard event={ticektView.event}/>
         <div className="mt-4 space-y-5">
-          {ticektView.tickets?.map((ticket:ReceiveTicket) => (
+          {ticektView.tickets?.map((ticket:TicketDetail) => (
             <RecieveTicketDetail event={ticektView.event} ticket={ticket} key={ticket.id}/>
           ))}
         </div>

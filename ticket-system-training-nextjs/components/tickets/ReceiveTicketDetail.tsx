@@ -3,10 +3,10 @@
 import { ReceiveTicketConfirmModal } from "@/components/tickets/ReceiveTicketConfirmModal"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Event } from "@/types/event/types"
-import { ReceiveTicket } from "@/types/Ticket/types"
+import { TicketDetail } from "@/types/Ticket/types"
 
 interface SendingTicketDetailProps {
-  ticket: ReceiveTicket
+  ticket: TicketDetail
   event: Event
 }
 
@@ -19,8 +19,8 @@ const RecieveTicketDetail = ({ticket, event}:SendingTicketDetailProps) => {
             <div className="mb-6">
               <span className="bg-yellow-500 py-1 px-2 text-sm text-white rounded-sm font-semibold">受け取り可能</span>
             </div>
-            <h3 className="text-base font-bold mb-2">送り主 : {ticket.from_user.name}</h3>
-            <h3 className="text-base font-bold">メールアドレス : {ticket.from_user.email}</h3>
+            <h3 className="text-base font-bold mb-2">送り主 : {ticket.from_user?.name}</h3>
+            <h3 className="text-base font-bold">メールアドレス : {ticket.from_user?.email}</h3>
           </div>
         </CardHeader>
       <CardContent>

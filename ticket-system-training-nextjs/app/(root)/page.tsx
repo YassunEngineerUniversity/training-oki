@@ -35,7 +35,7 @@ const HomePage = async ({
       break;
     default:
       tabValue = "mine";
-      ticketVeiws = await getTicketViewsMine("not_sending");
+      ticketVeiws = await getTicketViewsMine();
       break;
   }
 

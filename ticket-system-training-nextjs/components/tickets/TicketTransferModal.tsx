@@ -23,7 +23,7 @@ const TicketTransferModal = ({username, ticket, event, cookie}: TicketTransferMo
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle >
+          <DialogTitle>
             <div className="">
               <h3 className="text-center">チケットを渡す</h3>
             </div>

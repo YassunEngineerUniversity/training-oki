@@ -3,15 +3,18 @@ import { ReceiveTicketButton } from "@/components/tickets/ReceiveTicketButton"
 import { Button } from "@/components/ui/button"
 import { DialogHeader, Dialog, DialogContent, DialogTitle, DialogTrigger, DialogFooter, DialogClose } from "@/components/ui/dialog"
 import { Event } from "@/types/event/types"
-import { ReceiveTicket } from "@/types/Ticket/types"
+import { TicketDetail } from "@/types/Ticket/types"
 import { formatDate } from "@/utils/formatDate"
+import { useState } from "react"
 
 interface ReceiveTicketConfirmModalProps {
   event: Event
-  ticket: ReceiveTicket
+  ticket: TicketDetail
 }
 
 export const ReceiveTicketConfirmModal = ({event, ticket}:ReceiveTicketConfirmModalProps) => {
+  const [isReceived, setIsReceived] = useState(false);
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -45,21 +48,22 @@ export const ReceiveTicketConfirmModal = ({event, ticket}:ReceiveTicketConfirmMo
             </div>
             <div className="mt-4">
               <span className="">送り元 | </span>
-              <span className="font-bold">{ticket.from_user.name}</span>
+              <span className="font-bold">{ticket.from_user?.name}</span>
             </div>
             <div className="">
               <span className="">メールアドレス | </span>
-              <span className="font-bold">{ticket.from_user.email}</span>
-            </div>
-            <div>
-              <p></p>
+              <span className="font-bold">{ticket.from_user?.email}</span>
             </div>
           </div>
         </div>
-        <DialogFooter className="flex sm:justify-center">
-          <div className="flex justify-center gap-4 items-center">
-            <ReceiveTicketButton ticketId={ticket.id}/>
-          </div>
+        <DialogFooter className="flex sm:justify-center mt-4 mb-4">
+          {isReceived? (
+            <p className="text-xl text-yellow-500 font-bold text-center">チケットを受け取りました</p>
+          ):(
+            <div className="flex justify-center gap-4 items-center">
+              <ReceiveTicketButton setIsReceived={setIsReceived} ticketId={ticket.id}/>
+            </div>
+          )}
         </DialogFooter>
       </DialogContent>
     </Dialog>

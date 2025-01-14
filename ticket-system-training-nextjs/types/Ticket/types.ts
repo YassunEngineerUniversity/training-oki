@@ -14,6 +14,19 @@ export interface Ticket {
   seat: Seat;
 }
 
+export interface TicketDetail {
+  id: string;
+  used_time: string | null;
+  transfer_time: string | null;
+  status: string | null;
+  to_user: User | null
+  from_user: User | null
+  play_guide: PlayGuide;
+  ticket_type: TicketType;
+  entrance: Entrance;
+  seat: Seat;
+}
+
 export interface SendingTicket {
   id: string;
   used_time: string | null;

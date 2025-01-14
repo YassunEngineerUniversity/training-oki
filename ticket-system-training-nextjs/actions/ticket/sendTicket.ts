@@ -30,7 +30,7 @@ export const sendTicket = async ({ticketId, toUser}:sendTicketParams) => {
 
   if (!response.ok) {
     const error = await response.json()
-    return null;
+    return error;
   }
 
   const message = await response.json()

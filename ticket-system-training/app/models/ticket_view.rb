@@ -12,6 +12,6 @@ class TicketView < ApplicationRecord
   belongs_to :user
   belongs_to :event
 
-  has_many :transfers, dependent: :destroy
+  has_many :transfers
   has_many :tickets, dependent: :destroy
 end
