@@ -1,179 +1,103 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+# 大量データ生成版
+# 環境ごとに必須なレコードを生成します。このコードは冪等性を持たせ、どの環境でも実行可能とします。
 
 # ユーザデータ挿入
 User.create!([
-  { name: 'ユーザA', email: 'userA@example.com', password: 'passwordA' },
-  { name: 'ユーザB', email: 'userB@example.com', password: 'passwordB' },
-  { name: 'ユーザC', email: 'userC@example.com', password: 'passwordC' }
+  { name: 'テストユーザA', email: 'userA@exmple.com', password: 'password' },
+  { name: 'テストユーザB', email: 'userB@exmple.com', password: 'password' },
+  { name: 'テストユーザC', email: 'userC@exmple.com', password: 'password' },
+  { name: 'テストユーザD', email: 'userD@exmple.com', password: 'password' },
+  { name: 'テストユーザE', email: 'userE@exmple.com', password: 'password' },
+  { name: 'テストユーザF', email: 'userF@exmple.com', password: 'password' }
 ])
 
 # 興行主
 Organizer.create!([
-  { name: '興行主A' },
-  { name: '興行主B' },
-  { name: '興行主C' }
+  { name: '株式会社サンプルプロモーション' },
+  { name: '合同会社エンタメジャパン' },
+  { name: '有限会社ライブクリエイト' },
+  { name: '株式会社ミュージックワークス' },
+  { name: '合同会社イベントプラン' }
 ])
 
 # プレイガイド
 PlayGuide.create!([
-  { name: 'プレイガイドA', password: 'playguideA' },
-  { name: 'プレイガイドB', password: 'playguideB' },
-  { name: 'プレイガイドC', password: 'playguideC' }
+  { name: 'ローソンチケット', password: 'lawson123' },
+  { name: 'チケットぴあ', password: 'pia123' },
+  { name: 'イープラス', password: 'eplus123' },
+  { name: '楽天チケット', password: 'rakuten123' },
+  { name: 'LINEチケット', password: 'line123' }
 ])
 
 # 興行データ
 Show.create!([
-  { name: '興行A', start_datetime: '2024-08-01 10:00:00', end_datetime: '2024-08-01 18:00:00', details: '興行A詳細', organizer_id: 1 },
-  { name: '興行B', start_datetime: '2024-01-01 18:00:00', end_datetime: '2024-01-02 21:00:00', details: '興行B詳細', organizer_id: 1 },
-  { name: '興行C', start_datetime: '2024-09-01 09:00:00', end_datetime: '2024-09-01 17:00:00', details: '興行C詳細', organizer_id: 2 },
-  { name: '興行D', start_datetime: '2024-08-05 11:00:00', end_datetime: '2024-08-05 20:00:00', details: '興行D詳細', organizer_id: 2 },
-  { name: '興行E', start_datetime: '2024-08-10 12:00:00', end_datetime: '2024-08-10 19:00:00', details: '興行E詳細', organizer_id: 3 },
-  { name: '興行F', start_datetime: '2024-09-15 10:30:00', end_datetime: '2024-09-15 16:30:00', details: '興行F詳細', organizer_id: 3 }
+  { name: 'サマーライブ2025', start_datetime: '2025-07-15 12:00:00', end_datetime: '2025-07-15 20:00:00', details: '夏の音楽イベント', organizer_id: 1 },
+  { name: 'ウィンターフェスティバル2025', start_datetime: '2025-12-10 14:00:00', end_datetime: '2025-12-10 22:00:00', details: '冬のスペシャルライブ', organizer_id: 2 },
+  { name: 'アートフェスタ2025', start_datetime: '2025-09-20 10:00:00', end_datetime: '2025-09-20 18:00:00', details: 'アートと音楽の融合イベント', organizer_id: 3 },
+  { name: 'クラシックナイト', start_datetime: '2025-11-05 17:00:00', end_datetime: '2025-11-05 21:00:00', details: 'クラシック音楽コンサート', organizer_id: 4 },
+  { name: 'ロックフェスティバル', start_datetime: '2025-08-25 13:00:00', end_datetime: '2025-08-25 22:00:00', details: 'ロックバンド多数出演', organizer_id: 5 }
 ])
 
 # 公演データ挿入
 Event.create!([
-  # 興行A
-  { name: '公演A', details: '公演A1の詳細', date: '2024-08-05', venue: '会場A', 
-    open_time: Time.zone.parse('17:00'), start_time: Time.zone.parse('18:00'), end_time: Time.zone.parse('21:00'), show_id: 1 },
-  { name: '公演A2', details: '公演A2の詳細', date: '2024-08-10', venue: '会場B', 
-    open_time: Time.zone.parse('16:30'), start_time: Time.zone.parse('17:30'), end_time: Time.zone.parse('20:30'), show_id: 1 },
-  # 興行B
-  { name: '公演B', details: '公演B1の詳細', date: '2024-01-01', venue: '会場D', 
-    open_time: Time.zone.parse('16:00'), start_time: Time.zone.parse('17:00'), end_time: Time.zone.parse('20:00'), show_id: 2 },
-  { name: '公演B2', details: '公演B2の詳細', date: '2024-01-02', venue: '会場E', 
-    open_time: Time.zone.parse('15:30'), start_time: Time.zone.parse('16:30'), end_time: Time.zone.parse('19:30'), show_id: 2 },
-  # 興行C
-  { name: '公演C', details: '公演C1の詳細', date: '2024-08-15', venue: '会場G', 
-    open_time: Time.zone.parse('16:00'), start_time: Time.zone.parse('17:00'), end_time: Time.zone.parse('19:00'), show_id: 3 },
-  { name: '公演C2', details: '公演C2の詳細', date: '2024-08-25', venue: '会場H', 
-    open_time: Time.zone.parse('15:30'), start_time: Time.zone.parse('16:30'), end_time: Time.zone.parse('18:30'), show_id: 3 },
-  # 興行D
-  { name: '公演D', details: '公演D1の詳細', date: '2024-09-05', venue: '会場I', 
-    open_time: Time.zone.parse('16:30'), start_time: Time.zone.parse('17:30'), end_time: Time.zone.parse('20:30'), show_id: 4 },
-  { name: '公演D2', details: '公演D2の詳細', date: '2024-09-10', venue: '会場J', 
-    open_time: Time.zone.parse('17:00'), start_time: Time.zone.parse('18:00'), end_time: Time.zone.parse('21:00'), show_id: 4 },
-  # 興行E
-  { name: '公演E', details: '公演E1の詳細', date: '2024-09-15', venue: '会場K', 
-    open_time: Time.zone.parse('17:00'), start_time: Time.zone.parse('18:00'), end_time: Time.zone.parse('21:00'), show_id: 5 },
-  { name: '公演E2', details: '公演E2の詳細', date: '2024-09-20', venue: '会場L', 
-    open_time: Time.zone.parse('16:00'), start_time: Time.zone.parse('17:00'), end_time: Time.zone.parse('20:00'), show_id: 5 },
-  # 興行F
-  { name: '公演F', details: '公演F1の詳細', date: '2024-01-05', venue: '会場M', 
-    open_time: Time.zone.parse('17:00'), start_time: Time.zone.parse('18:00'), end_time: Time.zone.parse('21:00'), show_id: 6 },
-  { name: '公演F2', details: '公演F2の詳細', date: '2024-01-06', venue: '会場N', 
-    open_time: Time.zone.parse('16:00'), start_time: Time.zone.parse('17:00'), end_time: Time.zone.parse('20:00'), show_id: 6 }
+  { name: 'サマーライブ2025 公演1', details: 'サマーライブ2025の詳細 公演1', date: '2025-07-15', venue: '会場1', open_time: '17:00:00', start_time: '18:00:00', end_time: '21:00:00', show_id: 1 },
+  { name: 'サマーライブ2025 公演2', details: 'サマーライブ2025の詳細 公演2', date: '2025-07-16', venue: '会場2', open_time: '17:00:00', start_time: '18:00:00', end_time: '21:00:00', show_id: 1 },
+  { name: 'サマーライブ2025 公演3', details: 'サマーライブ2025の詳細 公演3', date: '2025-07-17', venue: '会場3', open_time: '17:00:00', start_time: '18:00:00', end_time: '21:00:00', show_id: 1 },
+  { name: 'ウィンターフェスティバル2025 公演1', details: 'ウィンターフェスティバル2025の詳細 公演1', date: '2025-12-10', venue: '会場1', open_time: '17:00:00', start_time: '18:00:00', end_time: '21:00:00', show_id: 2 },
+  { name: 'ウィンターフェスティバル2025 公演2', details: 'ウィンターフェスティバル2025の詳細 公演2', date: '2025-12-11', venue: '会場2', open_time: '17:00:00', start_time: '18:00:00', end_time: '21:00:00', show_id: 2 },
+  { name: 'ウィンターフェスティバル2025 公演3', details: 'ウィンターフェスティバル2025の詳細 公演3', date: '2025-12-12', venue: '会場3', open_time: '17:00:00', start_time: '18:00:00', end_time: '21:00:00', show_id: 2 }
 ])
 
 # 券種データ挿入
 TicketType.create!([
-  { name: '券種A', price: 10000, event_id: 1 },
-  { name: '券種B', price: 12000, event_id: 1 },
-  { name: '券種A', price: 15000, event_id: 2 },
-  { name: '券種B', price: 20000, event_id: 2 },
-  { name: '券種A', price: 18000, event_id: 3 },
-  { name: '券種B', price: 13000, event_id: 3 },
-  { name: '券種A', price: 8000, event_id: 4 },
-  { name: '券種B', price: 8500, event_id: 4 },
-  { name: '券種D1', price: 9000, event_id: 7 },
-  { name: '券種D2', price: 9500, event_id: 7 },
-  { name: '券種E1', price: 11000, event_id: 9 },
-  { name: '券種E2', price: 11500, event_id: 9 }
+  { name: 'サマーライブ2025 公演1 券種1', price: 5000, event_id: 1 },
+  { name: 'サマーライブ2025 公演1 券種2', price: 7000, event_id: 1 },
+  { name: 'サマーライブ2025 公演2 券種1', price: 5000, event_id: 2 },
+  { name: 'サマーライブ2025 公演2 券種2', price: 7000, event_id: 2 },
+  { name: 'サマーライブ2025 公演3 券種1', price: 5000, event_id: 3 },
+  { name: 'サマーライブ2025 公演3 券種2', price: 7000, event_id: 3 }
 ])
 
 # 入場口データ挿入
 Entrance.create!([
-  { name: '入場口A' },
-  { name: '入場口B' },
-  { name: '入場口C' }
+  { name: '入場口1' },
+  { name: '入場口2' },
+  { name: '入場口3' }
 ])
 
 # チケットビュー
 TicketView.create!([
-  { user_id: 1, event_id: 5 },
   { user_id: 1, event_id: 1 },
   { user_id: 1, event_id: 2 },
-  { user_id: 2, event_id: 1 },
-  { user_id: 2, event_id: 3 },
+  { user_id: 1, event_id: 3 },
   { user_id: 2, event_id: 4 },
-  { user_id: 3, event_id: 3 },
-  { user_id: 3, event_id: 5 },
-  { user_id: 3, event_id: 6 }
+  { user_id: 2, event_id: 5 },
+  { user_id: 2, event_id: 6 }
 ])
 
 # チケットデータ挿入
 Ticket.create!([
-  { used_time: nil, transfer_time: '2024-12-21 18:00:00', play_guide_id: 1, ticket_type_id: 1, entrance_id: 1, ticket_view_id: 4 }, # チケットビュー1
-  { used_time: nil, transfer_time: nil, play_guide_id: 1, ticket_type_id: 1, entrance_id: 1, ticket_view_id: 2 }, # チケットビュー2
-  { used_time: nil, transfer_time: nil, play_guide_id: 2, ticket_type_id: 3, entrance_id: 1, ticket_view_id: 3 }, # チケットビュー3
-  { used_time: nil, transfer_time: '2024-11-21 18:00:00', play_guide_id: 1, ticket_type_id: 5, entrance_id: 2, ticket_view_id: 7 }, # チケットビュー4
-  { used_time: '2024-01-21 18:00:00', transfer_time: nil, play_guide_id: 2, ticket_type_id: 5, entrance_id: 2, ticket_view_id: 5 }, # チケットビュー5
-  { used_time: nil, transfer_time: nil, play_guide_id: 3, ticket_type_id: 7, entrance_id: 2, ticket_view_id: 6 }, # チケットビュー6
-  { used_time: nil, transfer_time: '2024-12-11 18:00:00', play_guide_id: 1, ticket_type_id: 9, entrance_id: 3, ticket_view_id: 1 }, # チケットビュー7
-  { used_time: nil, transfer_time: nil, play_guide_id: 3, ticket_type_id: 9, entrance_id: 3, ticket_view_id: 8 }, # チケットビュー8
-  { used_time: nil, transfer_time: nil, play_guide_id: 1, ticket_type_id: 11, entrance_id: 3, ticket_view_id: 9 } # チケットビュー9
+  { used_time: nil, transfer_time: nil, play_guide_id: 1, ticket_type_id: 1, entrance_id: 1, ticket_view_id: 1 },
+  { used_time: nil, transfer_time: nil, play_guide_id: 2, ticket_type_id: 2, entrance_id: 2, ticket_view_id: 2 },
+  { used_time: nil, transfer_time: nil, play_guide_id: 3, ticket_type_id: 3, entrance_id: 3, ticket_view_id: 3 },
+  { used_time: nil, transfer_time: nil, play_guide_id: 4, ticket_type_id: 4, entrance_id: 1, ticket_view_id: 4 },
+  { used_time: nil, transfer_time: nil, play_guide_id: 5, ticket_type_id: 5, entrance_id: 2, ticket_view_id: 5 }
 ])
 
 # 座席データ挿入
 Seat.create!([
-  { seat_area: 'エリアA', seat_number: 101, ticket_id: 1 },
-  { seat_area: 'エリアA', seat_number: 102, ticket_id: 2 },
-  { seat_area: 'エリアB', seat_number: 201, ticket_id: 3 },
-  { seat_area: 'エリアB', seat_number: 202, ticket_id: 4 },
-  { seat_area: 'エリアC', seat_number: 301, ticket_id: 5 },
-  { seat_area: 'エリアC', seat_number: 302, ticket_id: 6 },
-  { seat_area: 'エリアD', seat_number: 401, ticket_id: 7 },
-  { seat_area: 'エリアD', seat_number: 402, ticket_id: 8 },
-  { seat_area: 'エリアE', seat_number: 501, ticket_id: 9 }
+  { seat_area: 'エリア1', seat_number: 101, ticket_id: 1 },
+  { seat_area: 'エリア2', seat_number: 102, ticket_id: 2 },
+  { seat_area: 'エリア3', seat_number: 103, ticket_id: 3 },
+  { seat_area: 'エリア4', seat_number: 104, ticket_id: 4 },
+  { seat_area: 'エリア5', seat_number: 105, ticket_id: 5 }
 ])
 
 # 特典データ挿入
 Benefit.create!([
-  # チケットID 1 の特典
-  { name: '特典A1', details: 'チケット1用の特典A', used_time: nil, ticket_id: 1 },
-  { name: '特典B1', details: 'チケット1用の特典B', used_time: nil, ticket_id: 1 },
-
-  # チケットID 2 の特典
-  { name: '特典A2', details: 'チケット2用の特典A', used_time: nil, ticket_id: 2 },
-  { name: '特典B2', details: 'チケット2用の特典B', used_time: nil, ticket_id: 2 },
-
-  # チケットID 3 の特典
-  { name: '特典A3', details: 'チケット3用の特典A', used_time: nil, ticket_id: 3 },
-  { name: '特典B3', details: 'チケット3用の特典B', used_time: nil, ticket_id: 3 },
-
-  # チケットID 4 の特典
-  { name: '特典A4', details: 'チケット4用の特典A', used_time: nil, ticket_id: 4 },
-  { name: '特典B4', details: 'チケット4用の特典B', used_time: nil, ticket_id: 4 },
-
-  # チケットID 5 の特典
-  { name: '特典A5', details: 'チケット5用の特典A', used_time: nil, ticket_id: 5 },
-  { name: '特典B5', details: 'チケット5用の特典B', used_time: nil, ticket_id: 5 },
-
-  # チケットID 7 の特典
-  { name: '特典A7', details: 'チケット7用の特典A', used_time: nil, ticket_id: 7 },
-  { name: '特典B7', details: 'チケット7用の特典B', used_time: nil, ticket_id: 7 },
-
-  # チケットID 8 の特典
-  { name: '特典A8', details: 'チケット8用の特典A', used_time: nil, ticket_id: 8 },
-  { name: '特典B8', details: 'チケット8用の特典B', used_time: nil, ticket_id: 8 },
-
-  # チケットID 9 の特典
-  { name: '特典A9', details: 'チケット9用の特典A', used_time: nil, ticket_id: 9 },
-  { name: '特典B9', details: 'チケット9用の特典B', used_time: nil, ticket_id: 9 }
-])
-
-# 移行データ挿入
-Transfer.create!([
-  { from_user_id: 1, to_user_id: 2, ticket_view_id: 1, ticket_id: 7, status: "completed"},
-  { from_user_id: 1, to_user_id: 2, ticket_view_id: 2, ticket_id: 2, status: "sending"},
-  { from_user_id: 2, to_user_id: 3, ticket_view_id: 4, ticket_id: 1, status: "completed"},
-  { from_user_id: 3, to_user_id: 1, ticket_view_id: 7, ticket_id: 4, status: "completed"}
+  { name: '特典1', details: 'チケット1に付随する特典', used_time: nil, ticket_id: 1 },
+  { name: '特典2', details: 'チケット2に付随する特典', used_time: nil, ticket_id: 2 },
+  { name: '特典3', details: 'チケット3に付随する特典', used_time: nil, ticket_id: 3 },
+  { name: '特典4', details: 'チケット4に付随する特典', used_time: nil, ticket_id: 4 },
+  { name: '特典5', details: 'チケット5に付随する特典', used_time: nil, ticket_id: 5 }
 ])

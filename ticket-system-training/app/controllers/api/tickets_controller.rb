@@ -52,37 +52,14 @@ class Api::TicketsController < ApplicationController
     to_user = User.find_by(id: transfer_to_user_params[:id])
     transfer_ticket = current_user.tickets.find_by(id: ticket_params)
 
-    # 移行先ユーザーが見つからない場合
-    if to_user.nil?
-      render json: { error: "移行先ユーザーが見つかりません。" }, status: :not_found
-      return
-    end
+    # エラーチェック
+    return render_error("移行先ユーザーが見つかりません。", :not_found) if to_user.nil?
+    return render_error("移行先ユーザーと移行元ユーザーが同じです。", :bad_request) if current_user.id == to_user.id
+    return render_error("移行するチケットが見つかりません。", :not_found) if transfer_ticket.nil?
+    return render_error("期限切れのチケットです。", :bad_request) if transfer_ticket.ticket_view.event.date < Time.zone.now
+    return render_error("すでに移行済みのチケットです。", :bad_request) if already_transferred?(transfer_ticket)
 
-    # 移行先ユーザーと移行元ユーザーが同じ場合
-    if current_user.id == to_user.id
-      render json: { error: "移行先ユーザーと移行元ユーザーが同じです。" }, status: :not_found
-      return
-    end
-    
-    # 移行するチケットが見つからない場合
-    if transfer_ticket.nil?
-      render json: { error: "移行するチケットが見つかりません。" }, status: :not_found
-      return
-    end
-
-    # すでに移行済みのチケットの場合
-    if transfer_ticket.transfer_time.present? || transfer_ticket.ticket_view.transfers.where(status: ["sending", "completed"]).exists?
-      render json: { error: "すでに移行済みのチケットです。" }, status: :bad_request
-      return
-    end
-
-    # チケットの期限が切れている場合
-    if transfer_ticket.ticket_view.event.date > Time.zone.now
-      render json: { error: "期限切れのチケットです。" }, status: :bad_request
-      return
-    end
-
-    transfer = Transfer.create(
+    transfer = Transfer.new (
       from_user_id: current_user.id,
       to_user_id: to_user.id,
       ticket_view_id: transfer_ticket.ticket_view_id,
@@ -90,10 +67,10 @@ class Api::TicketsController < ApplicationController
       status: "sending"
     )
 
-    if transfer
+    if transfer.save
       render :send
     else
-      render json: { error: "Transferを作成中にエラーが発生しました。" }, status: :unprocessable_entity
+      render_error("Transferを作成中にエラーが発生しました", :unprocessable_entity)
     end
   end
 
@@ -174,5 +151,13 @@ class Api::TicketsController < ApplicationController
       render json: { error: "Missing parameter: #{e.message}" }, status: :bad_request
     rescue StandardError => e
       render json: { error: "Unexpected error occurred: #{e.message}" }, status: :internal_server_error
+  end
+
+  def render_error(message, status)
+    render json: { error: message }, status: status
+  end
+
+  def already_transferred?(ticket)
+    ticket.transfer_time.present? || ticket.ticket_view.transfers.where(status: ["sending", "completed"]).exists?
   end
 end
