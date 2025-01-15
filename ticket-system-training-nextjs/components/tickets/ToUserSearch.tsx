@@ -28,6 +28,7 @@ const ToUserSearch = ({cookie, ticketId}: ToUserSearchProps) => {
   const [toUserSearched, setToUserSearched] = useState<User | NotFoundUser| null>(null);
   const [isConfirm, setIsConfirm] = useState(false)
   const [isComplete, setIsComplete] = useState(false)
+  const [errorMessage, setErrorMessage] = useState(null)
   const [toUserSelected, setToUserSelected] = useState<User | null>(null)
   const router = useRouter()
 
@@ -70,10 +71,11 @@ const ToUserSearch = ({cookie, ticketId}: ToUserSearchProps) => {
   const handleSendButton = async () => {
     try {
       const response = await handleSendTicket();
-
-      console.log(response);
       
-      if(!response) return
+      if(response.error) {
+        setErrorMessage(response.error)
+        return
+      }
 
       setIsComplete(true)
 
@@ -81,7 +83,7 @@ const ToUserSearch = ({cookie, ticketId}: ToUserSearchProps) => {
         router.push("/?tab=sending")
       }, 1000)
     } catch(error) {
-      console.log(error);
+      
     }
   }
 
@@ -121,10 +123,15 @@ const ToUserSearch = ({cookie, ticketId}: ToUserSearchProps) => {
                 <span className="font-bold">{toUserSelected.email}</span>
               </div>
               <div className="mt-8 mb-4 text-center">
+                {errorMessage && (
+                  <p className="text-red-500 font-bold text-2xl">{errorMessage}が発生しました。<br/>再度チケットを送り直してください。</p>
+                )}
                 {isComplete? (
                   <span className="font-bold text-[#1eb98c] text-2xl">チケットを送りました</span>
                 ):(
-                  <Button onClick={handleSendButton} className="text-white rounded-full px-10 h-[42px] bg-[#1eb98c] border border-[#1eb98c] hover:opacity-70 hover:bg-[#1eb98c]">チケットを移行する</Button>
+                  <>
+                    {!errorMessage && (<Button onClick={handleSendButton} className="text-white rounded-full px-10 h-[42px] bg-[#1eb98c] border border-[#1eb98c] hover:opacity-70 hover:bg-[#1eb98c]">チケットを移行する</Button>)}
+                  </>
                 )}
               </div>
             </div>

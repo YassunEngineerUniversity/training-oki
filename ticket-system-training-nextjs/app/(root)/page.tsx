@@ -1,4 +1,3 @@
-import { getTicketsMine } from "@/actions/ticket/getTicketsMine";
 import { getTicketViewsMine } from "@/actions/ticketview/getTicketViewsMine";
 import { getCurrentUser } from "@/actions/user/getCurrentUser";
 import TabTickets from "@/components/tickets/TabTickets";

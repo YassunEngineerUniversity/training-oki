@@ -53,35 +53,13 @@ class Api::TicketViewsController < ApplicationController
     case @filter_params
     when "receive"
       @ticket_view = TicketView.includes(:tickets, :transfers).find_by(id: ticket_view_params)
-
-      @filtered_tickets = @ticket_view.tickets.map do |ticket|
-        transfer = ticket.transfer&.status == "sending" && ticket.transfer.to_user_id == current_user.id ? ticket.transfer : nil
-        to_user = transfer ? User.find_by(id: transfer.to_user_id) : nil
-        from_user = transfer ? User.find_by(id: transfer.from_user_id) : nil
-        
-        next if transfer.nil?
-
-        {ticket: ticket, to_user: to_user, from_user: from_user, transfer: transfer}
-      end.compact
+      @filtered_tickets = filter_receive_tickets(@ticket_view)
     when "sending"
       @ticket_view = current_user.ticket_views.includes(:tickets, :transfers).find_by(id: ticket_view_params)
-      @filtered_tickets = @ticket_view.tickets.map do |ticket|
-        transfer = ticket.transfer&.status == "sending" ? ticket.transfer : nil
-        to_user = transfer ? transfer.to_user : nil
-        from_user = transfer ? transfer.from_user : nil
-        
-        next if transfer.nil?
-
-        {ticket: ticket, to_user: to_user, from_user: from_user, transfer: transfer}
-      end.compact
+      @filtered_tickets = filter_sending_tickets(@ticket_view)
     else
       @ticket_view = current_user.ticket_views.includes(:tickets, :transfers).find_by(id: ticket_view_params)
-      @filtered_tickets = @ticket_view.tickets.map do |ticket|
-        transfer = ticket.transfer
-        to_user = transfer ? transfer.to_user : nil
-        from_user = transfer ? transfer.from_user : nil
-        {ticket: ticket, to_user: to_user, from_user: from_user, transfer: transfer}
-      end
+      @filtered_tickets = filter_tickets(@ticket_view)
     end
 
     if @ticket_view.nil?
@@ -218,6 +196,38 @@ class Api::TicketViewsController < ApplicationController
         if filtered_tickets.any?
           { ticket_view: ticket_view, tickets: filtered_tickets }
         end
+      end.compact
+    end
+
+    def filter_tickets(ticket_view)
+      ticket_view.tickets.map do |ticket|
+        transfer = ticket.transfer
+        to_user = transfer ? transfer.to_user : nil
+        from_user = transfer ? transfer.from_user : nil
+        {ticket: ticket, to_user: to_user, from_user: from_user, transfer: transfer}
+      end
+    end
+
+    def filter_sending_tickets(ticket_view)
+      ticket_view.tickets.map do |ticket|
+        transfer = ticket.transfer&.status == "sending" ? ticket.transfer : nil
+        to_user = transfer ? transfer.to_user : nil
+        from_user = transfer ? transfer.from_user : nil
+        
+        next if transfer.nil?
+
+        {ticket: ticket, to_user: to_user, from_user: from_user, transfer: transfer}
+      end.compact
+    end
+
+    def filter_receive_tickets(ticket_view)
+      @ticket_view.tickets.map do |ticket|
+        transfer = ticket.transfer&.status == "sending" && ticket.transfer.to_user_id == current_user.id ? ticket.transfer : nil
+        to_user = transfer ? transfer.to_user : nil
+        from_user = transfer ? transfer.from_user : nil
+        next if transfer.nil?
+
+        {ticket: ticket, to_user: transfer.to_user, from_user: transfer.from_user, transfer: transfer}
       end.compact
     end
 end

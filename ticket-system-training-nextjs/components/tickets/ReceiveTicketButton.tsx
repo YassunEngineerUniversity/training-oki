@@ -3,7 +3,6 @@
 import { receiveTicket } from "@/actions/ticket/receiveTicket"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
-import { boolean } from "zod"
 
 interface ReceiveTicketButtonProps {
   ticketId: string
@@ -17,7 +16,10 @@ export const ReceiveTicketButton = ({ticketId, setIsReceived}:ReceiveTicketButto
   const handleReciveButton = async () => {
     try {
       const response = await handleRecieveTicket();
-      if(!response) return
+      if(response.error) {
+        // task: 受け取りでErrorが出る場合のエラーハンドリング
+        return
+      }
 
       setIsReceived(true)
 

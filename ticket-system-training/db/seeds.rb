@@ -131,8 +131,8 @@ Ticket.create!([
   { used_time: nil, transfer_time: nil, play_guide_id: 4, ticket_type_id: 19, entrance_id: 1, ticket_view_id: 11 }, # ユーザD クラシックナイト 公演1
   { used_time: nil, transfer_time: nil, play_guide_id: 4, ticket_type_id: 21, entrance_id: 1, ticket_view_id: 12 }, # ユーザD クラシックナイト 公演2
   { used_time: nil, transfer_time: nil, play_guide_id: 4, ticket_type_id: 23, entrance_id: 3, ticket_view_id: 13 }, # ユーザE クラシックナイト 公演3
-  { used_time: nil, transfer_time: nil, play_guide_id: 1, ticket_type_id: 25, entrance_id: 3, ticket_view_id: 13 }, # ユーザE ロックフェスティバル 公演1
-  { used_time: nil, transfer_time: nil, play_guide_id: 1, ticket_type_id: 27, entrance_id: 3, ticket_view_id: 13 }, # ユーザE ロックフェスティバル 公演2
+  { used_time: nil, transfer_time: nil, play_guide_id: 1, ticket_type_id: 25, entrance_id: 3, ticket_view_id: 14 }, # ユーザE ロックフェスティバル 公演1
+  { used_time: nil, transfer_time: nil, play_guide_id: 1, ticket_type_id: 27, entrance_id: 3, ticket_view_id: 15 }, # ユーザE ロックフェスティバル 公演2
 ])
 
 # 座席データ挿入
@@ -141,7 +141,17 @@ Seat.create!([
   { seat_area: 'エリア2', seat_number: 102, ticket_id: 2 },
   { seat_area: 'エリア3', seat_number: 103, ticket_id: 3 },
   { seat_area: 'エリア4', seat_number: 104, ticket_id: 4 },
-  { seat_area: 'エリア5', seat_number: 105, ticket_id: 5 }
+  { seat_area: 'エリア5', seat_number: 105, ticket_id: 5 },
+  { seat_area: 'エリア1', seat_number: 101, ticket_id: 6 },
+  { seat_area: 'エリア2', seat_number: 102, ticket_id: 7 },
+  { seat_area: 'エリア3', seat_number: 103, ticket_id: 8 },
+  { seat_area: 'エリア4', seat_number: 104, ticket_id: 9 },
+  { seat_area: 'エリア5', seat_number: 105, ticket_id: 10 },
+  { seat_area: 'エリア1', seat_number: 101, ticket_id: 11 },
+  { seat_area: 'エリア2', seat_number: 102, ticket_id: 12 },
+  { seat_area: 'エリア3', seat_number: 103, ticket_id: 13 },
+  { seat_area: 'エリア4', seat_number: 104, ticket_id: 14 },
+  { seat_area: 'エリア5', seat_number: 105, ticket_id: 15 }
 ])
 
 # 特典データ挿入
