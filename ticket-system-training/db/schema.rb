@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_01_15_065101) do
+ActiveRecord::Schema[7.2].define(version: 2025_01_15_065601) do
   create_table "benefits", force: :cascade do |t|
     t.string "name"
     t.text "details"
@@ -102,7 +102,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_15_065101) do
     t.datetime "transfer_time"
     t.integer "ticket_type_id", null: false
     t.integer "entrance_id", null: false
-    t.integer "ticket_view_id"
+    t.integer "ticket_view_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "play_guide_id"
