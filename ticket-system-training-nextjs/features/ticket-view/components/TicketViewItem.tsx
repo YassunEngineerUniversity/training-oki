@@ -1,3 +1,4 @@
+import { createTicketViewItemUrl } from '@/features/ticket-view/utils/createTicketViewItemUrl';
 import { TicketViewsMine } from '@/types/ticektView/types';
 import { formatDate } from '@/utils/formatDate';
 import { formatTime } from '@/utils/formatTime';
@@ -10,23 +11,11 @@ interface TicketViewItemProps {
 }
 
 const TicketVeiwItem = ({ticketView, tabValue}:TicketViewItemProps) => {
-  let ticketItemLink = ""
-  
-  switch (tabValue) {
-    case "sending":
-      ticketItemLink = `/ticket_view/${ticketView.id}/transfer`
-      break;
-    case "receive":
-      ticketItemLink = `/ticket_view/${ticketView.id}/receive`
-      break;
-    default:
-      ticketItemLink = `/ticket_view/${ticketView.id}`
-      break;
-  }
+  const ticketViewItemUrl = createTicketViewItemUrl(tabValue, ticketView.id)
 
   return (
     <div className="bg-white px-4 py-4 rounded-2xl shadow-lg">
-      <Link href={ticketItemLink}>
+      <Link href={ticketViewItemUrl}>
         <div className="mb-2">
           <h3 className="text-2xl font-bold">{ticketView.event.name}</h3>
         </div>

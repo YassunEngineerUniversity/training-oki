@@ -1,4 +1,4 @@
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Event } from "@/types/event/types"
 import { formatDate } from "@/utils/formatDate"
 import { formatTime } from "@/utils/formatTime"

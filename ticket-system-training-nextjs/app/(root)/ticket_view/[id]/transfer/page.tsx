@@ -1,9 +1,7 @@
-import { getServerCookie } from "@/actions/cookies/getServerCookie";
 import { getTicketViewDetail } from "@/actions/ticketview/getTicketViewDetail";
 import { getCurrentUser } from "@/actions/user/getCurrentUser";
-import SendingTicketDetail from "@/components/tickets/SendingTicketDetail";
-
-import TicketEventCard from "@/components/tickets/TicketEventCard";
+import SendingTicketItem from "@/features/ticket-view/components/SendingTicketItem";
+import TicketEventCard from "@/features/ticket-view/components/TicketEventCard";
 import { SendingTicket, Ticket } from "@/types/Ticket/types";
 import { redirect } from "next/navigation";
 
@@ -27,7 +25,7 @@ const TicketViewTransferDetailPage = async ({
         <TicketEventCard event={ticektView.event}/>
         <div className="mt-4 space-y-5">
           {ticektView.tickets?.map((ticket:SendingTicket) => (
-            <SendingTicketDetail ticket={ticket} key={ticket.id}/>
+            <SendingTicketItem ticket={ticket} key={ticket.id}/>
           ))}
         </div>
       </div>

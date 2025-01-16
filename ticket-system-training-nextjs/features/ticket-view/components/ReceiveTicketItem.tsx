@@ -1,7 +1,8 @@
 "use client"
 
-import { ReceiveTicketConfirmModal } from "@/components/tickets/ReceiveTicketConfirmModal"
+
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
+import { ReceiveTicketConfirmModal } from "@/features/ticket-view/components/ReceiveTicketConfirmModal"
 import { Event } from "@/types/event/types"
 import { TicketDetail } from "@/types/Ticket/types"
 
@@ -10,7 +11,7 @@ interface SendingTicketDetailProps {
   event: Event
 }
 
-const RecieveTicketDetail = ({ticket, event}:SendingTicketDetailProps) => {
+const RecieveTicketItem = ({ticket, event}:SendingTicketDetailProps) => {
   return (
     <div>
       <Card>
@@ -38,4 +39,4 @@ const RecieveTicketDetail = ({ticket, event}:SendingTicketDetailProps) => {
   )
 }
 
-export default RecieveTicketDetail
+export default RecieveTicketItem

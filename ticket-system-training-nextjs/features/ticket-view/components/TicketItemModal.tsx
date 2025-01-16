@@ -1,18 +1,19 @@
-import { SlidingButton } from "@/components/tickets/SlidingButton"
+
 import { Button } from "@/components/ui/button"
 import { DialogHeader, Dialog, DialogContent, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog"
+import { SlidingButton } from "@/features/ticket-view/components/SlidingButton"
 import { Event } from "@/types/event/types"
 import { Ticket } from "@/types/Ticket/types"
 import { formatDate } from "@/utils/formatDate"
 import { DialogClose } from "@radix-ui/react-dialog"
 
-interface TicketDetailModalProps {
+interface TicketItemModalProps {
   username: string
   ticket: Ticket
   event: Event
 }
 
-const TicketDetailModal = ({username, ticket, event}: TicketDetailModalProps) => {
+const TicketItemModal = ({username, ticket, event}: TicketItemModalProps) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -72,4 +73,4 @@ const TicketDetailModal = ({username, ticket, event}: TicketDetailModalProps) =>
   )
 }
 
-export default TicketDetailModal
+export default TicketItemModal

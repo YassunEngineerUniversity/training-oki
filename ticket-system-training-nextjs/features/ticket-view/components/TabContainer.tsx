@@ -1,8 +1,8 @@
-interface TabTicketsContainerProps {
+interface TabContainerProps {
   children: React.ReactNode
 }
 
-const TabTicketsContainer = ({children}: TabTicketsContainerProps) => {
+const TabContainer = ({children}: TabContainerProps) => {
   return (
     <div className="flex justify-center mt-10 border-b-[3px] border-[#e2e8ea]">
       <div className="flex justify-between">
@@ -12,4 +12,4 @@ const TabTicketsContainer = ({children}: TabTicketsContainerProps) => {
   )
 }
 
-export default TabTicketsContainer
+export default TabContainer

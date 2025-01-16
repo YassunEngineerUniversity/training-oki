@@ -1,12 +1,11 @@
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
-import { TicketViewsMine } from "@/types/ticektView/types"
-import { SendingTicket, Ticket } from "@/types/Ticket/types"
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import { SendingTicket } from "@/types/Ticket/types"
 
 interface SendingTicketDetailProps {
   ticket: SendingTicket
 }
 
-const SendingTicketDetail = ({ticket}:SendingTicketDetailProps) => {
+const SendingTicketItem = ({ticket}:SendingTicketDetailProps) => {
   return (
     <div>
       <Card>
@@ -31,4 +30,4 @@ const SendingTicketDetail = ({ticket}:SendingTicketDetailProps) => {
   )
 }
 
-export default SendingTicketDetail
+export default SendingTicketItem

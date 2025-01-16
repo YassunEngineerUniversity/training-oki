@@ -1,12 +1,12 @@
 import { getServerCookie } from "@/actions/cookies/getServerCookie";
 import { getTicketViewDetail } from "@/actions/ticketview/getTicketViewDetail";
 import { getCurrentUser } from "@/actions/user/getCurrentUser";
-import TicketDetail from "@/components/tickets/TicketDetail";
+import TicketEventCard from "@/features/ticket-view/components/TicketEventCard";
+import TicketList from "@/features/ticket-view/components/TicketList";
 
-import TicketEventCard from "@/components/tickets/TicketEventCard";
 import { redirect } from "next/navigation";
 
-const TicketDetailPage = async ({
+const TicketVeiwDetailPage = async ({
   params,
   searchParams
 }: {
@@ -32,7 +32,7 @@ const TicketDetailPage = async ({
         <h2 className="text-center text-base font-bold mb-4">チケット詳細</h2>
         <TicketEventCard event={ticektView.event}/>
         <div className="mt-4">
-          <TicketDetail 
+          <TicketList
             cookie={cookie} 
             username={currentUser.name} 
             ticketView={ticektView} 
@@ -44,4 +44,4 @@ const TicketDetailPage = async ({
   )
 }
 
-export default TicketDetailPage
+export default TicketVeiwDetailPage

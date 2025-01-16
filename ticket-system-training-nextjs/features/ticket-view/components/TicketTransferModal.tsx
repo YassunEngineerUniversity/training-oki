@@ -1,10 +1,11 @@
 import { Button } from "@/components/ui/button"
 import { DialogHeader, Dialog, DialogContent, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog"
+import ToUserSearch from "@/features/ticket-view/components/ToUserSearch"
 import { Event } from "@/types/event/types"
 import { Ticket } from "@/types/Ticket/types"
 import { formatDate } from "@/utils/formatDate"
 import { DialogClose } from "@radix-ui/react-dialog"
-import ToUserSearch from '@/components/tickets/ToUserSearch'
+
 
 interface TicketTransferModalProps {
   username: string
@@ -47,7 +48,7 @@ const TicketTransferModal = ({username, ticket, event, cookie}: TicketTransferMo
             </div>
           </div>
           <div className="mt-6">
-            <ToUserSearch 
+            <ToUserSearch
               cookie={cookie}
               ticketId={ticket.id}
             />

@@ -4,17 +4,17 @@ import { TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-const tabs = [
+const TABS = [
   { value: 'mine', label: 'チケットをお持ちの公演' },
   { value: 'sending', label: '譲渡' },
-  { value: 'receive', label: 'チケット受け取り' },
+  { value: 'receive', label: 'チケット受け取り'}
 ]
 
 interface TabTicketsProps {
   tab: string
 }
 
-const TabTickets = ({tab}:TabTicketsProps) => {
+const Tab = ({tab}:TabTicketsProps) => {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState(tab)
 
@@ -36,7 +36,7 @@ const TabTickets = ({tab}:TabTicketsProps) => {
   };
   return (
     <TabsList className="w-[560px] mx-auto h-full my-0 bg-white grid grid-cols-3 p-0 mb-[-3px]">
-      {tabs.map((tab) => (
+      {TABS.map((tab) => (
         <TabsTrigger
           className={`px-1 py-3 rounded-none text-base font-bold shadow-none data-[state=active]:shadow-none transition-all ${
                 activeTab === tab.value
@@ -54,4 +54,4 @@ const TabTickets = ({tab}:TabTicketsProps) => {
   );
 };
 
-export default TabTickets;
+export default Tab;

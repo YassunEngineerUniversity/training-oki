@@ -1,4 +1,5 @@
-import TicketVeiwItem from '@/components/tickets/TicketVeiwItem'
+
+import TicketVeiwItem from '@/features/ticket-view/components/TicketViewItem'
 import { TicketViewsMine } from '@/types/ticektView/types'
 
 interface TicketVeiwListProps {

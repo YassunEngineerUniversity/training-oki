@@ -1,7 +1,8 @@
 "use client"
-import { ReceiveTicketButton } from "@/components/tickets/ReceiveTicketButton"
+
 import { Button } from "@/components/ui/button"
 import { DialogHeader, Dialog, DialogContent, DialogTitle, DialogTrigger, DialogFooter, DialogClose } from "@/components/ui/dialog"
+import { ReceiveTicketButton } from "@/features/ticket-view/components/ReceiveTicketButton"
 import { Event } from "@/types/event/types"
 import { TicketDetail } from "@/types/Ticket/types"
 import { formatDate } from "@/utils/formatDate"

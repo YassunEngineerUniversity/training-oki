@@ -11,7 +11,7 @@ class Api::TicketsController < ApplicationController
     end
 
     # 消し込み処理
-    if process_ticket_usage(ticket)
+    if update_ticket_used(ticket)
       render :used
     else
       render json: { error: "消し込み処理中にエラーが発生しました。" }, status: :unprocessable_entity
@@ -117,7 +117,7 @@ class Api::TicketsController < ApplicationController
     ticket.used_time.present?
   end
 
-  def process_ticket_usage(ticket)
+  def update_ticket_used(ticket)
     ticket.update(used_time: Time.zone.now)
   end
 

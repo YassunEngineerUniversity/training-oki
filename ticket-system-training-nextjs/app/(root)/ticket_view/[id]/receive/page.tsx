@@ -1,8 +1,8 @@
 import { getTicketViewDetail } from "@/actions/ticketview/getTicketViewDetail";
 import { getCurrentUser } from "@/actions/user/getCurrentUser";
-import RecieveTicketDetail from "@/components/tickets/ReceiveTicketDetail";
+import RecieveTicketItem from "@/features/ticket-view/components/ReceiveTicketItem";
+import TicketEventCard from "@/features/ticket-view/components/TicketEventCard";
 
-import TicketEventCard from "@/components/tickets/TicketEventCard";
 import { TicketDetail } from "@/types/Ticket/types";
 import { redirect } from "next/navigation";
 
@@ -27,7 +27,7 @@ const TicketViewReceiveDetailPage = async ({
         <TicketEventCard event={ticektView.event}/>
         <div className="mt-4 space-y-5">
           {ticektView.tickets?.map((ticket:TicketDetail) => (
-            <RecieveTicketDetail event={ticektView.event} ticket={ticket} key={ticket.id}/>
+            <RecieveTicketItem event={ticektView.event} ticket={ticket} key={ticket.id}/>
           ))}
         </div>
       </div>

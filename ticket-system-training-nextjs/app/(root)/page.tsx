@@ -1,10 +1,10 @@
 import { getTicketViewsMine } from "@/actions/ticketview/getTicketViewsMine";
 import { getCurrentUser } from "@/actions/user/getCurrentUser";
-import TabTickets from "@/components/tickets/TabTickets";
-import TabTicketsContainer from "@/components/tickets/TabTicketsContainer";
-import TicketVeiwList from "@/components/tickets/TicketVeiwList";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import UserInformation from "@/components/utils/UserInformation";
+import Tab from "@/features/ticket-view/components/Tab";
+import TabContainer from "@/features/ticket-view/components/TabContainer";
+import TicketVeiwList from "@/features/ticket-view/components/TicketViewList";
 import { redirect } from "next/navigation";
 
 
@@ -16,7 +16,7 @@ const HomePage = async ({
   const currentUser = await getCurrentUser();
   let ticketVeiws = null
   const tab = (await searchParams).tab;
-  let tabValue = '';
+  let tabValue = "";
 
   if(!currentUser) {
     redirect("/login")
@@ -42,9 +42,9 @@ const HomePage = async ({
     <div>
       <UserInformation user={currentUser}/>
       <Tabs defaultValue={tabValue}>
-        <TabTicketsContainer>
-          <TabTickets tab={tabValue}/>
-        </TabTicketsContainer>
+        <TabContainer>
+          <Tab tab={tabValue}/>
+        </TabContainer>
         <TabsContent value={"mine"} className="bg-[#f1f3f5] mt-0 min-h-[60vh]">
           <TicketVeiwList tabValue={tabValue} ticketViews={ticketVeiws}/>
         </TabsContent>
