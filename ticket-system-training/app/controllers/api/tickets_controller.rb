@@ -3,23 +3,15 @@ class Api::TicketsController < ApplicationController
 
   def used
     ticket_params = params[:id]
-
     ticket = current_user.tickets.find_by(id: ticket_params)
 
-    # チケットが見つからない場合
-    unless ticket
-      render json: { error: "チケットが存在しないです。" }, status: :not_found
-      return
-    end
-
-    # すでに消し込み済みであるかのチェック（nilではないか or 空ではないか）
-    if ticket.used_time.present?
-      render json: { error: "すでに消し込み済みのチケットです。" }, status: :unprocessable_entity
-      return
+    return render_error("チケットが見つかりません", :not_found) if ticket.nil?
+    if ticket_already_used?(ticket)
+      return render_error("すでに消し込み済みのチケットです。", :unprocessable_entity)
     end
 
     # 消し込み処理
-    if ticket.update(used_time: Time.zone.now)
+    if process_ticket_usage(ticket)
       render :used
     else
       render json: { error: "消し込み処理中にエラーが発生しました。" }, status: :unprocessable_entity
@@ -33,22 +25,12 @@ class Api::TicketsController < ApplicationController
     to_user = User.find_by(id: transfer_to_user_params[:id])
     transfer_ticket = current_user.tickets.find_by(id: ticket_params)
 
-    # 移行先、移行するチケットが見つからない場合
-    unless to_user || transfer_ticket
-      render json: { error: "指定されたリソースが見つかりません。" }, status: :not_found
-      return
-    end
-
-    # すでに移行済みのチケットの場合
-    if transfer_ticket.transfer_time.present?
-      render json: { error: "すでに移行済みのチケットです。" }, status: :bad_request
-      return
-    end
-
-    if current_user.sent_transfers.exists?(to_user_id: to_user.id, ticket_view_id: transfer_ticket.ticket_view_id, ticket_id: transfer_ticket.id)
-      render json: { error: "すでにTransferが作成されています" }, status: :bad_request
-      return
-    end
+    # エラーチェック
+    return render_error("移行先ユーザーが見つかりません。", :not_found) if to_user.nil?
+    return render_error("移行先ユーザーと移行元ユーザーが同じです。", :bad_request) if current_user.id == to_user.id
+    return render_error("移行するチケットが見つかりません。", :not_found) if transfer_ticket.nil?
+    return render_error("期限切れのチケットです。", :bad_request) if transfer_ticket.ticket_view.event.date < Time.zone.now
+    return render_error("すでに移行済みのチケットです。", :bad_request) if ticket_already_transferred?(transfer_ticket)
 
     transfer = Transfer.create(
       from_user_id: current_user.id,
@@ -58,10 +40,10 @@ class Api::TicketsController < ApplicationController
       status: "sending"
     )
 
-    if transfer
+    if transfer.persisted?
       render :send
     else
-      render json: { error: "Transferを作成中にエラーが発生しました。" }, status: :unprocessable_entity
+      render_error("Transferを作成中にエラーが発生しました", :unprocessable_entity)
     end
   end
 
@@ -74,39 +56,41 @@ class Api::TicketsController < ApplicationController
       receive_user_transfer = receive_user.received_transfers.find_by(to_user_id: receive_user.id, ticket_id: ticket_params)
       from_user = User.find_by(id: receive_user_transfer.from_user_id)
 
-      unless from_user
-        render json: { error: "移行元ユーザが存在しません。" }, status: :bad_request
-        return
-      end
-
-      if receive_user == from_user
-        render json: { error: "移行元と移行先が同じです。" }, status: :bad_request
-        return
-      end
+      # エラーチェック
+      return render_error("移行先ユーザーが見つかりません。", :not_found) if from_user.nil?
+      return render_error("移行先ユーザーと移行元ユーザーが同じです。", :bad_request) if receive_user.id == from_user.id
+      return render_error("移行情報がありません。", :not_found) if receive_user_transfer.nil?
       
+      # 移行するチケットの取得
       transfer_ticket = from_user.tickets.find_by(id: receive_user_transfer.ticket_id)
-      
+      before_transfer_ticket_id = transfer_ticket.ticket_view_id
+
+      # 移行するチケットが存在しない場合
+      return render_error("移行するチケットが見つかりません。", :not_found) if transfer_ticket.nil?
+
+      # すでに移行済みの場合
+      return render_error("すでに受け取り済みのチケットです。", :bad_request) if ticket_already_received?(transfer_ticket)
+
       # 移行先がすでにticket_viewを持っているか確認
       receive_user_ticket_view = receive_user.ticket_views.find_by(user_id: receive_user.id, event_id: transfer_ticket.ticket_view.event_id)
   
       # 移行先がチケットビューを持たない場合に新規作成
-      unless receive_user_ticket_view
+      if receive_user_ticket_view.nil?
         receive_user_ticket_view = TicketView.create!(user_id: receive_user.id, event_id: transfer_ticket.ticket_view.event_id)
       end
 
-      # チケットの移行時間の書き込みとチケットビューの更新
+       # チケットの移行時間の書き込みとチケットビューの更新
       transfer_ticket.update!(transfer_time: Time.zone.now, ticket_view_id: receive_user_ticket_view.id)
+
+      # DBから最新の状態を取得
+      transfer_ticket.reload
+
+      # 移行ステータスをsendingからcompleted、チケットビューを変更
+      receive_user_transfer.update!(ticket_view_id:transfer_ticket.ticket_view_id, status: "completed")
   
-      # 移行元が移行したチケットと同じチケットビューを持っているかどうかチェック（移行したチケットは除く）
-      from_user_ticket = from_user.tickets.where(ticket_view_id: transfer_ticket.ticket_view.id).where.not(id: transfer_ticket.id)
-  
-      if from_user_ticket.empty?
-        from_user_ticket_view = from_user.ticket_views.find_by(user_id: from_user.id, event_id: transfer_ticket.ticket_view.event_id)
-        from_user_ticket_view.destroy if from_user_ticket_view.present?
-      end
-  
-      # 移行ステータスをsendingからcompletedに変更
-      receive_user_transfer.update!(status: "completed")
+      # 移行元ユーザーのチケットビューが存在しており、紐づいているチケットが存在しない場合
+      from_user_ticket_view = from_user.ticket_views.find_by(id: before_transfer_ticket_id)
+      destroy_empty_ticket_view(from_user_ticket_view)
      end
 
     render :receive
@@ -119,5 +103,31 @@ class Api::TicketsController < ApplicationController
       render json: { error: "Missing parameter: #{e.message}" }, status: :bad_request
     rescue StandardError => e
       render json: { error: "Unexpected error occurred: #{e.message}" }, status: :internal_server_error
+  end
+
+  def ticket_already_transferred?(ticket)
+    ticket.transfer_time.present? || ticket.ticket_view.transfers.where(status: ["sending", "completed"]).exists?
+  end
+
+  def ticket_already_received?(ticket)
+    current_user.received_transfers.find_by(ticket_id: ticket.id, status: "completed")
+  end
+
+  def ticket_already_used?(ticket)
+    ticket.used_time.present?
+  end
+
+  def process_ticket_usage(ticket)
+    ticket.update(used_time: Time.zone.now)
+  end
+
+  def destroy_empty_ticket_view(ticket_view)
+    if ticket_view && ticket_view.tickets.empty?
+      ticket_view.destroy
+    end
+  end
+
+  def render_error(message, status)
+    render json: { error: message }, status: status
   end
 end

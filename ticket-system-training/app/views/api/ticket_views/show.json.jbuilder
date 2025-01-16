@@ -16,10 +16,42 @@ json.event do
     json.name @ticket_view.event.show.name
   end
 end
-json.tickets @ticket_view.tickets do |ticket|
+
+json.tickets @filtered_tickets do | filtered_ticket |
+  ticket = filtered_ticket[:ticket]
+  to_user = filtered_ticket[:to_user]
+  from_user = filtered_ticket[:from_user]
+  transfer = filtered_ticket[:transfer]
+
   json.id ticket.id
   json.used_time ticket.used_time
   json.transfer_time ticket.transfer_time
+
+  if transfer.nil?
+    json.status nil
+  else
+    json.status transfer.status
+  end
+
+  if to_user.nil?
+    json.to_user nil
+  else
+    json.to_user do
+      json.id to_user.id
+      json.name to_user.name
+      json.email to_user.email
+    end
+  end
+
+  if from_user.nil?
+    json.from_user nil
+  else
+    json.from_user do
+      json.id from_user.id
+      json.name from_user.name
+      json.email from_user.email
+    end
+  end
 
   json.ticket_type do
     json.id ticket.ticket_type.id
@@ -43,3 +75,5 @@ json.tickets @ticket_view.tickets do |ticket|
     json.name ticket.play_guide.name
   end
 end
+
+

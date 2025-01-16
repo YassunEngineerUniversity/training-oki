@@ -1,9 +1,9 @@
-"use server";
+"use server"
 
 import { getServerCookie } from "@/actions/cookies/getServerCookie";
 
-export const updateUsed = async (id: string) => {
-  const endpoint = process.env.NEXT_PUBLIC_API_ENDPOINT + `/api/tickets/${id}/used`;
+export const receiveTicket = async (ticketId:string) => {
+  const endpoint = process.env.NEXT_PUBLIC_API_ENDPOINT + `/api/tickets/${ticketId}/receive`;
   const cookies = await getServerCookie();
 
   const response = await fetch(endpoint, {
@@ -12,13 +12,14 @@ export const updateUsed = async (id: string) => {
       'Content-Type': 'application/json',
       Cookie: cookies,
     },
-    credentials: 'include',
+    credentials: 'include'
   });
 
   if (!response.ok) {
+    const error = await response.json()
     return null;
   }
 
-  const ticketUsed = await response.json();
-  return ticketUsed
+  const message = await response.json()
+  return message
 }

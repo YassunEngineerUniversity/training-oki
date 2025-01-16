@@ -4,7 +4,7 @@ class Api::TicketViewsController < ApplicationController
   before_action :authenticate_play_guide, only: [:create]
 
   # その他は内部APIでログインしていないとエンドポイントにアクセスできない
-  before_action :authenticate_user!, only: [:me]
+  before_action :authenticate_user!, only: [:show, :mine, :index]
 
   def index
     # パラメータの取得
@@ -46,26 +46,46 @@ class Api::TicketViewsController < ApplicationController
     end
   end
 
-  def me
+  def show
     ticket_view_params = params[:id]
-    @ticket_views = current_user.ticket_views.joins(tickets: :play_guide, event: :show).includes(tickets: { play_guide: {} }, event: { show: {} })
-    @ticket_view = @ticket_views.find_by(id: ticket_view_params)
+    @filter_params = params[:filter]
 
-    if @ticket_view
-      render :me
+    case @filter_params
+    when "receive"
+      @ticket_view = TicketView.includes(:tickets, :transfers).find_by(id: ticket_view_params)
+      @filtered_tickets = filter_receive_tickets(@ticket_view)
+    when "sending"
+      @ticket_view = current_user.ticket_views.includes(:tickets, :transfers).find_by(id: ticket_view_params)
+      @filtered_tickets = filter_sending_tickets(@ticket_view)
     else
+      @ticket_view = current_user.ticket_views.includes(:tickets, :transfers).find_by(id: ticket_view_params)
+      @filtered_tickets = filter_tickets(@ticket_view)
+    end
+
+    if @ticket_view.nil?
       render json: { error: "チケットビューが存在しないです。" }, status: :not_found
+    else
+      render :show
     end
   end
 
   # ログインしているユーザのチケットビュー一覧
   def mine
-    @ticket_views = current_user.ticket_views
+    @filter_params = params[:filter]
 
-    if @ticket_views
-      render :mine
+    case @filter_params
+    when "receive"
+      load_receive_ticket_views
+    when "sending"
+      load_ticket_views_with_sending
     else
+      load_ticket_views_without_sending
+    end
+
+    if @ticket_views.nil? || @ticket_views.empty?
       render json: { error: "チケットビューが存在しないです。" }, status: :not_found
+    else
+      render :mine
     end
   end
 
@@ -141,4 +161,73 @@ class Api::TicketViewsController < ApplicationController
     rescue StandardError => e
       render json: { error: "Unexpected error occurred: #{e.message}" }, status: :internal_server_error
   end
+
+  private
+    # ログインユーザが受け取り可能なチケットビューをロード
+    def load_receive_ticket_views
+      current_user_received_transfers = current_user.received_transfers.includes(:ticket_view).where(status: "sending")
+
+      @ticket_views = current_user_received_transfers.map do |transfer|
+        { ticket_view: transfer.ticket_view, tickets: transfer.ticket_view.tickets }
+      end
+    end
+
+    # 譲渡中のチケットビューをロード
+    def load_ticket_views_with_sending
+      @ticket_views = filter_ticket_views(current_user.ticket_views) do |ticket_view, ticket|
+        ticket_view.transfers.find_by(ticket_id: ticket.id, status: "sending")
+      end
+    end
+
+    # 譲渡中でないチケットビューをロード
+    def load_ticket_views_without_sending
+      @ticket_views = filter_ticket_views(current_user.ticket_views) do |ticket_view, ticket|
+        ticket_view.transfers.find_by(ticket_id: ticket.id, status: "sending").nil?
+      end
+    end
+
+    # 共通のフィルタリングロジック
+    def filter_ticket_views(ticket_views)
+      ticket_views.includes(:tickets, :transfers).map do |ticket_view|
+        filtered_tickets = ticket_view.tickets.select do |ticket|
+          yield(ticket_view, ticket) # 条件ブロックを実行
+        end
+    
+        if filtered_tickets.any?
+          { ticket_view: ticket_view, tickets: filtered_tickets }
+        end
+      end.compact
+    end
+
+    def filter_tickets(ticket_view)
+      ticket_view.tickets.map do |ticket|
+        transfer = ticket.transfer
+        to_user = transfer ? transfer.to_user : nil
+        from_user = transfer ? transfer.from_user : nil
+        {ticket: ticket, to_user: to_user, from_user: from_user, transfer: transfer}
+      end
+    end
+
+    def filter_sending_tickets(ticket_view)
+      ticket_view.tickets.map do |ticket|
+        transfer = ticket.transfer&.status == "sending" ? ticket.transfer : nil
+        to_user = transfer ? transfer.to_user : nil
+        from_user = transfer ? transfer.from_user : nil
+        
+        next if transfer.nil?
+
+        {ticket: ticket, to_user: to_user, from_user: from_user, transfer: transfer}
+      end.compact
+    end
+
+    def filter_receive_tickets(ticket_view)
+      @ticket_view.tickets.map do |ticket|
+        transfer = ticket.transfer&.status == "sending" && ticket.transfer.to_user_id == current_user.id ? ticket.transfer : nil
+        to_user = transfer ? transfer.to_user : nil
+        from_user = transfer ? transfer.from_user : nil
+        next if transfer.nil?
+
+        {ticket: ticket, to_user: transfer.to_user, from_user: transfer.from_user, transfer: transfer}
+      end.compact
+    end
 end

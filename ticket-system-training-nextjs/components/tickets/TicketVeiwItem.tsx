@@ -4,14 +4,29 @@ import { formatTime } from '@/utils/formatTime';
 import { MapPinHouse, Clock4 } from 'lucide-react';
 import Link from 'next/link';
 
-interface TicketItemProps {
+interface TicketViewItemProps {
   ticketView: TicketViewsMine
+  tabValue: string
 }
 
-const TicketItem = ({ticketView}:TicketItemProps) => {
+const TicketVeiwItem = ({ticketView, tabValue}:TicketViewItemProps) => {
+  let ticketItemLink = ""
+  
+  switch (tabValue) {
+    case "sending":
+      ticketItemLink = `/ticket_view/${ticketView.id}/transfer`
+      break;
+    case "receive":
+      ticketItemLink = `/ticket_view/${ticketView.id}/receive`
+      break;
+    default:
+      ticketItemLink = `/ticket_view/${ticketView.id}`
+      break;
+  }
+
   return (
     <div className="bg-white px-4 py-4 rounded-2xl shadow-lg">
-      <Link href={`/ticket_view/${ticketView.id}`}>
+      <Link href={ticketItemLink}>
         <div className="mb-2">
           <h3 className="text-2xl font-bold">{ticketView.event.name}</h3>
         </div>
@@ -34,4 +49,4 @@ const TicketItem = ({ticketView}:TicketItemProps) => {
   )
 }
 
-export default TicketItem
+export default TicketVeiwItem

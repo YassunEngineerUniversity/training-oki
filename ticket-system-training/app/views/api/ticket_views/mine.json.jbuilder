@@ -1,4 +1,7 @@
-json.array! @ticket_views do |ticket_view|
+json.array! @ticket_views do |ticket_view_data|
+  ticket_view = ticket_view_data[:ticket_view]
+  tickets = ticket_view_data[:tickets]
+
   json.id ticket_view.id
   json.user_id ticket_view.user_id
 
@@ -17,7 +20,8 @@ json.array! @ticket_views do |ticket_view|
       json.name ticket_view.event.show.name
     end
   end
-  json.tickets ticket_view.tickets do |ticket|
+
+  json.tickets tickets do |ticket|
     json.id ticket.id
     json.used_time ticket.used_time
     json.transfer_time ticket.transfer_time

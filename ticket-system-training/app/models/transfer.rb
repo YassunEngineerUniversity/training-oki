@@ -13,6 +13,7 @@
 #
 class Transfer < ApplicationRecord
   belongs_to :ticket_view
+  belongs_to :ticket
   belongs_to :from_user, class_name: 'User', foreign_key: 'from_user_id'
   belongs_to :to_user, class_name: 'User', foreign_key: 'to_user_id'
 end
