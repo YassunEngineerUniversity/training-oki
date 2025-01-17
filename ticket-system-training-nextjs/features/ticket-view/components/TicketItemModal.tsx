@@ -1,19 +1,32 @@
 
+"use client"
+
 import { Button } from "@/components/ui/button"
 import { DialogHeader, Dialog, DialogContent, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog"
 import { SlidingButton } from "@/features/ticket-view/components/SlidingButton"
 import { Event } from "@/types/event/types"
-import { Ticket } from "@/types/Ticket/types"
+import { Ticket, TicketDetail } from "@/types/Ticket/types"
 import { formatDate } from "@/utils/formatDate"
 import { DialogClose } from "@radix-ui/react-dialog"
+import { useState } from "react"
 
 interface TicketItemModalProps {
   username: string
-  ticket: Ticket
+  ticket: TicketDetail
   event: Event
+  setTicketState: React.Dispatch<React.SetStateAction<TicketDetail>>
 }
 
-const TicketItemModal = ({username, ticket, event}: TicketItemModalProps) => {
+const TicketItemModal = ({username, ticket, event, setTicketState}: TicketItemModalProps) => {
+  // チケットの状態の消し込みを行う
+  const handleUpdateTicketUsed = () => {
+    const now = new Date().toISOString();
+    setTicketState((prev) => ({
+      ...prev,
+      used_time: now,
+    }));
+  }
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -55,7 +68,7 @@ const TicketItemModal = ({username, ticket, event}: TicketItemModalProps) => {
               <div className="mt-10">
                 <p className="text-lg text-center font-bold text-red-500 mb-4">入場するときにスタッフを見せてください。<br/>スタッフが消し込みを行います。</p>
                 <div className="flex justify-center">
-                  <SlidingButton ticketId={ticket.id}/>
+                  <SlidingButton updateUsedState={handleUpdateTicketUsed} ticketId={ticket.id}/>
                 </div>
               </div>
             )}

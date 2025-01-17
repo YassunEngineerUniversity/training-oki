@@ -13,18 +13,16 @@ const TicketVeiwDetailPage = async ({
   params: Promise<{ id: string }>,
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) => {
-  const currentUser = await getCurrentUser();
   const ticektViewId = (await params).id;
-  const ticektView = await getTicketViewDetail(ticektViewId);
   const emailParams = (await searchParams).email
 
+  const currentUser = await getCurrentUser();
+  const ticektView = await getTicketViewDetail(ticektViewId);
   const cookie = await getServerCookie();
 
   if (!currentUser) {
     redirect('/login');
   }
-
-  console.log(ticektView);
   
   return (
     <div className="bg-[#f1f3f5] min-h-[80vh] py-8">
@@ -36,7 +34,6 @@ const TicketVeiwDetailPage = async ({
             cookie={cookie} 
             username={currentUser.name} 
             ticketView={ticektView} 
-            params={emailParams}
           />
         </div>
       </div>
