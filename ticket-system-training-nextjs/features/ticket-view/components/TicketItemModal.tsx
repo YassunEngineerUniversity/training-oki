@@ -17,7 +17,7 @@ interface TicketItemModalProps {
 }
 
 const TicketItemModal = ({username, ticket, event, setTicketState}: TicketItemModalProps) => {
-  // チケットの状態の消し込みを行う
+  // チケットの状態の消し込み
   const handleUpdateTicketUsed = () => {
     const now = new Date().toISOString();
     setTicketState((prev) => ({

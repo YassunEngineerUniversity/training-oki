@@ -4,6 +4,7 @@ import { useRef } from 'react'
 import { motion } from 'framer-motion'
 import { updateUsed } from '@/actions/ticket/updateUsed'
 import { Ticket } from '@/types/Ticket/types'
+import updateUsage from '@/utils/updateUsage'
 
 interface SlidingButtonProps {
   ticketId: string
@@ -16,18 +17,8 @@ export const SlidingButton = ({ticketId, updateUsedState}: SlidingButtonProps) =
 
   const handleUpdateUsed = updateUsed.bind(null, ticketId);
 
-  const handleSlidingButton = async () => {
-    try {
-      const used = await handleUpdateUsed();
-
-      if(!used) {
-        return
-      }
-
-      updateUsedState()
-    } catch(error) {
-      console.log(error);
-    }
+  const handleUsage = async () => {
+    await updateUsage(handleUpdateUsed, updateUsedState)
   }
 
   const handleDragEnd = (event: any, info: any) => {
@@ -39,7 +30,7 @@ export const SlidingButton = ({ticketId, updateUsedState}: SlidingButtonProps) =
   }
 
   return (
-    <form ref={formRef} action={handleSlidingButton} className="relative max-w-[320px] w-full h-16 bg-gray-200 rounded-full overflow-hidden">
+    <form ref={formRef} action={handleUsage} className="relative max-w-[320px] w-full h-16 bg-gray-200 rounded-full overflow-hidden">
       <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400">
         スライドして消し込み
       </div>
