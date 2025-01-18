@@ -18,11 +18,11 @@ export const SlidingButton = ({ticketId, updateUsedState}: SlidingButtonProps) =
 
   const handleSlidingButton = async () => {
     try {
-      // const used = await handleUpdateUsed();
+      const used = await handleUpdateUsed();
 
-      // if(!used) {
-      //   return
-      // }
+      if(!used) {
+        return
+      }
 
       updateUsedState()
     } catch(error) {

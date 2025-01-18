@@ -5,10 +5,9 @@ import { Button } from "@/components/ui/button"
 import { DialogHeader, Dialog, DialogContent, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog"
 import { SlidingButton } from "@/features/ticket-view/components/SlidingButton"
 import { Event } from "@/types/event/types"
-import { Ticket, TicketDetail } from "@/types/Ticket/types"
+import { TicketDetail } from "@/types/Ticket/types"
 import { formatDate } from "@/utils/formatDate"
 import { DialogClose } from "@radix-ui/react-dialog"
-import { useState } from "react"
 
 interface TicketItemModalProps {
   username: string

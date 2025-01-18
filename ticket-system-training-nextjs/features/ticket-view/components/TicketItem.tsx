@@ -1,11 +1,13 @@
 "use client"
 
+import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import TicketItemModal from "@/features/ticket-view/components/TicketItemModal"
 import TicketStatus from "@/features/ticket-view/components/TicketStatus"
 import TicketTransferModal from "@/features/ticket-view/components/TicketTransferModal"
 import { Event } from "@/types/event/types"
 import { Ticket, TicketDetail } from "@/types/Ticket/types"
+import Link from "next/link"
 import { useEffect, useState } from "react"
 
 interface TicketItemProps {
@@ -40,14 +42,21 @@ const TicketItem = ({username, ticket, event, cookie}: TicketItemProps) => {
       </CardHeader>
       <CardContent>
         <div>
-          {!isUsedOrTransfered && (
-            <TicketTransferModal
-              event={eventState} 
-              ticket={ticketState} 
-              username={username} 
-              cookie={cookie}
-            />
-          )}
+          <div className="flex justify-end gap-3">
+            {!isUsedOrTransfered && (
+              <TicketTransferModal
+                event={eventState} 
+                ticket={ticketState} 
+                username={username} 
+                cookie={cookie}
+              />
+            )}
+            {ticketState.has_benefits && (
+              <Button asChild className=" text-blue-500 rounded-full bg-white border border-blue-500 hover:bg-blue-500 hover:text-white">
+                <Link href={`/ticket/${ticketState.id}/benefit`} >特典を受け取る</Link>
+              </Button>
+            )}
+          </div>
           <div className="mt-8">
             <span className="font-bold block text-base mb-2">{ticketState.entrance.name}</span>
             <span className="font-bold block text-sm text-[#6b7280] mb-1">{ticketState.seat.seat_area}</span>

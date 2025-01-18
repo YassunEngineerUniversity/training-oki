@@ -25,6 +25,7 @@ export interface TicketDetail {
   ticket_type: TicketType;
   entrance: Entrance;
   seat: Seat;
+  has_benefits: boolean;
 }
 
 export interface SendingTicket {

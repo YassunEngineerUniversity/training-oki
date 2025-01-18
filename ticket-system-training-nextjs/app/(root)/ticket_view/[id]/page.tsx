@@ -1,6 +1,7 @@
 import { getServerCookie } from "@/actions/cookies/getServerCookie";
 import { getTicketViewDetail } from "@/actions/ticketview/getTicketViewDetail";
 import { getCurrentUser } from "@/actions/user/getCurrentUser";
+import ContentContainer from "@/components/utils/ContentContainer";
 import TicketEventCard from "@/features/ticket-view/components/TicketEventCard";
 import TicketList from "@/features/ticket-view/components/TicketList";
 
@@ -25,19 +26,17 @@ const TicketVeiwDetailPage = async ({
   }
   
   return (
-    <div className="bg-[#f1f3f5] min-h-[80vh] py-8">
-      <div className="w-[560px] mx-auto">
-        <h2 className="text-center text-base font-bold mb-4">チケット詳細</h2>
-        <TicketEventCard event={ticektView.event}/>
-        <div className="mt-4">
-          <TicketList
-            cookie={cookie} 
-            username={currentUser.name} 
-            ticketView={ticektView} 
-          />
-        </div>
+    <ContentContainer>
+      <h2 className="text-center text-base font-bold mb-4">チケット詳細</h2>
+      <TicketEventCard event={ticektView.event}/>
+      <div className="mt-4">
+        <TicketList
+          cookie={cookie} 
+          username={currentUser.name} 
+          ticketView={ticektView} 
+        />
       </div>
-    </div>
+    </ContentContainer>
   )
 }
 
