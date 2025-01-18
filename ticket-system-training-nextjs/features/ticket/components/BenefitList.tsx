@@ -1,10 +1,16 @@
 import BenefitItem from '@/features/ticket/components/BenefitItem'
-import React from 'react'
+import { Benefit } from '@/types/benefit/types'
 
-const BenefitList = () => {
+interface BenefitListProps {
+  benefits: Benefit[]
+}
+
+const BenefitList = ({benefits}:BenefitListProps) => {
   return (
     <div className="mt-4 space-y-5">
-      <BenefitItem/>
+      {benefits?.map(benefit => (
+        <BenefitItem benefit={benefit} key={benefit.id}/>
+      ))}
     </div>
   )
 }

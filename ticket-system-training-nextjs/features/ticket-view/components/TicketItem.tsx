@@ -5,6 +5,7 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import TicketItemModal from "@/features/ticket-view/components/TicketItemModal"
 import TicketStatus from "@/features/ticket-view/components/TicketStatus"
 import TicketTransferModal from "@/features/ticket-view/components/TicketTransferModal"
+import useTicketStatus from "@/hooks/useTicketStaus"
 import { Event } from "@/types/event/types"
 import { Ticket, TicketDetail } from "@/types/Ticket/types"
 import Link from "next/link"
@@ -20,15 +21,9 @@ interface TicketItemProps {
 const TicketItem = ({username, ticket, event, cookie}: TicketItemProps) => {
   const [eventState, setEventState] = useState<Event>(event)
   const [ticketState, setTicketState] = useState<TicketDetail>(ticket);
-  const [containerStyle, setContainerStyle] = useState("border border-[#1eb98c] p-4 bg-[#66efc8] bg-opacity-20 rounded-sm")
-
   const isUsedOrTransfered = ticketState.used_time || (ticketState.status === "sending" || ticketState.status === "completed")
 
-  useEffect(() => {
-    if(ticketState.used_time) {
-      setContainerStyle("border border-red-500 p-4 bg-red-500 bg-opacity-20 rounded-sm")
-    }
-  },[ticketState.used_time])
+  const { containerStyle } = useTicketStatus(ticketState.used_time)
 
   return (
     <Card>
@@ -58,7 +53,8 @@ const TicketItem = ({username, ticket, event, cookie}: TicketItemProps) => {
             )}
           </div>
           <div className="mt-8">
-            <span className="font-bold block text-base mb-2">{ticketState.entrance.name}</span>
+          <span className="font-bold block text-base mb-2">{ticketState.entrance.name}</span>
+            <span className="font-bold block text-base mb-2">{ticketState.ticket_type.name}</span>
             <span className="font-bold block text-sm text-[#6b7280] mb-1">{ticketState.seat.seat_area}</span>
             <span className="font-bold block text-base">{ticketState.seat.seat_number}</span>
           </div>

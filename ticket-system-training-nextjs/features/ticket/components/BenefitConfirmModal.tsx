@@ -4,7 +4,12 @@
 import { Button } from "@/components/ui/button"
 import { DialogHeader, Dialog, DialogContent, DialogTitle, DialogTrigger, DialogClose } from "@/components/ui/dialog"
 
-const BenefitConfirmModal = () => {
+interface BenefitConfirmModalProps {
+  benefitName: string
+}
+
+const BenefitConfirmModal = ({benefitName}:BenefitConfirmModalProps) => {
+  // TODO: 消込処理実装
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -16,7 +21,7 @@ const BenefitConfirmModal = () => {
         <DialogHeader>
           <DialogTitle >
             <div className="">
-              <h3 className="text-center">特典名を受け取りますか？</h3>
+              <h3 className="text-center">{benefitName}を受け取りますか？</h3>
             </div>
           </DialogTitle>
         </DialogHeader>

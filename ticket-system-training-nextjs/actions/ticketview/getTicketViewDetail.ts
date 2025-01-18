@@ -30,8 +30,7 @@ export const getTicketViewDetail = async (
 
   if (!response.ok) {
     const error = await response.json()
-    console.log(error);
-    return null;
+    return error;
   }
 
   const ticketViews = await response.json();

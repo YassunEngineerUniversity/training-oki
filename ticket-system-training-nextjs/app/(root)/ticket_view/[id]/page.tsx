@@ -14,16 +14,15 @@ const TicketVeiwDetailPage = async ({
   params: Promise<{ id: string }>,
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) => {
-  const ticektViewId = (await params).id;
-  const emailParams = (await searchParams).email
-
   const currentUser = await getCurrentUser();
-  const ticektView = await getTicketViewDetail(ticektViewId);
-  const cookie = await getServerCookie();
-
   if (!currentUser) {
     redirect('/login');
   }
+
+  const ticektViewId = (await params).id;
+  const emailParams = (await searchParams).email
+  const ticektView = await getTicketViewDetail(ticektViewId);
+  const cookie = await getServerCookie();
   
   return (
     <ContentContainer>
