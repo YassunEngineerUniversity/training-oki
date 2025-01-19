@@ -1,16 +1,21 @@
-"use client"
+'use client';
 
-import React, { useState } from 'react'
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
-import BenefitConfirmModal from '@/features/ticket/components/BenefitConfirmModal'
-import { Benefit } from '@/types/benefit/types'
-import DisableButton from '@/components/button/DisableButton'
+import DisableButton from '@/components/button/DisableButton';
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from '@/components/ui/card';
+import BenefitConfirmModal from '@/features/ticket/components/BenefitConfirmModal';
+import { Benefit } from '@/types/benefit/types';
+import { useState } from 'react';
 
 interface BenefitItemProps {
-  benefit: Benefit
+  benefit: Benefit;
 }
 
-const BenefitItem = ({benefit}:BenefitItemProps) => {
+const BenefitItem = ({ benefit }: BenefitItemProps) => {
   const [benefitState, setBenefitState] = useState<Benefit>(benefit);
 
   // 特典の状態の消し込み
@@ -20,9 +25,8 @@ const BenefitItem = ({benefit}:BenefitItemProps) => {
       ...prev,
       used_time: now,
     }));
-  }
+  };
 
-  
   return (
     <Card>
       <CardHeader>
@@ -32,19 +36,24 @@ const BenefitItem = ({benefit}:BenefitItemProps) => {
         <p className="text-base leading-7">{benefitState.details}</p>
       </CardContent>
       <CardFooter>
-        {benefitState.used_time? (
+        {benefitState.used_time ? (
           <div className="flex justify-center m-auto">
-            <DisableButton buttonText={'受け取り済み'} className={'text-white rounded-full bg-gray-600 border border-gray-bg-gray-600 '}/>
+            <DisableButton
+              buttonText={'受け取り済み'}
+              className={
+                'text-white rounded-full bg-gray-600 border border-gray-bg-gray-600 '
+              }
+            />
           </div>
-        ):(
-          <BenefitConfirmModal 
-            updateUsageState={handleUpdateBebefitsUsage} 
+        ) : (
+          <BenefitConfirmModal
+            updateUsageState={handleUpdateBebefitsUsage}
             benefit={benefitState}
           />
         )}
       </CardFooter>
     </Card>
-  )
-}
+  );
+};
 
-export default BenefitItem
+export default BenefitItem;

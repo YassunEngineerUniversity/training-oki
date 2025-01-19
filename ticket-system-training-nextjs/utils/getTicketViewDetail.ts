@@ -1,20 +1,22 @@
-import { getServerCookie } from "@/utils/getServerCookie";
+import { getServerCookie } from '@/utils/getServerCookie';
 
-export const getTicketViewDetail = async (
-  id: string,
-  filter?: string
-) => {
-  let endpoint = ""
-  
+export const getTicketViewDetail = async (id: string, filter?: string) => {
+  let endpoint = '';
+
   switch (filter) {
-    case "sending":
-      endpoint = process.env.NEXT_PUBLIC_API_ENDPOINT + `/api/ticket_views/${id}?filter=${filter}`;
+    case 'sending':
+      endpoint =
+        process.env.NEXT_PUBLIC_API_ENDPOINT +
+        `/api/ticket_views/${id}?filter=${filter}`;
       break;
-    case "receive":
-      endpoint = process.env.NEXT_PUBLIC_API_ENDPOINT + `/api/ticket_views/${id}?filter=${filter}`;
+    case 'receive':
+      endpoint =
+        process.env.NEXT_PUBLIC_API_ENDPOINT +
+        `/api/ticket_views/${id}?filter=${filter}`;
       break;
     default:
-      endpoint = process.env.NEXT_PUBLIC_API_ENDPOINT + `/api/ticket_views/${id}`;
+      endpoint =
+        process.env.NEXT_PUBLIC_API_ENDPOINT + `/api/ticket_views/${id}`;
       break;
   }
 
@@ -29,10 +31,10 @@ export const getTicketViewDetail = async (
   });
 
   if (!response.ok) {
-    const error = await response.json()
+    const error = await response.json();
     return error;
   }
 
   const ticketViews = await response.json();
   return ticketViews;
-}
+};

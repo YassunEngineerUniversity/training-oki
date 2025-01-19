@@ -1,21 +1,22 @@
-"use server"
+'use server';
 
-import { getServerCookie } from "@/utils/getServerCookie";
-import { toUser } from "@/types/user/types";
+import { toUser } from '@/types/user/types';
+import { getServerCookie } from '@/utils/getServerCookie';
 
 interface sendTicketParams {
-  ticketId: string
-  toUser:toUser | null
+  ticketId: string;
+  toUser: toUser | null;
 }
 
-export const sendTicket = async ({ticketId, toUser}:sendTicketParams) => {
-  if(!toUser) return
+export const sendTicket = async ({ ticketId, toUser }: sendTicketParams) => {
+  if (!toUser) return;
 
-  const endpoint = process.env.NEXT_PUBLIC_API_ENDPOINT + `/api/tickets/${ticketId}/send`;
+  const endpoint =
+    process.env.NEXT_PUBLIC_API_ENDPOINT + `/api/tickets/${ticketId}/send`;
   const cookies = await getServerCookie();
   const data = {
-    to_user: toUser
-  }
+    to_user: toUser,
+  };
 
   const response = await fetch(endpoint, {
     method: 'POST',
@@ -28,10 +29,10 @@ export const sendTicket = async ({ticketId, toUser}:sendTicketParams) => {
   });
 
   if (!response.ok) {
-    const error = await response.json()
+    const error = await response.json();
     return error;
   }
 
-  const message = await response.json()
-  return message
-}
+  const message = await response.json();
+  return message;
+};

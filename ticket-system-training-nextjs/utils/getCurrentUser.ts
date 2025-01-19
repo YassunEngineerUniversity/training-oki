@@ -14,7 +14,8 @@ export const getCurrentUser = async () => {
   });
 
   if (!response.ok) {
-    return null;
+    const error = await response.json();
+    return error;
   }
 
   const responseData = await response.json();

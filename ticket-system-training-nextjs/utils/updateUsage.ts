@@ -1,15 +1,10 @@
-
-
-const updateUsage = async (
-    serverAction:any, 
-    setState:() => void
-) => {
+const updateUsage = async (serverAction: any, setState: () => void) => {
   try {
     const used = await serverAction();
-    setState()
-  } catch(error) {
+    setState();
+  } catch (error) {
     console.log(error);
   }
-}
+};
 
-export default updateUsage
+export default updateUsage;

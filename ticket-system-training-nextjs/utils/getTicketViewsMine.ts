@@ -1,10 +1,12 @@
-import { getServerCookie } from "@/utils/getServerCookie";
+import { getServerCookie } from '@/utils/getServerCookie';
 
-export const getTicketViewsMine = async (filter?:string) => {
-  let endpoint = ""
+export const getTicketViewsMine = async (filter?: string) => {
+  let endpoint = '';
 
-  if(filter) {
-    endpoint = process.env.NEXT_PUBLIC_API_ENDPOINT + `/api/ticket_views/mine?filter=${filter}`;
+  if (filter) {
+    endpoint =
+      process.env.NEXT_PUBLIC_API_ENDPOINT +
+      `/api/ticket_views/mine?filter=${filter}`;
   } else {
     endpoint = process.env.NEXT_PUBLIC_API_ENDPOINT + '/api/ticket_views/mine';
   }
@@ -20,10 +22,10 @@ export const getTicketViewsMine = async (filter?:string) => {
   });
 
   if (!response.ok) {
-    const error = await response.json()
+    const error = await response.json();
     return error;
   }
 
   const ticketViews = await response.json();
   return ticketViews;
-}
+};

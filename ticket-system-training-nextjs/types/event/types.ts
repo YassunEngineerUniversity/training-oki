@@ -1,4 +1,4 @@
-import { Show } from "@/types/show/types";
+import { Show } from '@/types/show/types';
 
 export interface Event {
   id: string;

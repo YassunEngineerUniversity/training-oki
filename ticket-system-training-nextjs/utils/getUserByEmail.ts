@@ -1,21 +1,19 @@
-export const getUserByEmail = async(
-  email:string,
-  cookie: string
-) => {
-  const endpoint = process.env.NEXT_PUBLIC_API_ENDPOINT + `/api/users/search?email=${email}`;
+export const getUserByEmail = async (email: string, cookie: string) => {
+  const endpoint =
+    process.env.NEXT_PUBLIC_API_ENDPOINT + `/api/users/search?email=${email}`;
   const response = await fetch(endpoint, {
     headers: {
       'Content-Type': 'application/json',
-      Cookie: cookie
+      Cookie: cookie,
     },
     credentials: 'include',
-  })
+  });
 
   if (!response.ok) {
     const error = await response.json();
-    return error
+    return error;
   }
 
   const user = await response.json();
-  return user
-}
+  return user;
+};

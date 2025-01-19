@@ -1,5 +1,5 @@
-import { Event } from "@/types/event/types";
-import { Ticket, TicketDetail } from "@/types/Ticket/types";
+import { Event } from '@/types/event/types';
+import { Ticket, TicketDetail } from '@/types/ticket/types';
 
 export interface TicketViewsMine {
   id: string;

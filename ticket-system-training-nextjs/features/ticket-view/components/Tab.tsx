@@ -7,19 +7,19 @@ import { useState } from 'react';
 const TABS = [
   { value: 'mine', label: 'チケットをお持ちの公演' },
   { value: 'sending', label: '譲渡' },
-  { value: 'receive', label: 'チケット受け取り'}
-]
+  { value: 'receive', label: 'チケット受け取り' },
+];
 
 interface TabTicketsProps {
-  tab: string
+  tab: string;
 }
 
-const Tab = ({tab}:TabTicketsProps) => {
+const Tab = ({ tab }: TabTicketsProps) => {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState(tab)
+  const [activeTab, setActiveTab] = useState(tab);
 
   const handleTabClick = (type: string) => {
-    setActiveTab(type)
+    setActiveTab(type);
     switch (type) {
       case 'mine':
         router.push('/');
@@ -39,10 +39,10 @@ const Tab = ({tab}:TabTicketsProps) => {
       {TABS.map((tab) => (
         <TabsTrigger
           className={`px-1 py-3 rounded-none text-base font-bold shadow-none data-[state=active]:shadow-none transition-all ${
-                activeTab === tab.value
-                  ? 'text-[#1eb98c] border-b-[3px] border-[#1eb98c] data-[state=active]:text-[#1eb98c]'
-                  : 'text-gray-500 hover:text-gray-700'
-              }`}
+            activeTab === tab.value
+              ? 'text-[#1eb98c] border-b-[3px] border-[#1eb98c] data-[state=active]:text-[#1eb98c]'
+              : 'text-gray-500 hover:text-gray-700'
+          }`}
           value={tab.value}
           onClick={() => handleTabClick(tab.value)}
           key={tab.value}

@@ -1,17 +1,15 @@
-import { ReactNode } from "react"
+import { ReactNode } from 'react';
 
 interface ContentContainerProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
-const ContentContainer = ({children}:ContentContainerProps) => {
+const ContentContainer = ({ children }: ContentContainerProps) => {
   return (
     <div className="bg-[#f1f3f5] min-h-[80vh] py-8">
-      <div className="w-[560px] mx-auto">
-        {children}
-      </div>
+      <div className="w-[560px] mx-auto">{children}</div>
     </div>
-  )
-}
+  );
+};
 
-export default ContentContainer
+export default ContentContainer;

@@ -5,4 +5,4 @@ export interface Benefit {
   used_time: string | null;
   created_at?: Date;
   updated_at?: Date;
-};
+}
