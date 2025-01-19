@@ -1,0 +1,1 @@
+cd ticket-system-training-nextjs && npx lint-staged

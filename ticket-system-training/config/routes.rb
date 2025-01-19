@@ -13,7 +13,7 @@ Rails.application.routes.draw do
     get "ticket_views/mine", to: "ticket_views#mine"
     get "tickets/mine", to: "tickets#mine"
     resources :ticket_views, only: [ :index, :create, :show ]
-    resources :tickets, only: [] do
+    resources :tickets, only: [:show] do
       member do
         post "used", to: "tickets#used"
         post "send", to: "tickets#transfer_send"

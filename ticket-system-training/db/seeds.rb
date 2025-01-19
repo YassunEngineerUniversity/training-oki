@@ -155,10 +155,17 @@ Seat.create!([
 ])
 
 # 特典データ挿入
-Benefit.create!([
-  { name: '特典1', details: 'チケット1に付随する特典', used_time: nil, ticket_id: 1 },
-  { name: '特典2', details: 'チケット2に付随する特典', used_time: nil, ticket_id: 2 },
-  { name: '特典3', details: 'チケット3に付随する特典', used_time: nil, ticket_id: 3 },
-  { name: '特典4', details: 'チケット4に付随する特典', used_time: nil, ticket_id: 4 },
-  { name: '特典5', details: 'チケット5に付随する特典', used_time: nil, ticket_id: 5 }
-])
+benefits = []
+
+(1..15).each do |ticket_id|
+  (1..3).each do |benefit_number|
+    benefits << {
+      name: "チケット#{ticket_id}の特典#{benefit_number}",
+      details: "チケット#{ticket_id}に付随する特典#{benefit_number}",
+      used_time: nil,
+      ticket_id: ticket_id
+    }
+  end
+end
+
+Benefit.create!(benefits)

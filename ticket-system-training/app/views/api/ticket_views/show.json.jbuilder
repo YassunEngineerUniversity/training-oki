@@ -74,6 +74,12 @@ json.tickets @filtered_tickets do | filtered_ticket |
     json.id ticket.play_guide.id
     json.name ticket.play_guide.name
   end
+
+  if ticket.benefits.empty?
+    json.has_benefits false
+  else
+    json.has_benefits true
+  end
 end
 
 

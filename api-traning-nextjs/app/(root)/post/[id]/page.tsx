@@ -1,5 +1,5 @@
 import { getPost } from '@/actions/post/getPost';
-import { getCurrentUser } from '@/actions/user/getCurrentUser';
+import { getCurrentUser } from '@/utils/getCurrentUser';
 import CommentList from '@/components/comment/CommentList';
 import PostDetail from '@/components/post/PostDetail';
 import { redirect } from 'next/navigation';

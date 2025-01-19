@@ -1,9 +1,16 @@
 class Api::TicketsController < ApplicationController
   before_action :authenticate_user! # セッションを保持しているかアクションの前に確認
 
+  def show
+    @ticket = current_user_ticket(ticket_params)
+
+    return render_error("チケットが見つかりません", :not_found) if @ticket.nil?
+
+    render :show
+  end
+
   def used
-    ticket_params = params[:id]
-    ticket = current_user.tickets.find_by(id: ticket_params)
+    ticket = current_user_ticket(ticket_params)
 
     return render_error("チケットが見つかりません", :not_found) if ticket.nil?
     if ticket_already_used?(ticket)
@@ -11,7 +18,7 @@ class Api::TicketsController < ApplicationController
     end
 
     # 消し込み処理
-    if process_ticket_usage(ticket)
+    if update_ticket_used(ticket)
       render :used
     else
       render json: { error: "消し込み処理中にエラーが発生しました。" }, status: :unprocessable_entity
@@ -19,11 +26,8 @@ class Api::TicketsController < ApplicationController
   end
 
   def transfer_send
-    transfer_to_user_params = params.require(:to_user).permit(:id, :name)
-    ticket_params = params[:id]
-
     to_user = User.find_by(id: transfer_to_user_params[:id])
-    transfer_ticket = current_user.tickets.find_by(id: ticket_params)
+    transfer_ticket = current_user_ticket(ticket_params)
 
     # エラーチェック
     return render_error("移行先ユーザーが見つかりません。", :not_found) if to_user.nil?
@@ -48,8 +52,6 @@ class Api::TicketsController < ApplicationController
   end
 
   def transfer_receive
-    ticket_params = params[:id]
-
     # トランザクションを作成
     ActiveRecord::Base.transaction do
       receive_user = current_user
@@ -105,29 +107,42 @@ class Api::TicketsController < ApplicationController
       render json: { error: "Unexpected error occurred: #{e.message}" }, status: :internal_server_error
   end
 
-  def ticket_already_transferred?(ticket)
-    ticket.transfer_time.present? || ticket.ticket_view.transfers.where(status: ["sending", "completed"]).exists?
-  end
-
-  def ticket_already_received?(ticket)
-    current_user.received_transfers.find_by(ticket_id: ticket.id, status: "completed")
-  end
-
-  def ticket_already_used?(ticket)
-    ticket.used_time.present?
-  end
-
-  def process_ticket_usage(ticket)
-    ticket.update(used_time: Time.zone.now)
-  end
-
-  def destroy_empty_ticket_view(ticket_view)
-    if ticket_view && ticket_view.tickets.empty?
-      ticket_view.destroy
+  private
+    def ticket_params
+      params[:id]
     end
-  end
 
-  def render_error(message, status)
-    render json: { error: message }, status: status
-  end
+    def transfer_to_user_params 
+      params.require(:to_user).permit(:id, :name)
+    end
+
+    def current_user_ticket(ticket_id)
+      current_user.tickets.find_by(id: ticket_id)
+    end
+
+    def ticket_already_transferred?(ticket)
+      ticket.transfer_time.present? || ticket.ticket_view.transfers.where(status: ["sending", "completed"]).exists?
+    end
+
+    def ticket_already_received?(ticket)
+      current_user.received_transfers.find_by(ticket_id: ticket.id, status: "completed")
+    end
+
+    def ticket_already_used?(ticket)
+      ticket.used_time.present?
+    end
+
+    def update_ticket_used(ticket)
+      ticket.update(used_time: Time.zone.now)
+    end
+
+    def destroy_empty_ticket_view(ticket_view)
+      if ticket_view && ticket_view.tickets.empty?
+        ticket_view.destroy
+      end
+    end
+
+    def render_error(message, status)
+      render json: { error: message }, status: status
+    end
 end

@@ -1,5 +1,5 @@
 import { getCookie } from '@/actions/cookies/getCookies';
-import { getCurrentUser } from '@/actions/user/getCurrentUser';
+import { getCurrentUser } from '@/utils/getCurrentUser';
 import PostList from '@/components/post/PostList';
 import PostModal from '@/components/post/PostModal';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
