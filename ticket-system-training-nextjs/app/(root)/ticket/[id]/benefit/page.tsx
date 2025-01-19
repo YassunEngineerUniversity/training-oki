@@ -1,4 +1,4 @@
-import { getCurrentUser } from '@/actions/user/getCurrentUser'
+import { getCurrentUser } from "@/utils/getCurrentUser";
 import ContentContainer from '@/components/utils/ContentContainer'
 import BenefitList from '@/features/ticket/components/BenefitList'
 import BenefitTicketCard from '@/features/ticket/components/BenefitTicketCard'
@@ -18,9 +18,6 @@ const BenefitsPage = async ({
   
   const ticektId = (await params).id;
   const ticket = await getTicketDetail(ticektId)
-
-  console.log(ticket);
-  
 
   return (
     <ContentContainer>

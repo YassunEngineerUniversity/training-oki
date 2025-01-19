@@ -1,6 +1,6 @@
 "use server"
 
-import { getServerCookie } from "@/actions/cookies/getServerCookie";
+import { getServerCookie } from "@/utils/getServerCookie";
 
 export const receiveTicket = async (ticketId:string) => {
   const endpoint = process.env.NEXT_PUBLIC_API_ENDPOINT + `/api/tickets/${ticketId}/receive`;
@@ -17,7 +17,7 @@ export const receiveTicket = async (ticketId:string) => {
 
   if (!response.ok) {
     const error = await response.json()
-    return null;
+    return error;
   }
 
   const message = await response.json()

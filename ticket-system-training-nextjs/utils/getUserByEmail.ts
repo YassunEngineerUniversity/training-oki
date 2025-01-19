@@ -1,5 +1,3 @@
-import { getServerCookie } from "@/actions/cookies/getServerCookie";
-
 export const getUserByEmail = async(
   email:string,
   cookie: string

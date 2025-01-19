@@ -1,6 +1,6 @@
 "use server"
 
-import { getServerCookie } from "@/actions/cookies/getServerCookie";
+import { getServerCookie } from "@/utils/getServerCookie";
 import { toUser } from "@/types/user/types";
 
 interface sendTicketParams {
@@ -9,7 +9,6 @@ interface sendTicketParams {
 }
 
 export const sendTicket = async ({ticketId, toUser}:sendTicketParams) => {
-  // toUserのパラメータがnullの場合
   if(!toUser) return
 
   const endpoint = process.env.NEXT_PUBLIC_API_ENDPOINT + `/api/tickets/${ticketId}/send`;

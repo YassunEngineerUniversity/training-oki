@@ -12,7 +12,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { searchSchema, type SearchSchema } from '@/schema/searchSchema'
-import { getUserByEmail } from '@/actions/user/getUserByEmail'
+import { getUserByEmail } from '@/utils/getUserByEmail'
 import { useEffect, useState } from "react";
 import { User as UserIcon } from 'lucide-react';
 import { NotFoundUser, User } from '@/types/user/types'

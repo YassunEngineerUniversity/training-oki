@@ -1,6 +1,6 @@
 "use server";
 
-import { getServerCookie } from "@/actions/cookies/getServerCookie";
+import { getServerCookie } from "@/utils/getServerCookie";
 
 export const updateBenefitUsage = async (id: string) => {
   const endpoint = process.env.NEXT_PUBLIC_API_ENDPOINT + `/api/benefits/${id}/used`;
@@ -16,7 +16,8 @@ export const updateBenefitUsage = async (id: string) => {
   });
 
   if (!response.ok) {
-    return null;
+    const error = await response.json()
+    return error;
   }
 
   const benefitsUsage = await response.json();

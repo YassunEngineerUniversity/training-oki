@@ -1,6 +1,6 @@
-import { getServerCookie } from "@/actions/cookies/getServerCookie";
-import { getTicketViewDetail } from "@/actions/ticketview/getTicketViewDetail";
-import { getCurrentUser } from "@/actions/user/getCurrentUser";
+import { getServerCookie } from "@/utils/getServerCookie";
+import { getTicketViewDetail } from "@/utils/getTicketViewDetail";
+import { getCurrentUser } from "@/utils/getCurrentUser";
 import ContentContainer from "@/components/utils/ContentContainer";
 import TicketEventCard from "@/features/ticket-view/components/TicketEventCard";
 import TicketList from "@/features/ticket-view/components/TicketList";

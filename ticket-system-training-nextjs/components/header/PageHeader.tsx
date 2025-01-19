@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { getCurrentUser } from '@/actions/user/getCurrentUser';
+import { getCurrentUser } from '@/utils/getCurrentUser';
 import LogoutButton from './LogoutButton';
 
 const PageHeader = async () => {

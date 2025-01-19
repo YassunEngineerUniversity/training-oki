@@ -1,4 +1,4 @@
-import { getServerCookie } from "@/actions/cookies/getServerCookie";
+import { getServerCookie } from "@/utils/getServerCookie";
 
 export const getTicketDetail = async (
   id: string,

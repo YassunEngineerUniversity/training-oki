@@ -13,11 +13,12 @@ interface BenefitConfirmModalProps {
 }
 
 const BenefitConfirmModal = ({benefit, updateUsageState}:BenefitConfirmModalProps) => {
-  // TODO: 消込処理実装
   const handleUpdateUsage = updateBenefitUsage.bind(null, benefit.id.toString());
   const handleUsage = async () => {
     await updateUsage(handleUpdateUsage, updateUsageState)
   }
+
+  
   return (
     <Dialog>
       <DialogTrigger asChild>

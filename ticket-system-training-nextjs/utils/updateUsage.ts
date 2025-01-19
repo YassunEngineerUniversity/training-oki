@@ -6,11 +6,6 @@ const updateUsage = async (
 ) => {
   try {
     const used = await serverAction();
-
-    if(!used) {
-      return
-    }
-
     setState()
   } catch(error) {
     console.log(error);

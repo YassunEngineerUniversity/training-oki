@@ -1,5 +1,5 @@
-import { getTicketViewsMine } from "@/actions/ticketview/getTicketViewsMine";
-import { getCurrentUser } from "@/actions/user/getCurrentUser";
+import { getTicketViewsMine } from "@/utils/getTicketViewsMine";
+import { getCurrentUser } from "@/utils/getCurrentUser";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import UserInformation from "@/components/utils/UserInformation";
 import Tab from "@/features/ticket-view/components/Tab";

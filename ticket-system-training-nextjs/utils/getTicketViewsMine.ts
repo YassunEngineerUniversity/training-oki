@@ -1,4 +1,4 @@
-import { getServerCookie } from "@/actions/cookies/getServerCookie";
+import { getServerCookie } from "@/utils/getServerCookie";
 
 export const getTicketViewsMine = async (filter?:string) => {
   let endpoint = ""
@@ -20,7 +20,8 @@ export const getTicketViewsMine = async (filter?:string) => {
   });
 
   if (!response.ok) {
-    return null;
+    const error = await response.json()
+    return error;
   }
 
   const ticketViews = await response.json();

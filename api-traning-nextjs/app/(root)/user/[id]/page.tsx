@@ -3,7 +3,7 @@ import { CalendarIcon, MapPinIcon } from 'lucide-react';
 import FollowButton from '@/components/user/FollowButton';
 import { getUser } from '@/actions/user/getUser';
 import { formatDate } from '@/utils/formatDate';
-import { getCurrentUser } from '@/actions/user/getCurrentUser';
+import { getCurrentUser } from '@/utils/getCurrentUser';
 import { generatePokemonIcon } from '@/utils/generatePokemonIcon';
 import { redirect } from 'next/navigation';
 import Image from 'next/image';

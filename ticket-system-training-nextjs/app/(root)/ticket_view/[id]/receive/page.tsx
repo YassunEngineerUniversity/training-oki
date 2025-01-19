@@ -1,5 +1,5 @@
-import { getTicketViewDetail } from "@/actions/ticketview/getTicketViewDetail";
-import { getCurrentUser } from "@/actions/user/getCurrentUser";
+import { getTicketViewDetail } from "@/utils/getTicketViewDetail";
+import { getCurrentUser } from "@/utils/getCurrentUser";
 import RecieveTicketItem from "@/features/ticket-view/components/ReceiveTicketItem";
 import TicketEventCard from "@/features/ticket-view/components/TicketEventCard";
 
