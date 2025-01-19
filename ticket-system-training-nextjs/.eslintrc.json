@@ -8,6 +8,7 @@
   "plugins": ["@typescript-eslint", "unused-imports"],
   "rules": {
     "@typescript-eslint/no-unused-vars": "off", // 標準のルールをオフ
+    "@typescript-eslint/no-require-imports": "off", // 標準のルールをオフ
     "unused-imports/no-unused-imports": "error", // 未使用の import を自動削除
     "unused-imports/no-unused-vars": [
       "warn",

@@ -13,7 +13,7 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "prettier --write",
-      "next lint --fix"
+      "next lint --fix --file"
     ]
   },
   "dependencies": {

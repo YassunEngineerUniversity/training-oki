@@ -18,6 +18,8 @@ const TicketViewTransferDetailPage = async ({
     redirect('/login');
   }
 
+  const test = '';
+
   return (
     <div className="bg-[#f1f3f5] min-h-[80vh] py-8">
       <div className="w-[560px] mx-auto">
