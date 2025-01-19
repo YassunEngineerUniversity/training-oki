@@ -10,6 +10,12 @@
     "format": "prettier --write --ignore-path .gitignore './**/*.{js,jsx,ts,tsx,json,css}' && next lint --fix",
     "prepare": "cd .. && husky ticket-system-training-nextjs/.husky"
   },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "prettier --write",
+      "next lint --fix"
+    ]
+  },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
     "@radix-ui/react-avatar": "^1.1.1",
