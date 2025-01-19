@@ -1,12 +1,11 @@
-import { User } from '@/types/user/types'
-import { UserIcon } from 'lucide-react'
-import React from 'react'
+import { User } from '@/types/user/types';
+import { UserIcon } from 'lucide-react';
 
 interface UserDetailProps {
-  user: User
+  user: User;
 }
 
-const UserDetail = ({user}:UserDetailProps) => {
+const UserDetail = ({ user }: UserDetailProps) => {
   return (
     <>
       <div className="flex gap-1">
@@ -22,8 +21,7 @@ const UserDetail = ({user}:UserDetailProps) => {
         <span className="font-bold">{user.email}</span>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default UserDetail
-
+export default UserDetail;

@@ -15,7 +15,6 @@ import { searchSchema, type SearchSchema } from '@/schema/searchSchema';
 import { NotFoundUser, User } from '@/types/user/types';
 import { getUserByEmail } from '@/utils/getUserByEmail';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { User as UserIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -26,7 +25,9 @@ interface ToUserSearchProps {
 }
 
 const ToUserSearch = ({ cookie, ticketId }: ToUserSearchProps) => {
-  const [toUserSearched, setToUserSearched] = useState<User | NotFoundUser | null>(null);
+  const [toUserSearched, setToUserSearched] = useState<
+    User | NotFoundUser | null
+  >(null);
   const [isConfirm, setIsConfirm] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -111,7 +112,7 @@ const ToUserSearch = ({ cookie, ticketId }: ToUserSearchProps) => {
         <div className="mb-8">
           {toUserSelected && 'email' in toUserSelected && (
             <div className="mb-2 mt-8">
-              <UserDetail user={toUserSelected}/>
+              <UserDetail user={toUserSelected} />
               <div className="mt-8 mb-4 text-center">
                 {errorMessage && (
                   <p className="text-red-500 font-bold text-2xl">
@@ -202,7 +203,7 @@ const ToUserSearch = ({ cookie, ticketId }: ToUserSearchProps) => {
             )}
             {toUserSelected && 'email' in toUserSelected && (
               <div className="mb-2 mt-8">
-                <UserDetail user={toUserSelected}/>
+                <UserDetail user={toUserSelected} />
                 <div className="mt-8 mb-4 text-center">
                   <Button
                     onClick={handleConfirm}
