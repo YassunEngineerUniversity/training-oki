@@ -14,7 +14,7 @@ export const getTicketDetail = async (id: string) => {
 
   if (!response.ok) {
     const error = await response.json();
-    return error;
+    return null;
   }
 
   const ticket = await response.json();

@@ -32,7 +32,7 @@ export const getTicketViewDetail = async (id: string, filter?: string) => {
 
   if (!response.ok) {
     const error = await response.json();
-    return error;
+    return null;
   }
 
   const ticketViews = await response.json();

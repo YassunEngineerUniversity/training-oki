@@ -23,7 +23,7 @@ export const getTicketViewsMine = async (filter?: string) => {
 
   if (!response.ok) {
     const error = await response.json();
-    return error;
+    return null;
   }
 
   const ticketViews = await response.json();

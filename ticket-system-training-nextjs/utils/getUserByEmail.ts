@@ -11,7 +11,7 @@ export const getUserByEmail = async (email: string, cookie: string) => {
 
   if (!response.ok) {
     const error = await response.json();
-    return error;
+    return null;
   }
 
   const user = await response.json();

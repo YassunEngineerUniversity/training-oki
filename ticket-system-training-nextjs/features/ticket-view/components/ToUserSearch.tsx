@@ -10,6 +10,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import UserDetail from '@/features/ticket-view/components/UserDetail';
 import { searchSchema, type SearchSchema } from '@/schema/searchSchema';
 import { NotFoundUser, User } from '@/types/user/types';
 import { getUserByEmail } from '@/utils/getUserByEmail';
@@ -25,9 +26,7 @@ interface ToUserSearchProps {
 }
 
 const ToUserSearch = ({ cookie, ticketId }: ToUserSearchProps) => {
-  const [toUserSearched, setToUserSearched] = useState<
-    User | NotFoundUser | null
-  >(null);
+  const [toUserSearched, setToUserSearched] = useState<User | NotFoundUser | null>(null);
   const [isConfirm, setIsConfirm] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -112,18 +111,7 @@ const ToUserSearch = ({ cookie, ticketId }: ToUserSearchProps) => {
         <div className="mb-8">
           {toUserSelected && 'email' in toUserSelected && (
             <div className="mb-2 mt-8">
-              <div className="flex gap-1">
-                <UserIcon />
-                <h4 className="font-bold mb-2">選択されたユーザー</h4>
-              </div>
-              <div className="">
-                <span className="">同行者名 | </span>
-                <span className="font-bold">{toUserSelected.name}</span>
-              </div>
-              <div className="">
-                <span className="">メールアドレス | </span>
-                <span className="font-bold">{toUserSelected.email}</span>
-              </div>
+              <UserDetail user={toUserSelected}/>
               <div className="mt-8 mb-4 text-center">
                 {errorMessage && (
                   <p className="text-red-500 font-bold text-2xl">
@@ -214,18 +202,7 @@ const ToUserSearch = ({ cookie, ticketId }: ToUserSearchProps) => {
             )}
             {toUserSelected && 'email' in toUserSelected && (
               <div className="mb-2 mt-8">
-                <div className="flex gap-1">
-                  <UserIcon />
-                  <h4 className="font-bold mb-2">選択されたユーザー</h4>
-                </div>
-                <div className="">
-                  <span className="">同行者名 | </span>
-                  <span className="font-bold">{toUserSelected.name}</span>
-                </div>
-                <div className="">
-                  <span className="">メールアドレス | </span>
-                  <span className="font-bold">{toUserSelected.email}</span>
-                </div>
+                <UserDetail user={toUserSelected}/>
                 <div className="mt-8 mb-4 text-center">
                   <Button
                     onClick={handleConfirm}
