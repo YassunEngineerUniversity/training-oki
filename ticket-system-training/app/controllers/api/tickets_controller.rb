@@ -2,15 +2,15 @@ class Api::TicketsController < ApplicationController
   before_action :authenticate_user! # セッションを保持しているかアクションの前に確認
 
   def show
-    @ticket = current_user_ticket(ticket_params)
+    @ticket = current_user.tickets.find_by(id: ticket_params)
 
     return render_error("チケットが見つかりません", :not_found) if @ticket.nil?
-
+    
     render :show
   end
 
   def used
-    ticket = current_user_ticket(ticket_params)
+    ticket = current_user.tickets.find_by(id: ticket_params)
 
     return render_error("チケットが見つかりません", :not_found) if ticket.nil?
     if ticket_already_used?(ticket)
@@ -27,7 +27,7 @@ class Api::TicketsController < ApplicationController
 
   def transfer_send
     to_user = User.find_by(id: transfer_to_user_params[:id])
-    transfer_ticket = current_user_ticket(ticket_params)
+    transfer_ticket = current_user.tickets.find_by(id: ticket_params)
 
     # エラーチェック
     return render_error("移行先ユーザーが見つかりません。", :not_found) if to_user.nil?
@@ -99,12 +99,6 @@ class Api::TicketsController < ApplicationController
 
     rescue ActiveRecord::RecordInvalid => e
       render json: { error: e.message }, status: :unprocessable_entity
-    rescue ActiveRecord::RecordNotFound => e
-      render json: { error: "Record not found: #{e.message}" }, status: :not_found
-    rescue ActionController::ParameterMissing => e
-      render json: { error: "Missing parameter: #{e.message}" }, status: :bad_request
-    rescue StandardError => e
-      render json: { error: "Unexpected error occurred: #{e.message}" }, status: :internal_server_error
   end
 
   private
@@ -112,12 +106,8 @@ class Api::TicketsController < ApplicationController
       params[:id]
     end
 
-    def transfer_to_user_params 
+    def transfer_to_user_params
       params.require(:to_user).permit(:id, :name)
-    end
-
-    def current_user_ticket(ticket_id)
-      current_user.tickets.find_by(id: ticket_id)
     end
 
     def ticket_already_transferred?(ticket)
@@ -140,9 +130,5 @@ class Api::TicketsController < ApplicationController
       if ticket_view && ticket_view.tickets.empty?
         ticket_view.destroy
       end
-    end
-
-    def render_error(message, status)
-      render json: { error: message }, status: status
     end
 end

@@ -16,4 +16,8 @@ class ApplicationController < ActionController::API
       @current_user ||= User.find_by(id: user_id) # find_byを実行するまでに、すでに@current_userに値がないが確認し、値があればそれを返す。
     end
   end
+
+  def render_error(message, status)
+    render json: { error: message }, status: status
+  end
 end
