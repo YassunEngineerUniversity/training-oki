@@ -1,4 +1,4 @@
-import RecieveTicketItem from '@/features/ticket-view/components/ReceiveTicketItem';
+import ReceiveTicketItem from '@/features/ticket-view/components/ReceiveTicketItem';
 import TicketEventCard from '@/features/ticket-view/components/TicketEventCard';
 import { getCurrentUser } from '@/utils/getCurrentUser';
 import { getTicketViewDetail } from '@/utils/getTicketViewDetail';
@@ -28,7 +28,7 @@ const TicketViewReceiveDetailPage = async ({
         <TicketEventCard event={ticektView.event} />
         <div className="mt-4 space-y-5">
           {ticektView.tickets?.map((ticket: TicketDetail) => (
-            <RecieveTicketItem
+            <ReceiveTicketItem
               event={ticektView.event}
               ticket={ticket}
               key={ticket.id}

@@ -15,7 +15,7 @@ interface SendingTicketDetailProps {
   event: Event;
 }
 
-const RecieveTicketItem = ({ ticket, event }: SendingTicketDetailProps) => {
+const ReceiveTicketItem = ({ ticket, event }: SendingTicketDetailProps) => {
   return (
     <div>
       <Card>
@@ -55,4 +55,4 @@ const RecieveTicketItem = ({ ticket, event }: SendingTicketDetailProps) => {
   );
 };
 
-export default RecieveTicketItem;
+export default ReceiveTicketItem;
