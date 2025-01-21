@@ -14,11 +14,11 @@ export const ReceiveTicketButton = ({
   setIsReceived,
 }: ReceiveTicketButtonProps) => {
   const router = useRouter();
-  const handleRecieveTicket = receiveTicket.bind(null, ticketId);
+  const handleReceiveTicket = receiveTicket.bind(null, ticketId);
 
-  const handleReciveButton = async () => {
+  const handleReceiveButton = async () => {
     try {
-      const response = await handleRecieveTicket();
+      const response = await handleReceiveTicket();
       if (response.error) {
         // task: 受け取りでErrorが出る場合のエラーハンドリング
         return;
@@ -36,7 +36,7 @@ export const ReceiveTicketButton = ({
 
   return (
     <Button
-      onClick={handleReciveButton}
+      onClick={handleReceiveButton}
       className="text-white rounded-full px-10 h-[42px] bg-yellow-500 border border-yellow-500 hover:opacity-70 hover:bg-yellow-500"
     >
       受け取る
