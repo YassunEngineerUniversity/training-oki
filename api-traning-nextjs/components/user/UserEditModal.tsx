@@ -26,6 +26,8 @@ const UserEditModal = ({ user }: UserEditModalProps) => {
   const [username, setUsername] = useState<string>(user.username);
   const [profile, setProfile] = useState<string>(user.profile);
 
+  console.log(user);
+
   const [state, updateProfileAction, isPending] = useActionState(
     updateProfile,
     initialState,
@@ -83,8 +85,18 @@ const UserEditModal = ({ user }: UserEditModalProps) => {
                 {profile.length}/200
               </p>
             </div>
+            <div className="grid gap-2">
+              <Label htmlFor="email">BackgroundImage</Label>
+              <Input
+                value={user.backgroundImage}
+                id="backgroundImage"
+                name="backgroundImage"
+                type="file"
+              ></Input>
+            </div>
             <Input name="userId" value={user.id} type="hidden"></Input>
           </div>
+
           <div className="flex justify-end gap-2">
             <Button variant="outline" onClick={() => setIsOpen(false)}>
               Cancel

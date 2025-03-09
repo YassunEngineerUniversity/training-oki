@@ -22,11 +22,13 @@ const UserDetailPage = async ({
     redirect('/login');
   }
 
+  console.log(user.background_image);
+
   return (
     <div className="max-w-3xl mx-auto bg-background">
       <div className="h-48 bg-gray-200">
         <Image
-          src="/user_kv.jpg"
+          src={user.background_image}
           alt="Header"
           className="w-full h-full object-cover"
           width={800}

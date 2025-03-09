@@ -26,4 +26,12 @@ class User < ApplicationRecord
   has_secure_password
   validates :password, presence: true, length: { minimum: 6 }, on: :create
   validates :profile, length: { maximum: 200, message: "200字以上は投稿できません" }
+
+
+  has_one_attached :background_image
+
+
+  def image_url
+    Rails.application.routes.url_helpers.url_for(background_image) if background_image.attached?
+  end
 end

@@ -12,6 +12,15 @@ export const updateProfile = async (
   const username = formData.get('username');
   const profile = formData.get('profile');
   const userId = formData.get('userId');
+  const backgroundImage = formData.get('backgroundImage');
+
+  const payload = new FormData();
+  payload.append('user[username]', username as string);
+  payload.append('user[profile]', profile as string);
+  if (backgroundImage) {
+    payload.append('user[background_image]', backgroundImage);
+  }
+
   const endpoint =
     process.env.NEXT_PUBLIC_API_ENDPOINT + '/api/users/' + userId;
   const cookies = await getCookie();
@@ -20,21 +29,15 @@ export const updateProfile = async (
     return { error: 'ユーザ名 or プロフィールが正しく入力されていないです。' };
   }
 
-  const data = {
-    user: {
-      username,
-      profile,
-    },
-  };
+  console.log(formData);
 
   const response = await fetch(endpoint, {
     method: 'PATCH',
     headers: {
-      'Content-Type': 'application/json',
       Cookie: cookies,
     },
     credentials: 'include',
-    body: JSON.stringify(data),
+    body: payload
   });
 
   if (!response.ok) {

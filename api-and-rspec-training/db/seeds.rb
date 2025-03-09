@@ -20,7 +20,8 @@ users = []
 10.times do |i|
   users << User.create!(
     username: "user_#{i + 1}",
-    password: "password"
+    password: "password",
+    profile: "This is a profile of user_#{i + 1}"
   )
 end
 
